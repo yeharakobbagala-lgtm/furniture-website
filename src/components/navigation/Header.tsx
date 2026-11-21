@@ -1,0 +1,426 @@
+"use client";
+
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  Search,
+  Heart,
+  ShoppingBag,
+  User,
+  Menu,
+  X,
+  ChevronDown,
+  Layers,
+  Sparkles,
+  Scale,
+  Compass,
+} from "lucide-react";
+import { useCartStore } from "@/stores/cartStore";
+import { useWishlistStore } from "@/stores/wishlistStore";
+import { useComparisonStore } from "@/stores/comparisonStore";
+import { useUserStore } from "@/stores/userStore";
+import SearchModal from "./SearchModal";
+import { categories } from "@/data/categories";
+
+export default function Header() {
+  const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [furnitureDropdownOpen, setFurnitureDropdownOpen] = useState(false);
+  const [roomStudioDropdownOpen, setRoomStudioDropdownOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
+
+  const cartItemCount = useCartStore((s) => s.getItemCount());
+  const wishlistItems = useWishlistStore((s) => s.items);
+  const comparisonItems = useComparisonStore((s) => s.items);
+  const { isLoggedIn, user, customerType } = useUserStore();
+
+  useEffect(() => {
+    setMounted(true);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Close menus on page route change
+  useEffect(() => {
+    setMobileMenuOpen(false);
+    setFurnitureDropdownOpen(false);
+    setRoomStudioDropdownOpen(false);
+  }, [pathname]);
+
+  const navLinks = [
+    { label: "Designers", href: "/designers" },
+    { label: "Trends", href: "/trends" },
+    { label: "Blog", href: "/blog" },
+    { label: "About Us", href: "/about" },
+  ];
+
+  const isHome = pathname === "/";
+
+  return (
+    <>
+      <header
+        className={`z-40 w-full transition-all duration-300 ${
+          isHome
+            ? isScrolled
+              ? "fixed top-0 left-0 right-0 bg-sage-light/95 backdrop-blur-md border-b border-borderSage shadow-soft py-3 animate-fadeIn"
+              : "absolute top-0 left-0 right-0 bg-transparent border-b border-transparent py-4 sm:py-5"
+            : isScrolled
+            ? "sticky top-0 bg-sage-light/95 backdrop-blur-md border-b border-borderSage shadow-soft py-3"
+            : "sticky top-0 bg-sage-light border-b border-borderSage/70 py-4"
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex items-center justify-between">
+            {/* Left: Square Brand Logo with House Icon */}
+            <div className="flex items-center gap-8">
+              <Link href="/" className="flex items-center gap-2.5 group">
+                <div className="w-9 h-9 rounded-xl bg-forest-dark flex items-center justify-center text-ivory shadow-soft group-hover:bg-forest-deep transition-colors">
+                  <svg
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="text-ivory group-hover:scale-105 transition-transform"
+                  >
+                    <path d="M3 9.5L12 3l9 6.5V20a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9.5z" />
+                    <path d="M9 21V12h6v9" />
+                  </svg>
+                </div>
+                <div className="flex flex-col">
+                  <span className="font-heading font-extrabold text-xl tracking-wider text-forest-deep leading-none">
+                    SQUARE
+                  </span>
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-forest-muted font-medium leading-tight">
+                    Furniture & Living
+                  </span>
+                </div>
+              </Link>
+            </div>
+
+            {/* Centre: Desktop Navigation */}
+            <nav className="hidden lg:flex items-center gap-7">
+              {/* Furniture with Rich Mega Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setFurnitureDropdownOpen(true)}
+                onMouseLeave={() => setFurnitureDropdownOpen(false)}
+              >
+                <Link
+                  href="/shop"
+                  className={`relative flex items-center gap-1 text-sm font-semibold tracking-wide transition-colors py-1 ${
+                    pathname.startsWith("/shop")
+                      ? "text-terracotta"
+                      : "text-forest-deep hover:text-terracotta"
+                  }`}
+                >
+                  Furniture
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                      furnitureDropdownOpen ? "rotate-180 text-terracotta" : "text-forest-muted"
+                    }`}
+                  />
+                  {pathname.startsWith("/shop") && (
+                    <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-terracotta rounded-full" />
+                  )}
+                </Link>
+
+                {/* Dropdown panel */}
+                {furnitureDropdownOpen && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[520px] bg-ivory-warm rounded-2xl shadow-card border border-borderSage p-5 mt-1 grid grid-cols-2 gap-3 animate-fadeIn z-50">
+                    <div className="col-span-2 pb-2 mb-1 border-b border-borderSage/60 flex items-center justify-between">
+                      <span className="text-xs uppercase tracking-wider font-semibold text-forest-muted">
+                        All Furniture Collections
+                      </span>
+                      <Link
+                        href="/shop"
+                        className="text-xs text-terracotta font-medium hover:underline"
+                      >
+                        Browse all {categories.length} categories →
+                      </Link>
+                    </div>
+
+                    {categories.slice(0, 8).map((cat) => (
+                      <Link
+                        key={cat.id}
+                        href={`/shop/${cat.slug}`}
+                        className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-sage-100 transition-colors group"
+                      >
+                        <div className="w-10 h-10 rounded-lg bg-sage-200/60 overflow-hidden relative shrink-0">
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img
+                            src={cat.image}
+                            alt={cat.name}
+                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                          />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
+                            {cat.name}
+                          </p>
+                          <p className="text-xs text-forest-muted">{cat.productCount} models</p>
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </div>
+
+              {/* Room Studio Dropdown */}
+              <div
+                className="relative"
+                onMouseEnter={() => setRoomStudioDropdownOpen(true)}
+                onMouseLeave={() => setRoomStudioDropdownOpen(false)}
+              >
+                <span
+                  className={`flex items-center gap-1 text-sm font-semibold tracking-wide cursor-pointer transition-colors py-2 ${
+                    pathname.startsWith("/room-studio")
+                      ? "text-terracotta"
+                      : "text-forest-deep hover:text-terracotta"
+                  }`}
+                >
+                  Room Studio
+                  <ChevronDown
+                    className={`w-3.5 h-3.5 transition-transform duration-200 ${
+                      roomStudioDropdownOpen ? "rotate-180 text-terracotta" : "text-forest-muted"
+                    }`}
+                  />
+                </span>
+
+                {roomStudioDropdownOpen && (
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-80 bg-ivory-warm rounded-2xl shadow-card border border-borderSage p-3 mt-1 space-y-1 animate-fadeIn z-50">
+                    <Link
+                      href="/room-studio/planner"
+                      className="flex items-start gap-3 p-3 rounded-xl hover:bg-sage-100 transition-colors group"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-forest-dark text-white flex items-center justify-center shrink-0">
+                        <Layers className="w-4 h-4 text-terracotta" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
+                          2D Room Planner
+                        </p>
+                        <p className="text-xs text-forest-muted">
+                          Interactive layout tool to configure room dimensions and arrange furniture.
+                        </p>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/room-studio/visualizer"
+                      className="flex items-start gap-3 p-3 rounded-xl hover:bg-sage-100 transition-colors group"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-forest-dark text-white flex items-center justify-center shrink-0">
+                        <Sparkles className="w-4 h-4 text-terracotta" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
+                          Photo Room Visualizer
+                        </p>
+                        <p className="text-xs text-forest-muted">
+                          Upload your room photo and composite furniture in place.
+                        </p>
+                      </div>
+                    </Link>
+
+                    <Link
+                      href="/style-quiz"
+                      className="flex items-start gap-3 p-3 rounded-xl hover:bg-sage-100 transition-colors group"
+                    >
+                      <div className="w-9 h-9 rounded-lg bg-forest-dark text-white flex items-center justify-center shrink-0">
+                        <Compass className="w-4 h-4 text-terracotta" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
+                          Interior Style Quiz
+                        </p>
+                        <p className="text-xs text-forest-muted">
+                          Discover tailored palettes and matching furniture in 2 mins.
+                        </p>
+                      </div>
+                    </Link>
+                  </div>
+                )}
+              </div>
+
+              {navLinks.map((link) => {
+                const isActive = pathname === link.href;
+                return (
+                  <Link
+                    key={link.href}
+                    href={link.href}
+                    className={`relative text-sm font-semibold tracking-wide transition-colors py-1 ${
+                      isActive ? "text-terracotta" : "text-forest-deep hover:text-terracotta"
+                    }`}
+                  >
+                    {link.label}
+                    {isActive && (
+                      <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-terracotta rounded-full" />
+                    )}
+                  </Link>
+                );
+              })}
+            </nav>
+
+            {/* Right: Search, Comparison, Wishlist, Cart, Account */}
+            <div className="flex items-center gap-2 sm:gap-3">
+              {/* Search Button */}
+              <button
+                onClick={() => setSearchOpen(true)}
+                aria-label="Search furniture"
+                className="p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors"
+              >
+                <Search className="w-5 h-5" />
+              </button>
+
+              {/* Compare Button */}
+              {mounted && comparisonItems.length > 0 && (
+                <Link
+                  href="/compare"
+                  aria-label="Product comparison"
+                  className="relative p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors hidden sm:block"
+                >
+                  <Scale className="w-5 h-5" />
+                  <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-forest-dark text-white text-[10px] font-bold flex items-center justify-center">
+                    {comparisonItems.length}
+                  </span>
+                </Link>
+              )}
+
+              {/* Wishlist Button */}
+              <Link
+                href="/wishlist"
+                aria-label="Saved products"
+                className="relative p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors"
+              >
+                <Heart className="w-5 h-5" />
+                {mounted && wishlistItems.length > 0 && (
+                  <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-terracotta text-white text-[10px] font-bold flex items-center justify-center">
+                    {wishlistItems.length}
+                  </span>
+                )}
+              </Link>
+
+              {/* Shopping Bag Button */}
+              <Link
+                href="/cart"
+                aria-label="Shopping bag"
+                className="relative p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors"
+              >
+                <ShoppingBag className="w-5 h-5" />
+                {mounted && cartItemCount > 0 && (
+                  <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-forest-deep text-white text-[10px] font-bold flex items-center justify-center">
+                    {cartItemCount}
+                  </span>
+                )}
+              </Link>
+
+              {/* Account / Login */}
+              <Link
+                href={isLoggedIn ? "/account" : "/account/login"}
+                aria-label="Customer account"
+                className="p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors hidden sm:block"
+              >
+                <User className="w-5 h-5" />
+              </Link>
+
+              {/* Mobile Menu Toggle */}
+              <button
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                aria-label="Toggle mobile menu"
+                className="p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors lg:hidden"
+              >
+                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Mobile Navigation Drawer */}
+        {mobileMenuOpen && (
+          <div className="lg:hidden border-t border-borderSage bg-ivory-warm px-6 py-6 space-y-4 animate-fadeIn">
+            <div className="space-y-1">
+              <Link
+                href="/shop"
+                className="block py-2.5 text-base font-semibold text-forest-deep border-b border-borderSage/40"
+              >
+                Browse All Furniture
+              </Link>
+              <div className="pl-3 py-2 grid grid-cols-2 gap-2">
+                {categories.slice(0, 6).map((c) => (
+                  <Link
+                    key={c.id}
+                    href={`/shop/${c.slug}`}
+                    className="text-xs text-forest-muted hover:text-terracotta py-1"
+                  >
+                    • {c.name}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="pt-2 border-t border-borderSage/40 space-y-2">
+              <span className="text-xs uppercase tracking-wider font-bold text-forest-muted">
+                Interactive Studio
+              </span>
+              <Link
+                href="/room-studio/planner"
+                className="flex items-center gap-2 py-1.5 text-sm font-medium text-forest-deep"
+              >
+                <Layers className="w-4 h-4 text-terracotta" /> 2D Room Planner
+              </Link>
+              <Link
+                href="/room-studio/visualizer"
+                className="flex items-center gap-2 py-1.5 text-sm font-medium text-forest-deep"
+              >
+                <Sparkles className="w-4 h-4 text-terracotta" /> Room Photo Visualizer
+              </Link>
+              <Link
+                href="/style-quiz"
+                className="flex items-center gap-2 py-1.5 text-sm font-medium text-forest-deep"
+              >
+                <Compass className="w-4 h-4 text-terracotta" /> Style Discovery Quiz
+              </Link>
+            </div>
+
+            <div className="pt-2 border-t border-borderSage/40 space-y-1.5">
+              {navLinks.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="block py-2 text-sm font-semibold text-forest-deep"
+                >
+                  {link.label}
+                </Link>
+              ))}
+              <Link
+                href="/compare"
+                className="block py-2 text-sm font-semibold text-forest-deep"
+              >
+                Product Comparison ({comparisonItems.length})
+              </Link>
+              <Link
+                href={isLoggedIn ? "/account" : "/account/login"}
+                className="block py-2 text-sm font-semibold text-terracotta"
+              >
+                {isLoggedIn ? `Account (${user?.name})` : "Sign In / Register"}
+              </Link>
+            </div>
+          </div>
+        )}
+      </header>
+
+      {/* Global Search Modal */}
+      <SearchModal isOpen={searchOpen} onClose={() => setSearchOpen(false)} />
+    </>
+  );
+}
