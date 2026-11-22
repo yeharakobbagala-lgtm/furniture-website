@@ -220,7 +220,7 @@ export default function CartPage() {
                   >
                     <div className="flex items-center justify-between text-xs font-bold text-forest-deep mb-1">
                       <span>Curbside Freight</span>
-                      <span>{subtotal >= 2000 ? "FREE" : "$75"}</span>
+                      <span>{subtotal >= 2000 ? "FREE" : formatPrice(75)}</span>
                     </div>
                     <p className="text-[11px] text-forest-muted">
                       Liftgate curbside delivery (5-7 business days).
@@ -237,7 +237,7 @@ export default function CartPage() {
                   >
                     <div className="flex items-center justify-between text-xs font-bold text-forest-deep mb-1">
                       <span>White-Glove Placement</span>
-                      <span>$195</span>
+                      <span>{formatPrice(195)}</span>
                     </div>
                     <p className="text-[11px] text-forest-muted">
                       In-room placement, full assembly & crate removal.
@@ -254,7 +254,7 @@ export default function CartPage() {
                   >
                     <div className="flex items-center justify-between text-xs font-bold text-forest-deep mb-1">
                       <span>Express Priority</span>
-                      <span>$120</span>
+                      <span>{formatPrice(120)}</span>
                     </div>
                     <p className="text-[11px] text-forest-muted">
                       Expedited freight dispatch (2-3 business days).

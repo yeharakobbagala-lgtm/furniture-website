@@ -3,13 +3,15 @@
 import React from "react";
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
 import { bestSellersData } from "@/data/best-sellers";
 import BestSellerCard from "./BestSellerCard";
+import SplitText from "@/components/ui/SplitText";
 
 export default function BestSellersSection() {
   return (
     <section
-      className="py-16 sm:py-20 lg:py-24 bg-[#E5EDE1] border-b border-borderSage/70 relative overflow-hidden w-full"
+      className="py-16 sm:py-20 lg:py-24 bg-[#E5EDE1] border-b border-borderSage/70 relative overflow-hidden w-full select-none"
       aria-label="Square Best Sellers Showcase"
     >
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
@@ -17,10 +19,25 @@ export default function BestSellersSection() {
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-10 gap-6">
           <div className="space-y-2">
             <span className="text-xs uppercase tracking-[0.22em] font-bold text-terracotta block">
-              OUR COLLECTION
+              <SplitText
+                text="OUR COLLECTION"
+                effect="fade"
+                splitType="chars"
+                delay={25}
+                duration={0.7}
+                trigger="view"
+              />
             </span>
-            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-forest-deep tracking-tight">
-              BEST SELLERS
+            <h2 className="text-3xl sm:text-4xl lg:text-5xl font-heading font-extrabold text-forest-deep tracking-tight cursor-default">
+              <SplitText
+                text="BEST SELLERS"
+                effect="rise"
+                hoverEffect="lift"
+                splitType="chars"
+                delay={40}
+                duration={1.1}
+                trigger="view"
+              />
             </h2>
             <p className="text-base sm:text-lg text-forest-muted max-w-xl font-normal leading-relaxed pt-1">
               Discover the furniture pieces our customers love most.
@@ -37,14 +54,19 @@ export default function BestSellersSection() {
         </div>
 
         {/* 
-          Four-Card Horizontal Responsive Grid:
-          - Desktop (lg): 4 cards in one row matching reference
-          - Tablet (sm): 2 cards per row
-          - Mobile: 1 card per row
+          Four-Card Horizontal Responsive Grid with Staggered Entrance
         */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 xl:gap-7">
-          {bestSellersData.map((item) => (
-            <BestSellerCard key={item.id} item={item} />
+          {bestSellersData.map((item, index) => (
+            <motion.div
+              key={item.id}
+              initial={{ opacity: 0, y: 28 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-40px" }}
+              transition={{ duration: 0.6, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+            >
+              <BestSellerCard item={item} />
+            </motion.div>
           ))}
         </div>
       </div>

@@ -11,10 +11,10 @@ interface BestSellerCardProps {
 }
 
 const priceLookup: Record<string, string> = {
-  "bs-1": "$1,280",
-  "bs-2": "$890",
-  "bs-3": "$380",
-  "bs-4": "$195",
+  "bs-1": "LKR 1,280",
+  "bs-2": "LKR 890",
+  "bs-3": "LKR 380",
+  "bs-4": "LKR 195",
 };
 
 export default function BestSellerCard({ item }: BestSellerCardProps) {
@@ -46,7 +46,7 @@ export default function BestSellerCard({ item }: BestSellerCardProps) {
     }
   };
 
-  const price = priceLookup[item.id] || "$299";
+  const price = priceLookup[item.id] || "LKR 299";
 
   return (
     <div className="group relative flex flex-col pt-24 sm:pt-28">

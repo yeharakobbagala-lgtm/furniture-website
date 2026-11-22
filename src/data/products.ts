@@ -457,7 +457,7 @@ export const products: Product[] = [
     price: 4200,
     originalPrice: 4700,
     images: [
-      "https://images.unsplash.com/photo-1558997519-83ea9252def8?auto=format&fit=crop&w=1200&q=80",
+      "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1200&q=80",
     ],
     transparentImage: "/furniture-cutouts/prod-10.webp",

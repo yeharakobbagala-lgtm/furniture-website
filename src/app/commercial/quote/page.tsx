@@ -28,7 +28,7 @@ export default function CommercialQuotePage() {
   const [projectType, setProjectType] = useState("hotel");
   const [projectScope, setProjectScope] = useState("Boutique hotel lobby and 30 guest suites");
   const [targetTimeline, setTargetTimeline] = useState("Q2 2027");
-  const [estimatedBudget, setEstimatedBudget] = useState("$75,000 - $120,000");
+  const [estimatedBudget, setEstimatedBudget] = useState("LKR 75,000 - LKR 120,000");
   const [notes, setNotes] = useState("");
 
   const [confirmedSubmission, setConfirmedSubmission] =
@@ -296,7 +296,7 @@ export default function CommercialQuotePage() {
                       type="text"
                       value={estimatedBudget}
                       onChange={(e) => setEstimatedBudget(e.target.value)}
-                      placeholder="e.g. $50,000+"
+                      placeholder="e.g. LKR 50,000+"
                       className="w-full bg-white border border-borderSage rounded-xl px-3 py-2 text-xs text-forest-deep focus:outline-none"
                     />
                   </div>

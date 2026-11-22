@@ -117,7 +117,7 @@ export const useCartStore = create<CartState>()(
         const method = get().deliveryMethod;
         if (method === "white-glove") return 195;
         if (method === "express") return 120;
-        // Free standard delivery over $2,000
+        // Free standard delivery over LKR 2,000
         return subtotal >= 2000 ? 0 : 75;
       },
 

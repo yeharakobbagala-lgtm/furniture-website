@@ -28,6 +28,8 @@ interface RoomPlannerCanvasProps {
   onSelectWindow: (id: string | null) => void;
   onUpdatePosition: (id: string, x: number, y: number) => void;
   onUpdateRotation: (id: string, rotation: number) => void;
+  onDeleteItem?: (id: string) => void;
+  onDuplicateItem?: (id: string) => void;
 }
 
 export default function RoomPlannerCanvas({
@@ -51,6 +53,8 @@ export default function RoomPlannerCanvas({
   onSelectWindow,
   onUpdatePosition,
   onUpdateRotation,
+  onDeleteItem,
+  onDuplicateItem,
 }: RoomPlannerCanvasProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const stageRef = useRef<Konva.Stage | null>(null);
@@ -137,6 +141,12 @@ export default function RoomPlannerCanvas({
       fill: floorBaseColor,
       stroke: "#242B28",
       strokeWidth: 1,
+      listening: true,
+    });
+    floorRect.on("click tap", () => {
+      onSelectItem(null);
+      onSelectDoor(null);
+      onSelectWindow(null);
     });
     roomGroup.add(floorRect);
 
@@ -630,30 +640,19 @@ export default function RoomPlannerCanvas({
         width: item.width,
         height: item.height,
         listening: true,
-        hitFunc: (context, shape) => {
-          context.beginPath();
-          context.rect(0, 0, shape.width(), shape.height());
-          context.closePath();
-          context.fillStrokeShape(shape);
-        },
       });
       itemGroup.add(furnitureImage);
 
       // 2. High-Priority Interactive Hit Area Placed On Top of the Graphic
-      // Guarantees 100% hit detection across the entire rectangular footprint
+      // Guarantees 100% infallible hit detection across the entire rectangular footprint
       const hitRect = new Konva.Rect({
         name: "furniture-hit-area",
+        x: 0,
+        y: 0,
         width: item.width,
         height: item.height,
-        fill: "#FFFFFF",
-        opacity: 0.0001,
+        fill: "rgba(0, 0, 0, 0.01)",
         listening: true,
-        hitFunc: (context, shape) => {
-          context.beginPath();
-          context.rect(0, 0, shape.width(), shape.height());
-          context.closePath();
-          context.fillStrokeShape(shape);
-        },
       });
       itemGroup.add(hitRect);
 
@@ -777,6 +776,107 @@ export default function RoomPlannerCanvas({
         itemGroup.add(stem);
         itemGroup.add(rotateBg);
         itemGroup.add(rotateIcon);
+
+        // ON-CANVAS QUICK ACTION BAR (Rotate, Duplicate, Delete)
+        const actionToolbar = new Konva.Group({
+          x: item.width / 2,
+          y: -48,
+        });
+
+        const pillW = 116;
+        const pillH = 26;
+        actionToolbar.add(
+          new Konva.Rect({
+            x: -pillW / 2,
+            y: -pillH / 2,
+            width: pillW,
+            height: pillH,
+            cornerRadius: 13,
+            fill: "#102D25",
+            stroke: tealColor,
+            strokeWidth: 1.5,
+            shadowColor: "rgba(0, 0, 0, 0.3)",
+            shadowBlur: 10,
+            shadowOffset: { x: 0, y: 3 },
+          })
+        );
+
+        // 1. Rotate 45°
+        const btnRot = new Konva.Group({ x: -36, y: 0, cursor: "pointer" });
+        btnRot.add(
+          new Konva.Circle({
+            radius: 10,
+            fill: "rgba(255, 255, 255, 0.15)",
+          })
+        );
+        btnRot.add(
+          new Konva.Text({
+            x: -5,
+            y: -6,
+            text: "↻",
+            fontSize: 12,
+            fontFamily: "Inter, sans-serif",
+            fontStyle: "bold",
+            fill: "#FFFFFF",
+          })
+        );
+        btnRot.on("click tap", (e) => {
+          e.cancelBubble = true;
+          onUpdateRotation(item.id, (item.rotation + 45) % 360);
+        });
+        actionToolbar.add(btnRot);
+
+        // 2. Duplicate Piece
+        const btnDup = new Konva.Group({ x: 0, y: 0, cursor: "pointer" });
+        btnDup.add(
+          new Konva.Circle({
+            radius: 10,
+            fill: "rgba(255, 255, 255, 0.15)",
+          })
+        );
+        btnDup.add(
+          new Konva.Text({
+            x: -4,
+            y: -6,
+            text: "+",
+            fontSize: 13,
+            fontFamily: "Inter, sans-serif",
+            fontStyle: "bold",
+            fill: "#FFFFFF",
+          })
+        );
+        btnDup.on("click tap", (e) => {
+          e.cancelBubble = true;
+          if (onDuplicateItem) onDuplicateItem(item.id);
+        });
+        actionToolbar.add(btnDup);
+
+        // 3. Delete Piece (Red)
+        const btnDel = new Konva.Group({ x: 36, y: 0, cursor: "pointer" });
+        btnDel.add(
+          new Konva.Circle({
+            radius: 10,
+            fill: "#DC2626",
+          })
+        );
+        btnDel.add(
+          new Konva.Text({
+            x: -4,
+            y: -6,
+            text: "✕",
+            fontSize: 11,
+            fontFamily: "Inter, sans-serif",
+            fontStyle: "bold",
+            fill: "#FFFFFF",
+          })
+        );
+        btnDel.on("click tap", (e) => {
+          e.cancelBubble = true;
+          if (onDeleteItem) onDeleteItem(item.id);
+        });
+        actionToolbar.add(btnDel);
+
+        itemGroup.add(actionToolbar);
 
         // REAL-TIME CLEARANCE MEASUREMENT CALLOUTS (EXACTLY AS IN REFERENCE)
         // Measure clearance to North wall
@@ -905,6 +1005,7 @@ export default function RoomPlannerCanvas({
 
       // Unified selection handler for click, tap, and touch gestures
       const selectThisItem = (e: any) => {
+        if (isDraggingRef.current) return;
         if (e) {
           e.cancelBubble = true;
           if (e.evt) {
@@ -917,11 +1018,11 @@ export default function RoomPlannerCanvas({
         onSelectWindow(null);
       };
 
-      itemGroup.on("click tap", selectThisItem);
-      hitRect.on("click tap", selectThisItem);
-      furnitureImage.on("click tap", selectThisItem);
-      if (badgeBg) badgeBg.on("click tap", selectThisItem);
-      if (badgeExclamation) badgeExclamation.on("click tap", selectThisItem);
+      itemGroup.on("click tap pointerdown", selectThisItem);
+      hitRect.on("click tap pointerdown", selectThisItem);
+      furnitureImage.on("click tap pointerdown", selectThisItem);
+      if (badgeBg) badgeBg.on("click tap pointerdown", selectThisItem);
+      if (badgeExclamation) badgeExclamation.on("click tap pointerdown", selectThisItem);
 
       itemGroup.on("dragstart", (e) => {
         isDraggingRef.current = true;
@@ -978,6 +1079,14 @@ export default function RoomPlannerCanvas({
       roomGroup.add(itemGroup);
     });
 
+    stage.on("click tap", (e) => {
+      if (e.target === stage) {
+        onSelectItem(null);
+        onSelectDoor(null);
+        onSelectWindow(null);
+      }
+    });
+
     layer.draw();
 
     const handleResize = () => {
@@ -1014,6 +1123,8 @@ export default function RoomPlannerCanvas({
     onSelectWindow,
     onUpdatePosition,
     onUpdateRotation,
+    onDeleteItem,
+    onDuplicateItem,
     canvasRoomW,
     canvasRoomH,
   ]);

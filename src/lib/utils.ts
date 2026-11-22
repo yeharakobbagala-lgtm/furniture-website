@@ -5,11 +5,7 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function formatPrice(amount: number): string {
-  return new Intl.NumberFormat("en-US", {
-    style: "currency",
-    currency: "USD",
-    maximumFractionDigits: 0,
-  }).format(amount);
+  return `LKR ${Math.round(amount).toLocaleString("en-US")}`;
 }
 
 export function slugify(text: string): string {

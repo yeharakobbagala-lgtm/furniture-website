@@ -55,7 +55,7 @@ export const useCommercialQuoteStore = create<CommercialQuoteState>()(
           projectType: "hotel",
           projectScope: "45 Guest Suites & Presidential Lounge",
           targetTimeline: "Q1 2027",
-          estimatedBudget: "$120,000 - $180,000",
+          estimatedBudget: "LKR 120,000 - LKR 180,000",
           status: "Under Review",
           items: [],
           notes: "Need custom Martindale rub count test certification for boutique seaside climate.",

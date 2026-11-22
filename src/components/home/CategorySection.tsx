@@ -1,23 +1,29 @@
 "use client";
 
-import React from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { motion, Variants } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import SplitText from "@/components/ui/SplitText";
 import {
-  Clock,
-  CreditCard,
-  Truck,
+  Home,
+  LayoutGrid,
+  Heart,
+  ShoppingCart,
+  User,
+  Bookmark,
+  Share2,
+  ChevronRight,
+  ChevronLeft,
   ArrowRight,
-  Sparkles,
-  Armchair,
   Sofa,
   Bed,
+  Armchair,
   Archive,
 } from "lucide-react";
 
-// Custom SVG Table Icon perfectly matching the reference
-function TableIcon({ className = "w-4 h-4" }: { className?: string }) {
+// Custom Dining Table Icon
+function DiningTableIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
     <svg
       viewBox="0 0 24 24"
@@ -36,353 +42,535 @@ function TableIcon({ className = "w-4 h-4" }: { className?: string }) {
   );
 }
 
-interface CategoryCardItem {
-  id: string;
-  name: string;
-  slug: string;
-  image: string;
-  alt: string;
-  icon: React.ComponentType<{ className?: string }>;
-}
-
-const categoriesList: {
-  chairs: CategoryCardItem;
-  sofas: CategoryCardItem;
-  couch: CategoryCardItem;
-  storage: CategoryCardItem;
-  tables: CategoryCardItem;
-  bedroom: CategoryCardItem;
-} = {
-  chairs: {
-    id: "cat-chairs",
-    name: "Chairs",
-    slug: "lounge-chairs",
-    image: "/categories/chairs_v2.webp",
-    alt: "Sculptural accent armchair with wooden legs",
-    icon: Armchair,
-  },
-  sofas: {
-    id: "cat-sofas",
-    name: "Sofas",
-    slug: "sofas",
-    image: "/categories/sofas_v2.webp",
-    alt: "Modern tufted designer sofa with cushions",
-    icon: Sofa,
-  },
-  couch: {
-    id: "cat-couch",
-    name: "Coach",
-    slug: "lounge-chairs",
-    image: "/categories/couch_v2.webp",
-    alt: "Comfortable lounge armchair in textured fabric",
-    icon: Armchair,
-  },
-  storage: {
-    id: "cat-storage",
-    name: "Storage",
-    slug: "storage",
-    image: "/categories/storage_v2.webp",
-    alt: "Wall-mounted modular shelving storage boxes",
-    icon: Archive,
-  },
-  tables: {
-    id: "cat-tables",
-    name: "Tables",
-    slug: "dining-tables",
-    image: "/categories/tables_v2.webp",
-    alt: "Sculptural modern pedestal desk and tables",
-    icon: TableIcon,
-  },
-  bedroom: {
-    id: "cat-bedroom",
-    name: "Bedroom",
-    slug: "beds",
-    image: "/categories/beds_v2.webp",
-    alt: "Luxury tufted bedroom suite with platform bed",
-    icon: Bed,
-  },
-};
-
-const trustFeatures = [
-  {
-    icon: Clock,
-    title: "24/7 Support",
-    subtitle: "Dedicated design advisors ready to assist",
-  },
-  {
-    icon: CreditCard,
-    title: "Flexible Payment",
-    subtitle: "Zero-interest installments & secure checkout",
-  },
-  {
-    icon: Truck,
-    title: "Free Shipping",
-    subtitle: "Complimentary white-glove room delivery",
-  },
-];
-
-const containerVariants: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.1,
-    },
-  },
-};
-
-const cardItemVariants: Variants = {
-  hidden: { opacity: 0, y: 20, scale: 0.97 },
-  visible: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
-    transition: {
-      duration: 0.55,
-      ease: [0.22, 1, 0.36, 1],
-    },
-  },
-};
-
-interface CollageCardProps {
-  item: CategoryCardItem;
-  className?: string;
-  priority?: boolean;
-}
-
-function CollageCard({ item, className = "", priority = false }: CollageCardProps) {
-  const IconComponent = item.icon;
-
+// Custom Lighting / Table Lamp Icon
+function LampIcon({ className = "w-5 h-5" }: { className?: string }) {
   return (
-    <motion.div
-      variants={cardItemVariants}
-      whileHover={{ y: -3, transition: { duration: 0.25 } }}
-      className={`group relative overflow-hidden rounded-[20px] sm:rounded-[24px] lg:rounded-[26px] bg-[#2A4430] border border-white/20 shadow-[0_8px_24px_rgba(0,0,0,0.18)] transition-all duration-500 ${className}`}
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
     >
-      <Link href={`/shop/${item.slug}`} className="block w-full h-full relative">
-        {/* Category Image with Smooth Zoom */}
-        <Image
-          src={item.image}
-          alt={item.alt}
-          fill
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          className="object-cover object-center transition-transform duration-700 ease-out group-hover:scale-106 group-hover:brightness-[1.03]"
-          priority={priority}
-        />
-
-        {/* Top Specular Curved Highlight Rim (Light Refraction) */}
-        <div className="absolute top-0 left-3 right-3 h-[1.5px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none z-10" />
-
-        {/* Delicate Corner Refraction Glows */}
-        <div className="absolute top-0 left-0 w-16 h-16 bg-gradient-to-br from-white/35 to-transparent rounded-tl-[24px] pointer-events-none z-10 opacity-75" />
-        <div className="absolute top-0 right-0 w-16 h-16 bg-gradient-to-bl from-white/35 to-transparent rounded-tr-[24px] pointer-events-none z-10 opacity-75" />
-
-        {/* Ambient Dark-Gradient Shadow Overlay at the Bottom for High Contrast */}
-        <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black/55 via-black/20 to-transparent pointer-events-none" />
-
-        {/* Bottom Floating Liquid Glass Pill Label */}
-        <div className="absolute bottom-3 left-3 sm:bottom-3.5 sm:left-3.5 z-20 pointer-events-none">
-          <div className="inline-flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full bg-white/45 backdrop-blur-xl border border-white/70 shadow-[0_6px_20px_rgba(0,0,0,0.16),inset_0_1px_1.5px_rgba(255,255,255,0.85)] text-white whitespace-nowrap transition-all duration-300 group-hover:bg-white/60 group-hover:border-white">
-            {/* White Category Icon */}
-            <IconComponent className="w-4 h-4 text-white drop-shadow-sm shrink-0" />
-
-            {/* Category Name */}
-            <span className="font-heading font-bold text-white text-xs sm:text-[13px] tracking-wide drop-shadow-sm select-none whitespace-nowrap">
-              {item.name}
-            </span>
-
-            {/* Circular Arrow Button */}
-            <div className="w-5 h-5 sm:w-6 sm:h-6 rounded-full bg-white/35 border border-white/65 flex items-center justify-center text-white shrink-0 group-hover:bg-white group-hover:text-[#102D25] transition-all duration-300 ml-0.5 shadow-sm">
-              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
-            </div>
-          </div>
-        </div>
-      </Link>
-    </motion.div>
+      <path d="M9 2h6l3 7H6l3-7z" />
+      <path d="M12 9v11" />
+      <path d="M8 20h8" />
+    </svg>
   );
 }
 
+interface CategoryItem {
+  id: string;
+  name: string;
+  tag: string;
+  subtitle: string;
+  description: string;
+  slug: string;
+  image: string;
+  icon: React.ComponentType<{ className?: string }>;
+  pills: string[];
+}
+
+const baseCategories: CategoryItem[] = [
+  {
+    id: "living-room",
+    name: "Living Room",
+    tag: "CATEGORY",
+    subtitle: "Sofas, Chairs, Coffee Tables & More",
+    description:
+      "Create a warm and stylish living space with our curated living room collection.",
+    slug: "sofas",
+    image: "/categories/sofas_v2.webp",
+    icon: Sofa,
+    pills: ["Sofas", "Chairs", "Coffee Tables", "TV Units", "Storage"],
+  },
+  {
+    id: "dining-room",
+    name: "Dining Room",
+    tag: "CATEGORY",
+    subtitle: "Dining Tables, Chairs, Credenzas & More",
+    description:
+      "Elevate shared meals with handcrafted solid timber dining tables and ergonomic chairs.",
+    slug: "dining-tables",
+    image: "/bestsellers/dining-table-walnut.webp",
+    icon: DiningTableIcon,
+    pills: ["Dining Tables", "Dining Chairs", "Credenzas", "Bar Stools", "Benches"],
+  },
+  {
+    id: "bedroom",
+    name: "Bedroom",
+    tag: "CATEGORY",
+    subtitle: "Platform Beds, Nightstands, Wardrobes & More",
+    description:
+      "Transform your bedroom into a restful sanctuary with low-profile timber beds and tactile bouclé.",
+    slug: "beds",
+    image: "/categories/beds_v2.webp",
+    icon: Bed,
+    pills: ["Platform Beds", "Nightstands", "Wardrobes", "Dressers", "Vanities"],
+  },
+  {
+    id: "storage",
+    name: "Storage & Sideboards",
+    tag: "CATEGORY",
+    subtitle: "Fluted Credenzas, Bookcases, Consoles & More",
+    description:
+      "Seamless modular cabinetry with fluted oak fronts, soft-close joinery, and hidden cable routing.",
+    slug: "storage",
+    image: "/categories/storage_v2.webp",
+    icon: Archive,
+    pills: ["Credenzas", "Media Units", "Bookcases", "Shelving", "Cabinets"],
+  },
+  {
+    id: "lighting-tables",
+    name: "Lighting & Tables",
+    tag: "CATEGORY",
+    subtitle: "Pendant Lamps, Plinths, Accent Tables & More",
+    description:
+      "Architectural pendant lighting and travertine plinths sculpted to illuminate focal living zones.",
+    slug: "dining-tables",
+    image: "/categories/tables_v2.webp",
+    icon: LampIcon,
+    pills: ["Pendant Lights", "Floor Lamps", "Travertine Plinths", "Console Tables", "End Tables"],
+  },
+  {
+    id: "lounge-chairs",
+    name: "Lounge & Chairs",
+    tag: "CATEGORY",
+    subtitle: "Accent Armchairs, Recliners, Ottomans & More",
+    description:
+      "Sculptural silhouette armchairs crafted with steam-bent timber, warm bouclé, and deep cushioning.",
+    slug: "lounge-chairs",
+    image: "/categories/chairs_v2.webp",
+    icon: Armchair,
+    pills: ["Lounge Chairs", "Swivel Chairs", "Ottomans", "Daybeds", "Side Tables"],
+  },
+];
+
+// Double the categories for an unbroken, seamless 360-degree circular orbit
+const wheelItems: CategoryItem[] = [...baseCategories, ...baseCategories];
+
 export default function CategorySection() {
-  const { chairs, sofas, couch, storage, tables, bedroom } = categoriesList;
+  const [wheelAngle, setWheelAngle] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const [liked, setLiked] = useState(false);
+  const [saved, setSaved] = useState(false);
+  const [copied, setCopied] = useState(false);
+
+  const totalItems = wheelItems.length; // 12 items
+  const stepAngle = 360 / totalItems; // 30 degrees per item
+
+  // Continuous smooth curve rotation (always moving smoothly)
+  useEffect(() => {
+    let animId: number;
+    const glideSpeed = 0.05; // Degrees per frame - luxury smooth glide
+
+    const tick = () => {
+      if (!isHovered) {
+        setWheelAngle((prev) => (prev + glideSpeed) % 360);
+      }
+      animId = requestAnimationFrame(tick);
+    };
+
+    animId = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(animId);
+  }, [isHovered]);
+
+  // Active item is the card closest to 0° (horizontal center of the arc)
+  const activeIndex = useMemo(() => {
+    let closestIndex = 0;
+    let minDistance = Infinity;
+
+    for (let i = 0; i < totalItems; i++) {
+      const base = i * stepAngle;
+      let diff = ((base + wheelAngle) % 360 + 360) % 360;
+      if (diff > 180) diff -= 360;
+      const absDiff = Math.abs(diff);
+
+      if (absDiff < minDistance) {
+        minDistance = absDiff;
+        closestIndex = i;
+      }
+    }
+    return closestIndex;
+  }, [wheelAngle, totalItems, stepAngle]);
+
+  const activeCategory = wheelItems[activeIndex];
+
+  // Rotate wheel to center an item
+  const rotateToCategory = (index: number) => {
+    const targetBase = index * stepAngle;
+    const currentNorm = ((wheelAngle % 360) + 360) % 360;
+    const targetNorm = ((-targetBase % 360) + 360) % 360;
+    let diff = targetNorm - currentNorm;
+    if (diff > 180) diff -= 360;
+    if (diff < -180) diff += 360;
+    setWheelAngle((prev) => prev + diff);
+  };
+
+  const handlePrev = () => {
+    setWheelAngle((prev) => prev + stepAngle);
+  };
+
+  const handleNext = () => {
+    setWheelAngle((prev) => prev - stepAngle);
+  };
+
+  const handleShare = () => {
+    if (typeof window !== "undefined") {
+      navigator.clipboard?.writeText(window.location.href);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    }
+  };
+
+  const ActiveIcon = activeCategory.icon;
+
+  // Geometric radius and center origin for the circular track
+  const radius = 345;
+  const originX = -75;
+  const originY = 300;
 
   return (
-    <section className="py-8 sm:py-12 lg:py-14 xl:py-20 bg-[#DFEADA] overflow-hidden border-b border-borderSage/70 select-none w-full">
-      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-16">
-        {/* Main 2-Column Responsive Layout matching reference */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 items-center">
-          {/* ========================================================== */}
-          {/* LEFT COLUMN (~63%): Olive-Green Frame Collage Container     */}
-          {/* ========================================================== */}
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-40px" }}
-            className="lg:col-span-7 xl:col-span-8 flex flex-col w-full rounded-[28px] sm:rounded-[34px] lg:rounded-[40px] bg-[#36563D] p-3.5 sm:p-4.5 lg:p-5 border border-white/20 shadow-[0_20px_50px_rgba(20,55,35,0.16),inset_0_1px_1px_rgba(255,255,255,0.25)] relative overflow-hidden"
-          >
-            {/* Subtle Top Specular Rim on the Olive Frame */}
-            <div className="absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+    <section
+      className="relative w-full py-12 sm:py-16 lg:py-20 bg-[#DFEADA] overflow-hidden select-none border-b border-borderSage/70"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+      aria-label="Square Furniture Curved Category Showcase"
+    >
+      {/* ========================================================== */}
+      {/* 1. ORGANIC CORNER CURVES (EXACT TO REFERENCE IMAGE)        */}
+      {/* ========================================================== */}
+      {/* Top-Left Dark-Green Curve */}
+      <div className="absolute top-0 left-0 w-[160px] sm:w-[220px] h-[100px] sm:h-[140px] bg-[#22442F] rounded-br-[160px] pointer-events-none opacity-90 z-0" />
 
-            {/* Grid of 3 Rows matching the exact layout */}
-            <div className="flex flex-col gap-3.5 sm:gap-4 lg:gap-4.5 w-full h-full justify-between">
-              {/* ---------------------------------------------------- */}
-              {/* ROW 1: Chairs (narrower ~37%) + Sofas (wider ~63%)   */}
-              {/* ---------------------------------------------------- */}
-              <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 lg:gap-4.5 w-full h-[200px] sm:h-[220px] lg:h-[220px] xl:h-[270px]">
-                {/* 1. Chairs */}
-                <CollageCard
-                  item={chairs}
-                  className="w-full sm:w-[37%] h-full"
-                  priority={true}
-                />
-                {/* 2. Sofas */}
-                <CollageCard
-                  item={sofas}
-                  className="w-full sm:flex-1 h-full"
-                  priority={true}
-                />
+      {/* Top-Right Dark-Green Curved Organic Blob */}
+      <div className="absolute top-0 right-0 w-[240px] sm:w-[340px] lg:w-[400px] h-[160px] sm:h-[220px] lg:h-[250px] bg-[#22442F] rounded-bl-[180px] pointer-events-none opacity-90 z-0" />
+
+      {/* Bottom-Right Dark-Green Curved Wave Accent */}
+      <div className="absolute bottom-0 right-0 w-[300px] sm:w-[420px] lg:w-[480px] h-[140px] sm:h-[180px] lg:h-[210px] bg-[#1E3B29] rounded-tl-[200px] pointer-events-none opacity-85 z-0" />
+
+      {/* Bottom-Left Organic Dark-Green Curve */}
+      <div className="absolute bottom-0 left-0 w-[180px] h-[90px] bg-[#22442F] rounded-tr-[160px] pointer-events-none opacity-80 z-0" />
+
+      <div className="relative z-10 w-full max-w-[1920px] mx-auto px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-14">
+        {/* Main 2-Column Responsive Layout: Left Curved Wheel + Center Details vs Right Category Info */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 xl:gap-12 items-center min-h-[600px] lg:min-h-[640px]">
+
+          {/* ========================================================== */}
+          {/* 2. THE CURVED MOVING WHEEL ARC & CENTER DETAILS (Cols 1-7) */}
+          {/* ========================================================== */}
+          <div className="lg:col-span-7 xl:col-span-7 relative flex flex-col md:flex-row items-center min-h-[540px] lg:min-h-[600px] overflow-hidden lg:overflow-visible">
+
+            {/* A. FLOATING VERTICAL PILL DOCK (Far Left inside curve) */}
+            <div className="hidden sm:flex flex-col items-center gap-5 sm:gap-6 py-6 px-3 rounded-full bg-white/70 backdrop-blur-2xl border border-white/80 shadow-[0_12px_35px_rgba(20,55,35,0.08)] z-30 shrink-0 mr-3 lg:mr-4">
+              {/* 1. Home */}
+              <Link href="/" title="Home" className="text-[#1F432C]/75 hover:text-[#1F432C] transition-colors">
+                <Home className="w-5 h-5" />
+              </Link>
+
+              {/* 2. Categories (Active Green Circle) */}
+              <div className="w-10 h-10 rounded-full bg-[#22442F] text-white flex items-center justify-center shadow-md">
+                <LayoutGrid className="w-5 h-5" />
               </div>
 
-              {/* ---------------------------------------------------- */}
-              {/* ROW 2: Coach (~31%) + Storage (~38%) + Tables (~31%) */}
-              {/* ---------------------------------------------------- */}
-              <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 lg:gap-4.5 w-full h-[190px] sm:h-[210px] lg:h-[205px] xl:h-[250px]">
-                {/* 3. Coach */}
-                <CollageCard
-                  item={couch}
-                  className="w-full sm:w-[31%] h-full"
-                />
-                {/* 4. Storage */}
-                <CollageCard
-                  item={storage}
-                  className="w-full sm:flex-1 h-full"
-                />
-                {/* 5. Tables */}
-                <CollageCard
-                  item={tables}
-                  className="w-full sm:w-[31%] h-full"
-                />
-              </div>
+              {/* 3. Wishlist */}
+              <Link href="/wishlist" title="Wishlist" className="text-[#1F432C]/75 hover:text-[#1F432C] transition-colors">
+                <Heart className="w-5 h-5" />
+              </Link>
 
-              {/* ---------------------------------------------------- */}
-              {/* ROW 3: Bedroom (Full-Width Horizontal Card)          */}
-              {/* ---------------------------------------------------- */}
-              <div className="w-full h-[175px] sm:h-[195px] lg:h-[195px] xl:h-[240px]">
-                {/* 6. Bedroom */}
-                <CollageCard
-                  item={bedroom}
-                  className="w-full h-full"
+              {/* 4. Cart */}
+              <Link href="/cart" title="Cart" className="text-[#1F432C]/75 hover:text-[#1F432C] transition-colors">
+                <ShoppingCart className="w-5 h-5" />
+              </Link>
+
+              {/* 5. User */}
+              <Link href="/account" title="Account" className="text-[#1F432C]/75 hover:text-[#1F432C] transition-colors">
+                <User className="w-5 h-5" />
+              </Link>
+            </div>
+
+            {/* B. THE CONTINUOUS MOVING CURVED TRACK (Circular Ribbon) */}
+            <div className="relative w-full md:w-[320px] lg:w-[360px] xl:w-[400px] h-[480px] sm:h-[520px] lg:h-[600px] shrink-0 flex items-center justify-center">
+
+              {/* Concentric Guide Rails (Inner & Outer Track Borders) */}
+              <svg
+                className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
+                viewBox="0 0 400 600"
+              >
+                {/* Inner Border Rail of the Ribbon */}
+                <circle
+                  cx={originX}
+                  cy={originY}
+                  r={radius - 75}
+                  fill="none"
+                  stroke="#22442F"
+                  strokeWidth="2.5"
+                  strokeOpacity="0.3"
                 />
+                {/* Outer Border Rail of the Ribbon */}
+                <circle
+                  cx={originX}
+                  cy={originY}
+                  r={radius + 75}
+                  fill="none"
+                  stroke="#22442F"
+                  strokeWidth="2.5"
+                  strokeOpacity="0.3"
+                />
+              </svg>
+
+              {/* The Moving Curved Sector Cards Track */}
+              <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+                {wheelItems.map((cat, i) => {
+                  const baseAngle = i * stepAngle;
+                  let angle = ((baseAngle + wheelAngle) % 360 + 360) % 360;
+                  if (angle > 180) angle -= 360;
+
+                  // Only render visible items along the front curve [-95°, +95°]
+                  const isVisible = angle >= -94 && angle <= 94;
+                  if (!isVisible) return null;
+
+                  const rad = (angle * Math.PI) / 180;
+                  const x = originX + radius * Math.cos(rad);
+                  const y = originY + radius * Math.sin(rad);
+
+                  const isActive = i === activeIndex;
+
+                  return (
+                    <div
+                      key={`${cat.id}-${i}`}
+                      onClick={() => rotateToCategory(i)}
+                      style={{
+                        position: "absolute",
+                        left: `${x}px`,
+                        top: `${y}px`,
+                        transform: `translate(-50%, -50%) rotate(${angle}deg)`,
+                        transformOrigin: "center center",
+                      }}
+                      className={`pointer-events-auto cursor-pointer transition-transform duration-300 ${
+                        isActive ? "z-30 scale-108" : "z-10 scale-95 opacity-85 hover:opacity-100"
+                      }`}
+                    >
+                      {/* The Curved Image Card matching the reference */}
+                      <div
+                        className={`relative w-[130px] sm:w-[155px] lg:w-[165px] h-[95px] sm:h-[110px] lg:h-[118px] rounded-[20px] overflow-hidden transition-all duration-300 ${
+                          isActive
+                            ? "border-[3.5px] border-[#68D391] shadow-[0_0_28px_rgba(104,211,145,0.75),0_12px_26px_rgba(0,0,0,0.28)]"
+                            : "border-2 border-white/60 shadow-md hover:border-white"
+                        }`}
+                      >
+                        <Image
+                          src={cat.image}
+                          alt={cat.name}
+                          fill
+                          sizes="180px"
+                          className="object-cover transition-transform duration-500 hover:scale-108"
+                        />
+
+                        {/* Top subtle specular reflection line */}
+                        <div className="absolute top-0 left-2 right-2 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
+                      </div>
+                    </div>
+                  );
+                })}
               </div>
             </div>
-          </motion.div>
 
-          {/* ========================================================== */}
-          {/* RIGHT COLUMN (~37%): Translucent Liquid Glass Info Panel   */}
-          {/* Matches the closeup reference with 100% optical fidelity   */}
-          {/* ========================================================== */}
-          <motion.div
-            initial={{ opacity: 0, x: 25 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: "-40px" }}
-            transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 xl:col-span-4 relative rounded-[32px] sm:rounded-[42px] lg:rounded-[44px] xl:rounded-[48px] p-5 sm:p-7 lg:p-7 xl:p-10 flex flex-col justify-start overflow-hidden border-[1.5px] border-white/80 shadow-[0_24px_60px_rgba(18,48,32,0.1),inset_0_2px_3px_rgba(255,255,255,0.95),inset_0_-2px_4px_rgba(0,0,0,0.04)]"
-            style={{
-              background: "linear-gradient(140deg, rgba(255, 255, 255, 0.54) 0%, rgba(228, 242, 224, 0.34) 50%, rgba(255, 255, 255, 0.48) 100%)",
-              backdropFilter: "blur(28px) saturate(190%)",
-              WebkitBackdropFilter: "blur(28px) saturate(190%)",
-            }}
-          >
-            {/* Optical Specular Glints on the Top Curved Rim (matching reference flares) */}
-            <div className="absolute top-0 left-[20%] w-16 h-[3px] bg-white rounded-full blur-[1px] pointer-events-none shadow-[0_0_12px_4px_rgba(255,255,255,0.9)]" />
-            <div className="absolute top-0 right-[25%] w-24 h-[3px] bg-white rounded-full blur-[1px] pointer-events-none shadow-[0_0_14px_5px_rgba(255,255,255,0.9)]" />
-
-            {/* Bottom-Right Corner Specular Light Bloom (prominent in reference) */}
-            <div className="absolute -bottom-6 -right-6 w-36 h-36 bg-gradient-to-tl from-white/95 via-white/50 to-transparent blur-xl rounded-full pointer-events-none" />
-
-            {/* Ambient Refraction Edge Highlight */}
-            <div className="absolute top-0 inset-x-8 h-[1.5px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none" />
-
-            {/* Header Content */}
-            <div className="space-y-2.5 sm:space-y-3 relative z-10">
-              {/* Eyebrow */}
-              <div className="inline-flex items-center gap-1.5 text-xs sm:text-[12.5px] uppercase font-extrabold tracking-[0.22em] text-[#C85226]">
-                <Sparkles className="w-3.5 h-3.5 text-[#C85226]" />
-                <span>Curated Living</span>
+            {/* C. THE CENTER DETAILS DISPLAY */}
+            <div className="relative flex flex-col justify-center max-w-[340px] lg:max-w-[370px] pl-2 sm:pl-4 lg:pl-6 z-20 space-y-4 sm:space-y-5">
+              
+              {/* Explore Categories Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 shadow-sm w-fit">
+                <LayoutGrid className="w-4 h-4 text-[#22442F]" />
+                <span className="text-[11px] sm:text-xs uppercase font-extrabold tracking-[0.18em] text-[#1F432C]">
+                  Explore Categories
+                </span>
               </div>
 
-              {/* Main Heading */}
-              <h2 className="text-2xl sm:text-[32px] lg:text-[34px] xl:text-[40px] font-heading font-extrabold text-[#0F2B20] tracking-[-0.03em] leading-[1.1]">
-                Explore By Categories
+              {/* Headline */}
+              <h2 className="font-['OrangeAvenue',var(--font-orange-avenue),serif] font-normal text-3xl sm:text-4xl lg:text-[46px] text-[#102D25] leading-[1.08] tracking-tight">
+                <SplitText
+                  text="Furniture"
+                  tag="span"
+                  effect="rise"
+                  hoverEffect="lift"
+                  trigger="view"
+                  delay={45}
+                  duration={1}
+                />
+                <br />
+                <SplitText
+                  text="Collection"
+                  tag="span"
+                  effect="rise"
+                  hoverEffect="lift"
+                  trigger="view"
+                  delay={45}
+                  duration={1}
+                />
               </h2>
 
-              {/* Italic Subtitle */}
-              <p className="text-[14px] sm:text-[16px] font-serif italic text-[#264433] font-medium leading-relaxed">
-                &ldquo;Transform Your Home with Modern Comfort&rdquo;
-              </p>
-
-              {/* Description */}
-              <p className="text-[12.5px] sm:text-[13.5px] text-[#4A5D4F] leading-[1.6]">
-                Clear, emotional, and reflects our architectural aesthetic — crafted for comfort, natural sustainability, and refined style.
-              </p>
-            </div>
-
-            {/* Service Features (Tactile 3D Porcelain/Glass Pebble Droplets) */}
-            <div className="space-y-2.5 sm:space-y-3 xl:space-y-4 my-3.5 sm:my-4 xl:my-6 relative z-10">
-              {trustFeatures.map((feat, idx) => {
-                const IconComponent = feat.icon;
-                return (
-                  <motion.div
-                    key={feat.title}
-                    initial={{ opacity: 0, y: 12 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.12 + idx * 0.08, duration: 0.45 }}
-                    className="flex items-center gap-3.5 sm:gap-4 group cursor-default"
-                  >
-                    {/* Tactile White Porcelain Pebble Droplet Badge */}
-                    <div className="w-11 h-11 sm:w-12 sm:h-12 rounded-full bg-white border border-white/80 shadow-[0_8px_18px_-2px_rgba(20,50,35,0.11),inset_0_2px_2px_rgba(255,255,255,1),inset_0_-2px_3px_rgba(0,0,0,0.05)] flex items-center justify-center text-[#102D25] shrink-0 group-hover:scale-105 transition-transform duration-300">
-                      <IconComponent className="w-5 h-5 text-[#102D25]" strokeWidth={2.2} />
-                    </div>
-
-                    {/* Text Details */}
-                    <div className="flex flex-col">
-                      <span className="font-heading font-extrabold text-[15px] sm:text-[16px] text-[#102D25] leading-tight">
-                        {feat.title}
-                      </span>
-                      <span className="text-[12.5px] sm:text-[13px] text-[#55695A] leading-tight mt-0.5">
-                        {feat.subtitle}
-                      </span>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </div>
-
-            {/* Explore More Liquid Glass CTA Button & Warm Ambient Glow */}
-            <div className="pt-1 sm:pt-2 relative z-10">
-              {/* Warm Ambient Underglow reflecting onto glass surface */}
-              <div className="absolute left-6 w-52 h-10 bg-[#E8662B]/35 blur-xl -bottom-1 pointer-events-none rounded-full" />
-
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full sm:w-auto inline-block relative z-10"
-              >
-                <Link
-                  href="/shop"
-                  className="group relative w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 sm:py-4 rounded-full bg-gradient-to-b from-[#E6632B] via-[#D5521E] to-[#BD4013] text-white font-heading font-extrabold text-[15px] sm:text-[16px] tracking-wide shadow-[0_14px_30px_rgba(216,84,32,0.42),inset_0_1.5px_1.5px_rgba(255,255,255,0.85),inset_0_-1.5px_2px_rgba(0,0,0,0.22)] border border-white/40 hover:shadow-[0_18px_36px_rgba(216,84,32,0.52)] hover:brightness-105 transition-all duration-300 select-none overflow-hidden"
+              {/* Active Category Floating Card (with icon, name, subtext & circular button) */}
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={activeCategory.id}
+                  initial={{ opacity: 0, x: -14 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: 14 }}
+                  transition={{ duration: 0.35, ease: "easeOut" }}
+                  className="space-y-3"
                 >
-                  {/* Top Specular Edge Highlight on Button */}
-                  <span className="absolute top-0 left-4 right-4 h-[1.5px] bg-gradient-to-r from-transparent via-white/90 to-transparent pointer-events-none" />
-                  
-                  <span>Explore More</span>
-                  <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" strokeWidth={2.4} />
-                </Link>
-              </motion.div>
+                  <Link
+                    href={`/shop/${activeCategory.slug}`}
+                    className="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-[22px] bg-white/85 hover:bg-white backdrop-blur-xl border border-white/90 shadow-[0_12px_28px_rgba(20,50,35,0.08)] transition-all duration-300 hover:shadow-[0_16px_36px_rgba(20,50,35,0.14)]"
+                  >
+                    <div className="flex items-center gap-3.5 min-w-0 pr-2">
+                      {/* Category Icon */}
+                      <div className="w-10 h-10 rounded-xl bg-[#E8EFE6] text-[#1F432C] flex items-center justify-center shrink-0 border border-[#D2E0CF]">
+                        <ActiveIcon className="w-5 h-5" />
+                      </div>
+                      {/* Name & Subtitle */}
+                      <div className="min-w-0">
+                        <h3 className="font-heading font-extrabold text-base sm:text-lg text-[#102D25] leading-snug truncate">
+                          {activeCategory.name}
+                        </h3>
+                        <p className="text-[11px] sm:text-xs text-[#55695A] truncate mt-0.5">
+                          {activeCategory.subtitle}
+                        </p>
+                      </div>
+                    </div>
+
+                    {/* Dark Green Circular Arrow Button (matches reference) */}
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#1F432C] group-hover:bg-[#B85232] text-white flex items-center justify-center shrink-0 shadow-soft transition-colors duration-300">
+                      <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
+                    </div>
+                  </Link>
+
+                  {/* Actions Row: Heart, Bookmark, Share */}
+                  <div className="flex items-center gap-3 pt-1 px-1">
+                    {/* Heart */}
+                    <button
+                      onClick={() => setLiked(!liked)}
+                      className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
+                        liked
+                          ? "bg-red-500 border-red-500 text-white shadow-soft"
+                          : "bg-white/70 hover:bg-white border-white/80 text-[#1F432C] shadow-sm"
+                      }`}
+                      title="Favorite Category"
+                      aria-label="Favorite Category"
+                    >
+                      <Heart className={`w-4 h-4 ${liked ? "fill-white" : ""}`} />
+                    </button>
+
+                    {/* Bookmark */}
+                    <button
+                      onClick={() => setSaved(!saved)}
+                      className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
+                        saved
+                          ? "bg-[#1F432C] border-[#1F432C] text-white shadow-soft"
+                          : "bg-white/70 hover:bg-white border-white/80 text-[#1F432C] shadow-sm"
+                      }`}
+                      title="Save Collection"
+                      aria-label="Save Collection"
+                    >
+                      <Bookmark className={`w-4 h-4 ${saved ? "fill-white" : ""}`} />
+                    </button>
+
+                    {/* Share */}
+                    <button
+                      onClick={handleShare}
+                      className="w-9 h-9 rounded-full bg-white/70 hover:bg-white border border-white/80 text-[#1F432C] shadow-sm flex items-center justify-center transition-all relative"
+                      title="Share Link"
+                      aria-label="Share Link"
+                    >
+                      <Share2 className="w-4 h-4" />
+                      {copied && (
+                        <span className="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#102D25] text-white text-[10px] font-bold px-2 py-0.5 rounded shadow">
+                          Copied!
+                        </span>
+                      )}
+                    </button>
+                  </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
-          </motion.div>
+          </div>
+
+          {/* ========================================================== */}
+          {/* 3. RIGHT SIDE: CATEGORY DETAILS, PILLS & ORANGE CTA (Cols 8-12) */}
+          {/* ========================================================== */}
+          <div className="lg:col-span-5 xl:col-span-5 flex flex-col justify-center py-4 lg:pl-10 z-10 space-y-6">
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={activeCategory.id}
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -12 }}
+                transition={{ duration: 0.35 }}
+                className="space-y-4 max-w-[480px]"
+              >
+                {/* Small Category Tag */}
+                <span className="text-[11px] uppercase font-mono font-bold tracking-[0.2em] text-[#1F432C]/75 block">
+                  {activeCategory.tag}
+                </span>
+
+                {/* Big Category Name */}
+                <h3 className="font-heading font-extrabold text-3xl sm:text-4xl lg:text-[42px] text-[#102D25] leading-tight">
+                  {activeCategory.name}
+                </h3>
+
+                {/* Description */}
+                <p className="text-sm sm:text-[14.5px] text-[#4A5D4F] leading-relaxed">
+                  {activeCategory.description}
+                </p>
+
+                {/* Subcategory Pills */}
+                <div className="flex flex-wrap gap-2 pt-1">
+                  {activeCategory.pills.map((pill) => (
+                    <Link
+                      key={pill}
+                      href={`/shop/${activeCategory.slug}`}
+                      className="px-3.5 py-1.5 rounded-full bg-[#E5ECE3] hover:bg-white border border-[#CBD8C9] text-xs font-bold text-[#1F432C] transition-colors shadow-2xs"
+                    >
+                      {pill}
+                    </Link>
+                  ))}
+                </div>
+
+                {/* Explore Collection Orange CTA Button */}
+                <div className="pt-3">
+                  <Link
+                    href={`/shop/${activeCategory.slug}`}
+                    className="group inline-flex items-center justify-center gap-2.5 px-7 sm:px-8 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-[#D9531E] to-[#C04312] text-white font-heading font-extrabold text-xs sm:text-[14px] tracking-wide shadow-[0_12px_26px_rgba(217,83,30,0.38)] hover:shadow-[0_16px_34px_rgba(217,83,30,0.48)] hover:brightness-105 active:scale-95 transition-all select-none"
+                  >
+                    <span>Explore Collection</span>
+                    <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                  </Link>
+                </div>
+              </motion.div>
+            </AnimatePresence>
+
+            {/* Bottom Nav Circular Arrow Buttons (← & →) */}
+            <div className="flex items-center gap-3 pt-3">
+              <button
+                onClick={handlePrev}
+                className="w-11 h-11 rounded-full bg-white/70 hover:bg-white text-[#1F432C] border border-white/90 shadow-soft flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
+                aria-label="Previous Category"
+              >
+                <ChevronLeft className="w-5 h-5" />
+              </button>
+              <button
+                onClick={handleNext}
+                className="w-11 h-11 rounded-full bg-white/70 hover:bg-white text-[#1F432C] border border-white/90 shadow-soft flex items-center justify-center transition-all duration-300 hover:scale-105 active:scale-95"
+                aria-label="Next Category"
+              >
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+          </div>
+
         </div>
       </div>
     </section>

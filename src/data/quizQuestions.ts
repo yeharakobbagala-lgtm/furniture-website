@@ -218,21 +218,21 @@ export const quizQuestions: QuizQuestion[] = [
     options: [
       {
         id: "q7-a",
-        label: "Accessible Essentials ($500 – $1,500)",
+        label: "Accessible Essentials (LKR 500 – LKR 1,500)",
         sublabel: "Great everyday modern design at an approachable price",
         image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=800&q=80",
         styleScores: { Scandinavian: 2, Minimalist: 1 },
       },
       {
         id: "q7-b",
-        label: "Quality & Long-Lasting ($1,500 – $3,500)",
+        label: "Quality & Long-Lasting (LKR 1,500 – LKR 3,500)",
         sublabel: "Solid wood, durable fabrics, and master craftsmanship",
         image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=800&q=80",
         styleScores: { Contemporary: 2, "Mid-Century Modern": 2 },
       },
       {
         id: "q7-c",
-        label: "Luxury & Statement Pieces ($3,500+)",
+        label: "Luxury & Statement Pieces (LKR 3,500+)",
         sublabel: "Natural marble, Italian leather, and bespoke designs",
         image: "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=800&q=80",
         styleScores: { "Modern Luxury": 3, Classic: 2 },

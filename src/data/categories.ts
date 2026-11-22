@@ -56,7 +56,7 @@ export const categories: Category[] = [
     name: "Wardrobes & Closets",
     description: "Architectural wardrobe systems featuring fluted glass, warm led recesses, and bespoke oak finishes.",
     image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1000&q=80",
-    bannerImage: "https://images.unsplash.com/photo-1558997519-83ea9252def8?auto=format&fit=crop&w=1600&q=80",
+    bannerImage: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1600&q=80",
     productCount: 7,
   },
   {

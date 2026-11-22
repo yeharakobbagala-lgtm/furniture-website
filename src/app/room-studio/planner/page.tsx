@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, useRef } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import Image from "next/image";
@@ -35,6 +35,7 @@ import {
   ShieldCheck,
   ChevronRight,
   Info,
+  X,
 } from "lucide-react";
 import { useRoomDesignerStore, FloorFinishType, WallFinishType } from "@/stores/roomDesignerStore";
 import { useUserStore } from "@/stores/userStore";
@@ -147,10 +148,17 @@ export default function RoomPlannerPage() {
 
   const saveRoomDesign = useUserStore((s) => s.saveRoomDesign);
   const addItemToCart = useCartStore((s) => s.addItem);
+  const sidebarRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    if (selectedItemId && sidebarRef.current) {
+      sidebarRef.current.scrollTo({ top: 0, behavior: "smooth" });
+    }
+  }, [selectedItemId]);
 
   // Geometric Calculations & Safety Clearances Audit
   const warnings = useMemo(() => {
@@ -278,9 +286,9 @@ export default function RoomPlannerPage() {
   };
 
   return (
-    <div className="w-full bg-sage-light min-h-screen flex flex-col font-sans">
+    <div className="w-full bg-sage-light min-h-screen flex flex-col font-sans pt-[78px] sm:pt-[84px] lg:pt-[88px]">
       {/* Top Architectural Studio Bar */}
-      <header className="bg-ivory-warm border-b border-borderSage px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 shadow-soft sticky top-0 z-30">
+      <header className="bg-ivory-warm border-b border-borderSage px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 shadow-soft sticky top-[78px] sm:top-[84px] lg:top-[88px] z-30">
         <div className="flex items-center gap-3">
           <Link
             href="/room-studio"
@@ -435,9 +443,9 @@ export default function RoomPlannerPage() {
       )}
 
       {/* Main Studio Workspace: Left (3 cols) + Center (6 cols) + Right (3 cols) */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-65px)]">
+      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 min-h-[calc(100vh-142px)]">
         {/* Left Sidebar (Cols 1-3) */}
-        <aside className="lg:col-span-3 bg-ivory-warm border-r border-borderSage flex flex-col max-h-[calc(100vh-65px)] overflow-hidden">
+        <aside className="lg:col-span-3 bg-ivory-warm border-r border-borderSage flex flex-col max-h-[calc(100vh-142px)] overflow-hidden">
           {/* Sidebar Tab Header */}
           <div className="grid grid-cols-4 bg-sage-100/70 border-b border-borderSage p-1 gap-1">
             <button
@@ -914,6 +922,8 @@ export default function RoomPlannerPage() {
               }}
               onUpdatePosition={updateItemPosition}
               onUpdateRotation={updateItemRotation}
+              onDeleteItem={removeItem}
+              onDuplicateItem={duplicateItem}
             />
           ) : (
             <RoomPlanner3D
@@ -946,19 +956,28 @@ export default function RoomPlannerPage() {
         </main>
 
         {/* Right Properties & Clearance Alerts Sidebar (Cols 10-12) */}
-        <aside className="lg:col-span-3 bg-ivory-warm border-l border-borderSage p-5 space-y-5 max-h-[calc(100vh-65px)] overflow-y-auto">
+        <aside ref={sidebarRef} className="lg:col-span-3 bg-ivory-warm border-l border-borderSage p-5 space-y-5 max-h-[calc(100vh-142px)] overflow-y-auto">
           {/* 1. TOP PRIORITY: INSPECTOR FOR SELECTED FURNITURE ITEM */}
           {selectedItem && (
             <div className="space-y-4 pb-4 border-b border-borderSage">
               <div className="flex items-center justify-between">
-                <span className="text-[10px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded bg-terracotta/10 text-terracotta">
-                  Selected Piece Details
-                </span>
-                {selectedProduct && (
-                  <span className="text-xs font-extrabold text-forest-deep">
-                    {formatPrice(selectedProduct.price)}
+                <div className="flex items-center gap-2">
+                  <span className="text-[10px] uppercase font-extrabold tracking-wider px-2 py-0.5 rounded bg-terracotta/10 text-terracotta">
+                    Selected Piece Details
                   </span>
-                )}
+                  {selectedProduct && (
+                    <span className="text-xs font-extrabold text-forest-deep">
+                      {formatPrice(selectedProduct.price)}
+                    </span>
+                  )}
+                </div>
+                <button
+                  onClick={() => selectItem(null)}
+                  className="p-1 rounded-lg text-forest-muted hover:text-forest-deep hover:bg-sage-100 transition-colors"
+                  title="Deselect piece"
+                >
+                  <X className="w-4 h-4" />
+                </button>
               </div>
 
               {/* Product Header Card */}
@@ -1033,13 +1052,13 @@ export default function RoomPlannerPage() {
                   <div>
                     <label className="text-[10px] text-forest-muted block">X (from Left wall)</label>
                     <span className="font-bold text-forest-deep">
-                      {(selectedItem.x / PIXELS_PER_METER).toFixed(2)} m
+                      {(selectedItem.x / PIXELS_PER_METER).toFixed(2)} m ({Math.round(selectedItem.x)} cm)
                     </span>
                   </div>
                   <div>
                     <label className="text-[10px] text-forest-muted block">Y (from Top wall)</label>
                     <span className="font-bold text-forest-deep">
-                      {(selectedItem.y / PIXELS_PER_METER).toFixed(2)} m
+                      {(selectedItem.y / PIXELS_PER_METER).toFixed(2)} m ({Math.round(selectedItem.y)} cm)
                     </span>
                   </div>
                 </div>
@@ -1047,15 +1066,23 @@ export default function RoomPlannerPage() {
 
               {/* Rotation buttons */}
               <div>
-                <label className="text-xs font-bold text-forest-deep block mb-1.5">
-                  Rotation Angle ({selectedItem.rotation}°)
-                </label>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="text-xs font-bold text-forest-deep block">
+                    Rotation Angle ({selectedItem.rotation}°)
+                  </label>
+                  <button
+                    onClick={() => updateItemRotation(selectedItem.id, (selectedItem.rotation + 45) % 360)}
+                    className="text-[11px] font-bold text-terracotta hover:underline flex items-center gap-1 cursor-pointer"
+                  >
+                    <RotateCw className="w-3 h-3" /> +45°
+                  </button>
+                </div>
                 <div className="grid grid-cols-4 gap-1.5 text-xs">
                   {[0, 90, 180, 270].map((deg) => (
                     <button
                       key={deg}
                       onClick={() => updateItemRotation(selectedItem.id, deg)}
-                      className={`py-1.5 rounded-lg border text-xs font-bold transition-colors ${selectedItem.rotation === deg
+                      className={`py-1.5 rounded-lg border text-xs font-bold transition-colors cursor-pointer ${selectedItem.rotation === deg
                         ? "bg-forest-dark text-white border-forest-dark"
                         : "bg-white border-borderSage text-forest-deep hover:bg-sage-100"
                         }`}
@@ -1077,7 +1104,7 @@ export default function RoomPlannerPage() {
                       <button
                         key={c.name}
                         onClick={() => updateItemColor(selectedItem.id, c.hex)}
-                        className={`w-7 h-7 rounded-full border-2 transition-all ${selectedItem.colorHex === c.hex
+                        className={`w-7 h-7 rounded-full border-2 transition-all cursor-pointer ${selectedItem.colorHex === c.hex
                           ? "border-terracotta scale-110 shadow-sm"
                           : "border-borderSage hover:scale-105"
                           }`}
@@ -1094,14 +1121,14 @@ export default function RoomPlannerPage() {
                 <div className="flex gap-2">
                   <button
                     onClick={() => duplicateItem(selectedItem.id)}
-                    className="flex-1 py-2 rounded-xl border border-borderSage bg-white hover:bg-sage-100 text-forest-deep text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                    className="flex-1 py-2 rounded-xl border border-borderSage bg-white hover:bg-sage-100 text-forest-deep text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                   >
                     <Copy className="w-3.5 h-3.5" /> Duplicate
                   </button>
                   {selectedProduct && (
                     <button
                       onClick={() => addItemToCart(selectedProduct, 1)}
-                      className="flex-1 py-2 rounded-xl bg-forest-dark hover:bg-forest-deep text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                      className="flex-1 py-2 rounded-xl bg-forest-dark hover:bg-forest-deep text-white text-xs font-bold flex items-center justify-center gap-1.5 transition-colors cursor-pointer"
                     >
                       <ShoppingBag className="w-3.5 h-3.5 text-terracotta" /> Add to Cart
                     </button>
@@ -1110,9 +1137,9 @@ export default function RoomPlannerPage() {
 
                 <button
                   onClick={() => removeItem(selectedItem.id)}
-                  className="w-full py-2 rounded-xl border border-red-300 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold flex items-center justify-center gap-1.5 transition-colors"
+                  className="w-full py-2.5 rounded-xl border-2 border-red-300 bg-red-50 hover:bg-red-100 text-red-700 text-xs font-bold flex items-center justify-center gap-2 transition-colors cursor-pointer active:scale-98"
                 >
-                  <Trash2 className="w-3.5 h-3.5" /> Remove from Room
+                  <Trash2 className="w-4 h-4 text-red-600" /> Remove from Room
                 </button>
               </div>
             </div>
@@ -1264,9 +1291,60 @@ export default function RoomPlannerPage() {
 
               <div className="p-3 bg-sage-50 rounded-xl border border-borderSage text-center">
                 <p className="text-[11px] text-forest-muted">
-                  Click or touch any placed piece to inspect real dimensions, rotate, change fabric colors, or duplicate.
+                  Click or touch any placed piece on canvas or below to inspect real dimensions, rotate, change fabric colors, or delete.
                 </p>
               </div>
+
+              {/* Placed Furnishings Quick Selector & Deleter */}
+              {items.length > 0 && (
+                <div className="space-y-2 pt-2">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] uppercase font-extrabold tracking-wider text-forest-deep">
+                      Placed Furnishings ({items.length})
+                    </span>
+                    <span className="text-[10px] text-forest-muted">Click to inspect</span>
+                  </div>
+                  <div className="space-y-1.5 max-h-48 overflow-y-auto pr-1">
+                    {items.map((it) => (
+                      <div
+                        key={it.id}
+                        onClick={() => selectItem(it.id)}
+                        className="group flex items-center justify-between p-2 rounded-xl bg-white border border-borderSage hover:border-terracotta hover:shadow-soft transition-all cursor-pointer"
+                      >
+                        <div className="flex items-center gap-2.5 min-w-0">
+                          <div className="w-8 h-8 rounded-lg bg-sage-50 overflow-hidden relative shrink-0 border border-borderSage/60">
+                            <Image
+                              src={it.image || "/placeholder.jpg"}
+                              alt={it.name}
+                              fill
+                              sizes="32px"
+                              className="object-cover"
+                            />
+                          </div>
+                          <div className="min-w-0">
+                            <p className="text-xs font-bold text-forest-deep truncate group-hover:text-terracotta transition-colors">
+                              {it.name}
+                            </p>
+                            <span className="text-[10px] text-forest-muted block">
+                              {Math.round(it.width)}×{Math.round(it.height)} cm • {it.rotation}°
+                            </span>
+                          </div>
+                        </div>
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeItem(it.id);
+                          }}
+                          className="p-1.5 rounded-lg text-forest-muted hover:text-red-600 hover:bg-red-50 transition-colors"
+                          title="Remove piece from room"
+                        >
+                          <Trash2 className="w-3.5 h-3.5" />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
           )}
 

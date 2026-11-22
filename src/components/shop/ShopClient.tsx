@@ -464,8 +464,8 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
                 className="w-full accent-terracotta cursor-pointer"
               />
               <div className="flex justify-between text-[11px] text-forest-muted mt-1">
-                <span>$0</span>
-                <span>$6,000+</span>
+                <span>{formatPrice(0)}</span>
+                <span>{formatPrice(6000)}+</span>
               </div>
             </div>
 

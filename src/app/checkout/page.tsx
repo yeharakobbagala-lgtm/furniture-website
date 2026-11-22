@@ -458,7 +458,7 @@ export default function CheckoutPage() {
                           Curbside Freight (Liftgate)
                         </span>
                         <span className="font-bold text-forest-deep">
-                          {subtotal >= 2000 ? "FREE" : "$75"}
+                          {subtotal >= 2000 ? "FREE" : formatPrice(75)}
                         </span>
                       </div>
                       <p className="text-xs text-forest-muted">
@@ -478,7 +478,7 @@ export default function CheckoutPage() {
                         <span className="font-heading font-bold text-sm text-forest-deep">
                           White-Glove Inside Placement (Recommended)
                         </span>
-                        <span className="font-bold text-forest-deep">$195</span>
+                        <span className="font-bold text-forest-deep">{formatPrice(195)}</span>
                       </div>
                       <p className="text-xs text-forest-muted">
                         Specialized two-person delivery team carries pieces into designated room, provides full joinery assembly, and removes all protective timber crates.
@@ -497,7 +497,7 @@ export default function CheckoutPage() {
                         <span className="font-heading font-bold text-sm text-forest-deep">
                           Express Priority Freight
                         </span>
-                        <span className="font-bold text-forest-deep">$120</span>
+                        <span className="font-bold text-forest-deep">{formatPrice(120)}</span>
                       </div>
                       <p className="text-xs text-forest-muted">
                         Fast-tracked warehouse priority dispatch within 48 hours.

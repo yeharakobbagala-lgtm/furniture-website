@@ -242,7 +242,7 @@ export default function RoomVisualizerPage() {
   });
 
   return (
-    <div className="w-full bg-sage-light min-h-screen flex flex-col">
+    <div className="w-full bg-sage-light min-h-screen flex flex-col pt-[78px] sm:pt-[84px] lg:pt-[88px]">
       {/* Top Header */}
       <div className="bg-ivory-warm border-b border-borderSage px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4 shadow-soft">
         <div className="flex items-center gap-3">
