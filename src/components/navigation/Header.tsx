@@ -64,23 +64,13 @@ export default function Header() {
 
   return (
     <>
-      <header
-        className={`z-40 w-full transition-all duration-300 ${
-          isHome
-            ? isScrolled
-              ? "fixed top-0 left-0 right-0 bg-sage-light/95 backdrop-blur-md border-b border-borderSage shadow-soft py-3 animate-fadeIn"
-              : "absolute top-0 left-0 right-0 bg-transparent border-b border-transparent py-4 sm:py-5"
-            : isScrolled
-            ? "sticky top-0 bg-sage-light/95 backdrop-blur-md border-b border-borderSage shadow-soft py-3"
-            : "sticky top-0 bg-sage-light border-b border-borderSage/70 py-4"
-        }`}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
+      <header className="fixed top-3 left-0 right-0 z-40 px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 pointer-events-none transition-all duration-500">
+        <div className="w-full max-w-[1920px] mx-auto pointer-events-auto">
+          <div className="glass-surface rounded-full py-3 sm:py-3.5 px-5 sm:px-8 xl:px-12 shadow-[0_12px_35px_rgba(20,55,35,0.08),inset_0_1px_1.5px_rgba(255,255,255,0.85)] border border-white/65 flex items-center justify-between">
             {/* Left: Square Brand Logo with House Icon */}
-            <div className="flex items-center gap-8">
-              <Link href="/" className="flex items-center gap-2.5 group">
-                <div className="w-9 h-9 rounded-xl bg-forest-dark flex items-center justify-center text-ivory shadow-soft group-hover:bg-forest-deep transition-colors">
+            <div className="flex items-center gap-6 sm:gap-8 shrink-0">
+              <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-forest-dark flex items-center justify-center text-ivory shadow-soft group-hover:bg-forest-deep transition-colors shrink-0">
                   <svg
                     width="20"
                     height="20"
@@ -97,18 +87,18 @@ export default function Header() {
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-heading font-extrabold text-xl tracking-wider text-forest-deep leading-none">
+                  <span className="font-heading font-extrabold text-xl sm:text-2xl tracking-wider text-forest-deep leading-none">
                     SQUARE
                   </span>
-                  <span className="text-[10px] uppercase tracking-[0.2em] text-forest-muted font-medium leading-tight">
+                  <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-forest-muted font-medium leading-tight mt-0.5">
                     Furniture & Living
                   </span>
                 </div>
               </Link>
             </div>
 
-            {/* Centre: Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-7">
+            {/* Centre: Desktop Navigation (Expanded & Spread Out) */}
+            <nav className="hidden lg:flex items-center gap-7 xl:gap-11 2xl:gap-14 mx-4">
               {/* Furniture with Rich Mega Dropdown */}
               <div
                 className="relative"
@@ -117,7 +107,7 @@ export default function Header() {
               >
                 <Link
                   href="/shop"
-                  className={`relative flex items-center gap-1 text-sm font-semibold tracking-wide transition-colors py-1 ${
+                  className={`relative flex items-center gap-1.5 text-sm xl:text-[15px] font-semibold tracking-wide transition-colors py-1 px-1.5 ${
                     pathname.startsWith("/shop")
                       ? "text-terracotta"
                       : "text-forest-deep hover:text-terracotta"
@@ -136,7 +126,7 @@ export default function Header() {
 
                 {/* Dropdown panel */}
                 {furnitureDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[520px] bg-ivory-warm rounded-2xl shadow-card border border-borderSage p-5 mt-1 grid grid-cols-2 gap-3 animate-fadeIn z-50">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[520px] rounded-3xl bg-white/85 backdrop-blur-3xl shadow-[0_20px_50px_rgba(20,55,35,0.15)] border border-white/80 p-5 mt-3 grid grid-cols-2 gap-3 animate-fadeIn z-50">
                     <div className="col-span-2 pb-2 mb-1 border-b border-borderSage/60 flex items-center justify-between">
                       <span className="text-xs uppercase tracking-wider font-semibold text-forest-muted">
                         All Furniture Collections
@@ -153,9 +143,9 @@ export default function Header() {
                       <Link
                         key={cat.id}
                         href={`/shop/${cat.slug}`}
-                        className="flex items-center gap-3 p-2.5 rounded-xl hover:bg-sage-100 transition-colors group"
+                        className="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-white/60 border border-transparent hover:border-white/50 transition-all group"
                       >
-                        <div className="w-10 h-10 rounded-lg bg-sage-200/60 overflow-hidden relative shrink-0">
+                        <div className="w-10 h-10 rounded-xl bg-sage-200/60 overflow-hidden relative shrink-0">
                           {/* eslint-disable-next-line @next/next/no-img-element */}
                           <img
                             src={cat.image}
@@ -182,7 +172,7 @@ export default function Header() {
                 onMouseLeave={() => setRoomStudioDropdownOpen(false)}
               >
                 <span
-                  className={`flex items-center gap-1 text-sm font-semibold tracking-wide cursor-pointer transition-colors py-2 ${
+                  className={`flex items-center gap-1.5 text-sm xl:text-[15px] font-semibold tracking-wide cursor-pointer transition-colors py-1 px-1.5 ${
                     pathname.startsWith("/room-studio")
                       ? "text-terracotta"
                       : "text-forest-deep hover:text-terracotta"
@@ -197,12 +187,12 @@ export default function Header() {
                 </span>
 
                 {roomStudioDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-80 bg-ivory-warm rounded-2xl shadow-card border border-borderSage p-3 mt-1 space-y-1 animate-fadeIn z-50">
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-80 rounded-3xl bg-white/85 backdrop-blur-3xl shadow-[0_20px_50px_rgba(20,55,35,0.15)] border border-white/80 p-3 mt-3 space-y-1 animate-fadeIn z-50">
                     <Link
                       href="/room-studio/planner"
-                      className="flex items-start gap-3 p-3 rounded-xl hover:bg-sage-100 transition-colors group"
+                      className="flex items-start gap-3 p-3 rounded-2xl hover:bg-white/60 border border-transparent hover:border-white/50 transition-all group"
                     >
-                      <div className="w-9 h-9 rounded-lg bg-forest-dark text-white flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-forest-dark text-white flex items-center justify-center shrink-0 shadow-soft">
                         <Layers className="w-4 h-4 text-terracotta" />
                       </div>
                       <div>
@@ -217,9 +207,9 @@ export default function Header() {
 
                     <Link
                       href="/room-studio/visualizer"
-                      className="flex items-start gap-3 p-3 rounded-xl hover:bg-sage-100 transition-colors group"
+                      className="flex items-start gap-3 p-3 rounded-2xl hover:bg-white/60 border border-transparent hover:border-white/50 transition-all group"
                     >
-                      <div className="w-9 h-9 rounded-lg bg-forest-dark text-white flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-forest-dark text-white flex items-center justify-center shrink-0 shadow-soft">
                         <Sparkles className="w-4 h-4 text-terracotta" />
                       </div>
                       <div>
@@ -234,9 +224,9 @@ export default function Header() {
 
                     <Link
                       href="/style-quiz"
-                      className="flex items-start gap-3 p-3 rounded-xl hover:bg-sage-100 transition-colors group"
+                      className="flex items-start gap-3 p-3 rounded-2xl hover:bg-white/60 border border-transparent hover:border-white/50 transition-all group"
                     >
-                      <div className="w-9 h-9 rounded-lg bg-forest-dark text-white flex items-center justify-center shrink-0">
+                      <div className="w-9 h-9 rounded-xl bg-forest-dark text-white flex items-center justify-center shrink-0 shadow-soft">
                         <Compass className="w-4 h-4 text-terracotta" />
                       </div>
                       <div>
@@ -258,7 +248,7 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative text-sm font-semibold tracking-wide transition-colors py-1 ${
+                    className={`relative text-sm xl:text-[15px] font-semibold tracking-wide transition-colors py-1 px-1.5 ${
                       isActive ? "text-terracotta" : "text-forest-deep hover:text-terracotta"
                     }`}
                   >
@@ -271,15 +261,15 @@ export default function Header() {
               })}
             </nav>
 
-            {/* Right: Search, Comparison, Wishlist, Cart, Account */}
-            <div className="flex items-center gap-2 sm:gap-3">
+            {/* Right: Search, Comparison, Wishlist, Cart, Account with Liquid Glass Droplet buttons */}
+            <div className="flex items-center gap-2 sm:gap-2.5 xl:gap-3 shrink-0">
               {/* Search Button */}
               <button
                 onClick={() => setSearchOpen(true)}
                 aria-label="Search furniture"
-                className="p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors"
+                className="w-10 h-10 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/60 hover:bg-white/80 shadow-[0_2px_8px_rgba(20,55,35,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:scale-105 border border-white/70"
               >
-                <Search className="w-5 h-5" />
+                <Search className="w-4.5 h-4.5" />
               </button>
 
               {/* Compare Button */}
@@ -287,9 +277,9 @@ export default function Header() {
                 <Link
                   href="/compare"
                   aria-label="Product comparison"
-                  className="relative p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors hidden sm:block"
+                  className="relative w-10 h-10 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/60 hover:bg-white/80 shadow-[0_2px_8px_rgba(20,55,35,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:scale-105 border border-white/70 hidden sm:flex"
                 >
-                  <Scale className="w-5 h-5" />
+                  <Scale className="w-4.5 h-4.5" />
                   <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-forest-dark text-white text-[10px] font-bold flex items-center justify-center">
                     {comparisonItems.length}
                   </span>
@@ -300,11 +290,11 @@ export default function Header() {
               <Link
                 href="/wishlist"
                 aria-label="Saved products"
-                className="relative p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors"
+                className="relative w-10 h-10 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/60 hover:bg-white/80 shadow-[0_2px_8px_rgba(20,55,35,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:scale-105 border border-white/70"
               >
-                <Heart className="w-5 h-5" />
+                <Heart className="w-4.5 h-4.5" />
                 {mounted && wishlistItems.length > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-terracotta text-white text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-terracotta text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
                     {wishlistItems.length}
                   </span>
                 )}
@@ -314,11 +304,11 @@ export default function Header() {
               <Link
                 href="/cart"
                 aria-label="Shopping bag"
-                className="relative p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors"
+                className="relative w-10 h-10 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/60 hover:bg-white/80 shadow-[0_2px_8px_rgba(20,55,35,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:scale-105 border border-white/70"
               >
-                <ShoppingBag className="w-5 h-5" />
+                <ShoppingBag className="w-4.5 h-4.5" />
                 {mounted && cartItemCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-forest-deep text-white text-[10px] font-bold flex items-center justify-center">
+                  <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#183323] text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
                     {cartItemCount}
                   </span>
                 )}
@@ -328,18 +318,18 @@ export default function Header() {
               <Link
                 href={isLoggedIn ? "/account" : "/account/login"}
                 aria-label="Customer account"
-                className="p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors hidden sm:block"
+                className="w-10 h-10 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/60 hover:bg-white/80 shadow-[0_2px_8px_rgba(20,55,35,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:scale-105 border border-white/70 hidden sm:flex"
               >
-                <User className="w-5 h-5" />
+                <User className="w-4.5 h-4.5" />
               </Link>
 
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label="Toggle mobile menu"
-                className="p-2.5 rounded-full hover:bg-sage-200/60 text-forest-deep transition-colors lg:hidden"
+                className="p-2 rounded-full hover:bg-white/60 text-forest-deep transition-colors lg:hidden border border-white/40"
               >
-                {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+                {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>
             </div>
           </div>
@@ -347,73 +337,66 @@ export default function Header() {
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-borderSage bg-ivory-warm px-6 py-6 space-y-4 animate-fadeIn">
-            <div className="space-y-1">
-              <Link
-                href="/shop"
-                className="block py-2.5 text-base font-semibold text-forest-deep border-b border-borderSage/40"
-              >
-                Browse All Furniture
-              </Link>
-              <div className="pl-3 py-2 grid grid-cols-2 gap-2">
-                {categories.slice(0, 6).map((c) => (
+          <div className="lg:hidden mt-2 max-w-[1850px] mx-auto pointer-events-auto">
+            <div className="glass-surface p-6 rounded-3xl border border-white/75 bg-white/85 backdrop-blur-3xl shadow-floating space-y-4 animate-fadeIn">
+              <div className="space-y-1">
+                <Link
+                  href="/shop"
+                  className="block py-2.5 text-base font-semibold text-forest-deep border-b border-borderSage/40"
+                >
+                  All Furniture
+                </Link>
+                <div className="pl-3 py-2 grid grid-cols-2 gap-2">
+                  {categories.slice(0, 6).map((c) => (
+                    <Link
+                      key={c.id}
+                      href={`/shop/${c.slug}`}
+                      className="text-xs text-forest-muted hover:text-terracotta py-1"
+                    >
+                      • {c.name}
+                    </Link>
+                  ))}
+                </div>
+                <Link
+                  href="/room-studio/planner"
+                  className="block py-2.5 text-base font-semibold text-forest-deep border-b border-borderSage/40"
+                >
+                  2D Room Planner
+                </Link>
+                <Link
+                  href="/room-studio/visualizer"
+                  className="block py-2.5 text-base font-semibold text-forest-deep border-b border-borderSage/40"
+                >
+                  Photo Room Visualizer
+                </Link>
+                <Link
+                  href="/style-quiz"
+                  className="block py-2.5 text-base font-semibold text-forest-deep border-b border-borderSage/40"
+                >
+                  Style Quiz
+                </Link>
+                {navLinks.map((link) => (
                   <Link
-                    key={c.id}
-                    href={`/shop/${c.slug}`}
-                    className="text-xs text-forest-muted hover:text-terracotta py-1"
+                    key={link.href}
+                    href={link.href}
+                    className="block py-2.5 text-base font-semibold text-forest-deep border-b border-borderSage/40"
                   >
-                    • {c.name}
+                    {link.label}
                   </Link>
                 ))}
-              </div>
-            </div>
-
-            <div className="pt-2 border-t border-borderSage/40 space-y-2">
-              <span className="text-xs uppercase tracking-wider font-bold text-forest-muted">
-                Interactive Studio
-              </span>
-              <Link
-                href="/room-studio/planner"
-                className="flex items-center gap-2 py-1.5 text-sm font-medium text-forest-deep"
-              >
-                <Layers className="w-4 h-4 text-terracotta" /> 2D Room Planner
-              </Link>
-              <Link
-                href="/room-studio/visualizer"
-                className="flex items-center gap-2 py-1.5 text-sm font-medium text-forest-deep"
-              >
-                <Sparkles className="w-4 h-4 text-terracotta" /> Room Photo Visualizer
-              </Link>
-              <Link
-                href="/style-quiz"
-                className="flex items-center gap-2 py-1.5 text-sm font-medium text-forest-deep"
-              >
-                <Compass className="w-4 h-4 text-terracotta" /> Style Discovery Quiz
-              </Link>
-            </div>
-
-            <div className="pt-2 border-t border-borderSage/40 space-y-1.5">
-              {navLinks.map((link) => (
                 <Link
-                  key={link.href}
-                  href={link.href}
+                  href="/compare"
                   className="block py-2 text-sm font-semibold text-forest-deep"
                 >
-                  {link.label}
+                  Product Comparison ({comparisonItems.length})
                 </Link>
-              ))}
-              <Link
-                href="/compare"
-                className="block py-2 text-sm font-semibold text-forest-deep"
-              >
-                Product Comparison ({comparisonItems.length})
-              </Link>
-              <Link
-                href={isLoggedIn ? "/account" : "/account/login"}
-                className="block py-2 text-sm font-semibold text-terracotta"
-              >
-                {isLoggedIn ? `Account (${user?.name})` : "Sign In / Register"}
-              </Link>
+                <Link
+                  href={isLoggedIn ? "/account" : "/account/login"}
+                  className="block py-2 text-sm font-semibold text-terracotta"
+                >
+                  {isLoggedIn ? `Account (${user?.name})` : "Sign In / Register"}
+                </Link>
+              </div>
             </div>
           </div>
         )}

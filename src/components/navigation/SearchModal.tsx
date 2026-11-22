@@ -64,10 +64,10 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-16 px-4 bg-forest-deep/60 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-3xl bg-ivory-warm rounded-2xl shadow-floating border border-borderSage overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-forest-deep/40 backdrop-blur-md animate-fadeIn">
+      <div className="relative w-full max-w-3xl glass-surface rounded-3xl shadow-[0_30px_70px_rgba(20,55,35,0.2),inset_0_1px_1px_rgba(255,255,255,0.85)] border border-white/70 bg-white/80 backdrop-blur-3xl overflow-hidden">
         {/* Search Input Bar */}
-        <div className="flex items-center gap-3 px-6 py-4 border-b border-borderSage bg-white/70">
+        <div className="flex items-center gap-3 px-6 py-4.5 border-b border-borderSage/40 bg-white/50">
           <Search className="w-5 h-5 text-forest-muted" />
           <input
             type="text"
@@ -87,7 +87,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           )}
           <button
             onClick={onClose}
-            className="px-3 py-1.5 text-xs uppercase tracking-wider font-semibold text-forest-muted hover:text-forest-deep bg-sage-100 rounded-lg"
+            className="px-3 py-1.5 text-xs uppercase tracking-wider font-semibold text-forest-muted hover:text-forest-deep bg-white/60 hover:bg-white rounded-xl border border-white/80 shadow-soft transition-all"
           >
             Esc
           </button>
@@ -116,7 +116,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       <button
                         key={term}
                         onClick={() => handleSelectRecent(term)}
-                        className="px-3 py-1.5 rounded-full bg-sage-50 hover:bg-sage-200 text-forest-deep text-sm border border-borderSage transition-colors"
+                        className="px-3.5 py-1.5 rounded-full glass-pill text-forest-deep text-sm transition-all"
                       >
                         {term}
                       </button>
@@ -130,15 +130,15 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
                 <span className="text-xs uppercase tracking-wider font-semibold text-forest-muted block mb-3">
                   Browse by Category
                 </span>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2.5">
                   {categories.slice(0, 6).map((cat) => (
                     <Link
                       key={cat.id}
                       href={`/shop/${cat.slug}`}
                       onClick={onClose}
-                      className="p-3 rounded-xl bg-white border border-borderSage/70 hover:border-forest-dark hover:shadow-soft transition-all flex items-center justify-between group"
+                      className="p-3.5 rounded-2xl bg-white/60 backdrop-blur-md border border-white/80 hover:bg-white hover:shadow-soft transition-all flex items-center justify-between group"
                     >
-                      <span className="text-sm font-medium text-forest-deep group-hover:text-terracotta transition-colors">
+                      <span className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
                         {cat.name}
                       </span>
                       <ArrowRight className="w-3.5 h-3.5 text-forest-muted group-hover:translate-x-0.5 transition-transform" />

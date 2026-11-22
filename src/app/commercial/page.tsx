@@ -28,7 +28,7 @@ export default function CommercialHubPage() {
       <div className="relative bg-forest-dark text-white py-20 overflow-hidden">
         <div className="absolute right-0 top-0 w-[600px] h-[600px] rounded-full bg-terracotta/10 blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 relative z-10">
           <div className="max-w-3xl space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-deep border border-forest/60 text-xs tracking-widest font-bold uppercase text-terracotta">
               <Building2 className="w-4 h-4" /> SQUARE CONTRACT & TRADE
@@ -61,7 +61,7 @@ export default function CommercialHubPage() {
       </div>
 
       {/* Commercial Value Pillars */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 -mt-10 relative z-20">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {[
             {
@@ -100,7 +100,7 @@ export default function CommercialHubPage() {
       </div>
 
       {/* Commercial Typologies */}
-      <div id="commercial-catalog" className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+      <div id="commercial-catalog" className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 pt-20">
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
           <div>
             <span className="text-xs uppercase tracking-widest font-bold text-terracotta block mb-2">

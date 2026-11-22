@@ -64,7 +64,7 @@ export default function CommercialQuotePage() {
 
   return (
     <div className="min-h-screen bg-sage-light py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
         {/* Header */}
         <div className="flex items-center justify-between pb-8 border-b border-borderSage/70">
           <div>

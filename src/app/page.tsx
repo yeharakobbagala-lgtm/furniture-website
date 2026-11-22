@@ -1,7 +1,6 @@
 import React from "react";
 import Hero from "@/components/home/Hero";
 import CategorySection from "@/components/home/CategorySection";
-import CollectionsSection from "@/components/home/CollectionsSection";
 import BestSellersSection from "@/components/home/BestSellersSection";
 import NewArrivalsSection from "@/components/home/NewArrivalsSection";
 import StyleQuizBanner from "@/components/home/StyleQuizBanner";
@@ -15,11 +14,8 @@ export default function HomePage() {
       {/* Section 1: Hero with modular carousel & testimonial */}
       <Hero />
 
-      {/* Section 2: Shopping by Category (10 categories) */}
+      {/* Section 2: Shopping by Category (Bento Grid) */}
       <CategorySection />
-
-      {/* Section 3: Featured Collections */}
-      <CollectionsSection />
 
       {/* Section 4: Best Sellers */}
       <BestSellersSection />

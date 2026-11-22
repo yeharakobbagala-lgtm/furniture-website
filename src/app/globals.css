@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: 'OrangeAvenue';
+  src: url('/font hero/orange-avenue/OrangeAvenueDEMO-Regular.otf') format('opentype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   --bg-primary: #E5EDE1;
   --bg-secondary: #465D45;
@@ -10,6 +18,13 @@
   --accent: #B85232;
   --surface-light: #F8F7F0;
   --border-sage: #D2DBD0;
+
+  /* Liquid Glass Color Tokens */
+  --liquid-glass-dark: rgba(24, 38, 30, 0.65);
+  --liquid-glass-light: rgba(255, 255, 255, 0.55);
+  --liquid-glass-border-light: rgba(255, 255, 255, 0.35);
+  --liquid-glass-border-dark: rgba(255, 255, 255, 0.12);
+  --liquid-glass-glow: rgba(220, 140, 80, 0.18);
 }
 
 @layer base {
@@ -21,6 +36,101 @@
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading tracking-tight;
   }
+}
+
+/* ========================================================================= */
+/* LIQUID GLASS & REFRACTIVE SPATIAL UI ENGINE (Apple VisionOS / Lumora Aesthetic) */
+/* ========================================================================= */
+
+/* Base liquid glass sheet */
+.liquid-glass {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(28px) saturate(170%);
+  -webkit-backdrop-filter: blur(28px) saturate(170%);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 16px 40px -8px rgba(16, 45, 37, 0.12),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.5),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+
+/* Dark Moody Warm Liquid Glass (Matches Lumora / Illume references) */
+.liquid-glass-dark {
+  background: linear-gradient(135deg, rgba(28, 42, 33, 0.72) 0%, rgba(18, 30, 24, 0.82) 100%);
+  backdrop-filter: blur(32px) saturate(180%);
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-top-color: rgba(255, 255, 255, 0.32);
+  border-left-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 
+    0 24px 48px -12px rgba(0, 0, 0, 0.4),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Tactile floating pill / capsule */
+.liquid-glass-pill {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top-color: rgba(255, 255, 255, 0.85);
+  box-shadow: 
+    0 6px 18px -4px rgba(16, 45, 37, 0.12),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-glass-pill-dark {
+  background: rgba(18, 32, 25, 0.75);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-top-color: rgba(255, 255, 255, 0.4);
+  box-shadow: 
+    0 8px 24px -4px rgba(0, 0, 0, 0.35),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.3),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.3);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.liquid-glass-pill:hover,
+.liquid-glass-pill-dark:hover {
+  transform: translateY(-1.5px);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 
+    0 12px 28px -6px rgba(0, 0, 0, 0.25),
+    inset 0 1px 2px 0 rgba(255, 255, 255, 0.5);
+}
+
+/* Warm ambient backlight glow behind glass panels */
+.ambient-glow-warm {
+  background: radial-gradient(circle at center, rgba(230, 160, 95, 0.18) 0%, rgba(200, 130, 75, 0.06) 45%, transparent 70%);
+}
+
+.ambient-glow-forest {
+  background: radial-gradient(circle at center, rgba(70, 105, 80, 0.25) 0%, rgba(40, 75, 55, 0.08) 50%, transparent 75%);
+}
+
+/* Interactive furniture hotspot pulsing ring */
+@keyframes hotspot-pulse {
+  0% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
+  }
+  70% {
+    transform: scale(1.05);
+    box-shadow: 0 0 0 12px rgba(255, 255, 255, 0);
+  }
+  100% {
+    transform: scale(0.95);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+  }
+}
+
+.animate-hotspot {
+  animation: hotspot-pulse 2.4s infinite cubic-bezier(0.4, 0, 0.6, 1);
 }
 
 /* Custom subtle scrollbar */
@@ -40,6 +150,117 @@
 
 ::-webkit-scrollbar-thumb:hover {
   background: #8FA38B;
+}
+
+/* ========================================================================= */
+/* APPLE LIQUID GLASS & GLASSMORPHISM CORE TOKENS                            */
+/* ========================================================================= */
+
+.glass-surface {
+  background: rgba(240, 248, 238, 0.22);
+  backdrop-filter: blur(4px) saturate(135%);
+  -webkit-backdrop-filter: blur(4px) saturate(135%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-bottom-color: rgba(255, 255, 255, 0.95);
+  box-shadow:
+    inset 0 1px 1.5px rgba(255, 255, 255, 0.85),
+    inset 0 -2px 3px rgba(255, 255, 255, 0.85),
+    0 1px 3px rgba(255, 255, 255, 0.6),
+    0 10px 30px rgba(16, 45, 37, 0.06);
+  border-radius: 9999px;
+}
+
+.glass-surface-subtle {
+  background: rgba(255, 255, 255, 0.38);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow:
+    inset 0 1px 1px rgba(255, 255, 255, 0.55),
+    0 8px 25px rgba(20, 55, 35, 0.08);
+}
+
+.glass-surface-forest {
+  background: linear-gradient(135deg, rgba(24, 59, 43, 0.85) 0%, rgba(16, 45, 37, 0.92) 100%);
+  backdrop-filter: blur(28px) saturate(160%);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.35);
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.25),
+    0 20px 45px rgba(10, 30, 22, 0.35);
+}
+
+.glass-cta-orange {
+  background: linear-gradient(135deg, rgba(184, 82, 50, 0.92) 0%, rgba(160, 68, 40, 0.96) 100%);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-top-color: rgba(255, 255, 255, 0.8);
+  box-shadow:
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.2),
+    0 10px 25px -4px rgba(184, 82, 50, 0.4);
+  color: #ffffff;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-cta-orange:hover {
+  background: linear-gradient(135deg, rgba(200, 92, 58, 0.96) 0%, rgba(175, 76, 45, 0.98) 100%);
+  transform: translateY(-2px);
+  box-shadow:
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.85),
+    0 14px 30px -4px rgba(184, 82, 50, 0.5);
+}
+
+.glass-pill {
+  background: rgba(255, 255, 255, 0.65);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.6);
+  border-top-color: rgba(255, 255, 255, 0.85);
+  box-shadow:
+    0 6px 18px -4px rgba(16, 45, 37, 0.12),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.7),
+    inset 0 -1px 1px 0 rgba(0, 0, 0, 0.06);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-pill:hover {
+  background: rgba(255, 255, 255, 0.8);
+  transform: translateY(-1.5px);
+  box-shadow:
+    0 10px 24px -4px rgba(16, 45, 37, 0.16),
+    inset 0 1px 1.5px 0 rgba(255, 255, 255, 0.9);
+}
+
+.glass-pill-forest {
+  background: rgba(24, 59, 43, 0.82);
+  backdrop-filter: blur(20px) saturate(160%);
+  -webkit-backdrop-filter: blur(20px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(255, 255, 255, 0.4);
+  box-shadow:
+    0 8px 24px -4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 1px 0 rgba(255, 255, 255, 0.3);
+  color: #ffffff;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.glass-input {
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: inset 0 1px 2px rgba(16, 45, 37, 0.05);
+  transition: all 0.2s ease;
+}
+
+.glass-input:focus {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(70, 93, 69, 0.6);
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(70, 93, 69, 0.15);
 }
 
 /* Konva canvas wrapper */

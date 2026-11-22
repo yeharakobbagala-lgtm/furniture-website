@@ -13,7 +13,7 @@ export default function AboutPage() {
     <div className="w-full bg-sage-light min-h-screen pb-24">
       {/* Hero */}
       <div className="relative bg-forest-dark text-white py-20 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 relative z-10">
           <div className="max-w-3xl space-y-4">
             <span className="text-xs uppercase tracking-widest font-bold text-terracotta">
               OUR ATELIER MANIFESTO
@@ -29,7 +29,7 @@ export default function AboutPage() {
       </div>
 
       {/* Narrative Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 pt-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           <div className="lg:col-span-6 space-y-6">
             <span className="text-xs uppercase tracking-widest font-bold text-terracotta">
@@ -70,7 +70,7 @@ export default function AboutPage() {
       </div>
 
       {/* 3 Core Commitments */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 pt-24">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           <div className="p-8 rounded-3xl bg-ivory-warm border border-borderSage space-y-3">
             <div className="w-12 h-12 rounded-2xl bg-forest-dark text-white flex items-center justify-center mb-4">

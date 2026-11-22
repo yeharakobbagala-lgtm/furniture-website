@@ -40,7 +40,7 @@ export default async function DesignerDetailPage({ params }: DesignerPageProps) 
       <div className="relative bg-forest-dark text-white py-16 sm:py-24 overflow-hidden">
         <div className="absolute right-0 top-0 w-[500px] h-[500px] rounded-full bg-terracotta/10 blur-3xl pointer-events-none" />
 
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 relative z-10">
           <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-sage-300 mb-4">
             <Link href="/" className="hover:text-white">Home</Link>
             <span>/</span>
@@ -94,7 +94,7 @@ export default async function DesignerDetailPage({ params }: DesignerPageProps) 
       </div>
 
       {/* Designer's Collection Products */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 pt-20">
         <div className="flex items-center justify-between mb-8">
           <div>
             <span className="text-xs uppercase tracking-widest font-bold text-terracotta block mb-1">

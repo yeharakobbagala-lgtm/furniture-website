@@ -98,9 +98,9 @@ export const heroFurniturePresets: Record<string, FurnitureItemConfig> = {
     category: "Lounge Seating",
     price: 1450,
     slug: "nordic-lounge-armchair",
-    image: "/hero 1/New Project (20).png",
-    croppedImage: "/hero 1/cropped/New Project (20)_crop.png",
-    depthMapUrl: "/hero 1/cropped/New Project (20)_depth.png",
+    image: "/hero 1/New Project (20).webp",
+    croppedImage: "/hero 1/cropped/New Project (20)_crop.webp",
+    depthMapUrl: "/hero 1/cropped/New Project (20)_depth.webp",
     alt: "Square Nordic Sculptural Armchair in natural oak and woven oat bouclé",
     isFullCanvas: true,
     position: {
@@ -122,7 +122,7 @@ export const heroFurniturePresets: Record<string, FurnitureItemConfig> = {
     category: "Sofas & Seating",
     price: 3450,
     slug: "arcadia-curved-boucle-sofa",
-    image: "/furniture-cutouts/prod-1.png",
+    image: "/furniture-cutouts/prod-1.webp",
     alt: "Arcadia Curved Bouclé Sofa in ivory textured boucle",
     isFullCanvas: false,
     position: {
@@ -144,7 +144,7 @@ export const heroFurniturePresets: Record<string, FurnitureItemConfig> = {
     category: "Dining Tables",
     price: 4850,
     slug: "solis-travertine-dining-table",
-    image: "/furniture-cutouts/prod-5.png",
+    image: "/furniture-cutouts/prod-5.webp",
     alt: "Solis Monolithic Travertine Dining Table",
     isFullCanvas: false,
     position: {
@@ -166,7 +166,7 @@ export const heroFurniturePresets: Record<string, FurnitureItemConfig> = {
     category: "Chairs",
     price: 1680,
     slug: "vaster-saddle-leather-lounge-chair",
-    image: "/furniture-cutouts/prod-2.png",
+    image: "/furniture-cutouts/prod-2.webp",
     alt: "Väster Lounge Armchair in full-grain cognac leather",
     isFullCanvas: false,
     position: {
@@ -188,7 +188,7 @@ export const heroFurniturePresets: Record<string, FurnitureItemConfig> = {
     category: "Chairs & Seating",
     price: 1850,
     slug: "zephyr-sculptural-lounge-chair",
-    image: "/hero 5/hero5_composite.png",
+    image: "/hero 5/hero5_composite.webp",
     alt: "Square Zephyr Sculptural Lounge Chair in bentwood walnut ribbon frame with olive moss velvet cushion, glowing spiral chandelier, and solid wood side table",
     isFullCanvas: true,
   },
@@ -234,8 +234,8 @@ export const defaultHeroFurnitureSets: HeroFurnitureSet[] = [
     subtitle: "01 • Living Room",
     furniture: heroFurniturePresets["original-armchair"],
     decorations: {
-      sideTableImage: "/hero 1/New Project (19).png",
-      sideTableCropped: "/hero 1/cropped/New Project (19)_crop.png",
+      sideTableImage: "/hero 1/New Project (19).webp",
+      sideTableCropped: "/hero 1/cropped/New Project (19)_crop.webp",
       sideTableAlt: "Handcrafted solid wooden side table with ceramic vase and art books",
       sideTableStyle: {
         right: "0px",
@@ -243,8 +243,8 @@ export const defaultHeroFurnitureSets: HeroFurnitureSet[] = [
         width: "23%",
         height: "42%",
       },
-      pendantImage: "/hero 1/New Project (21).png",
-      pendantCropped: "/hero 1/cropped/New Project (21)_crop.png",
+      pendantImage: "/hero 1/New Project (21).webp",
+      pendantCropped: "/hero 1/cropped/New Project (21)_crop.webp",
       pendantAlt: "Hanging gold architectural pendant light fixture",
       showPendant: true,
     },
@@ -259,8 +259,8 @@ export const defaultHeroFurnitureSets: HeroFurnitureSet[] = [
       category: "Beds & Suites",
       price: 2850,
       slug: "havn-channeled-platform-bed",
-      image: "/hero 2/New Project (26).png",
-      croppedImage: "/hero 2/cropped/bed_crop.png",
+      image: "/hero 2/New Project (26).webp",
+      croppedImage: "/hero 2/cropped/bed_crop.webp",
       alt: "Square Havn Channeled Upholstered Platform Bed in oat bouclé with terracotta throw blanket",
       isFullCanvas: true,
       position: {
@@ -275,8 +275,8 @@ export const defaultHeroFurnitureSets: HeroFurnitureSet[] = [
       },
     },
     decorations: {
-      sideTableImage: "/hero 2/New Project (25).png",
-      sideTableCropped: "/hero 2/cropped/nightstand_crop.png",
+      sideTableImage: "/hero 2/New Project (25).webp",
+      sideTableCropped: "/hero 2/cropped/nightstand_crop.webp",
       sideTableAlt: "Blonde oak bedside nightstand with dome lamp and dried florals",
       sideTableStyle: {
         right: "0px",
@@ -297,14 +297,14 @@ export const defaultHeroFurnitureSets: HeroFurnitureSet[] = [
       category: "Sofas & Seating",
       price: 2450,
       slug: "sora-nordic-2-seater-sofa",
-      image: "/hero3/New Project (30).png",
+      image: "/hero3/New Project (30).webp",
       alt: "Square Sora Nordic 2-Seater Sofa in oatmeal textured linen with moss green velvet cushions",
       isFullCanvas: true,
     },
     decorations: {
-      sideTableImage: "/hero3/New Project (31).png",
+      sideTableImage: "/hero3/New Project (31).webp",
       sideTableAlt: "Solid oak tapered pedestal side table with ceramic leaf vase and art books",
-      pendantImage: "/hero3/New Project (32).png",
+      pendantImage: "/hero3/New Project (32).webp",
       pendantAlt: "Retro-modern wood and brass glowing dome pendant lamp",
       showPendant: true,
     },
@@ -319,14 +319,14 @@ export const defaultHeroFurnitureSets: HeroFurnitureSet[] = [
       category: "Dining & Kitchen",
       price: 3650,
       slug: "elysian-oak-dining-suite",
-      image: "/hero 4/hero4_dining.png",
+      image: "/hero 4/hero4_dining.webp",
       alt: "Square Elysian Solid Oak Dining Table with 4 upholstered cream chairs on woven wool rug and autumn floral centerpiece",
       isFullCanvas: true,
     },
     decorations: {
-      sideTableImage: "/hero 4/hero4_plant.png",
+      sideTableImage: "/hero 4/hero4_plant.webp",
       sideTableAlt: "Lush potted broadleaf plant in textured ceramic planter",
-      pendantImage: "/hero 4/hero4_lamp.png",
+      pendantImage: "/hero 4/hero4_lamp.webp",
       pendantAlt: "Warm glowing amber dome dining pendant light fixture",
       showPendant: true,
     },
@@ -341,7 +341,7 @@ export const defaultHeroFurnitureSets: HeroFurnitureSet[] = [
       category: "Chairs & Seating",
       price: 1850,
       slug: "zephyr-sculptural-lounge-chair",
-      image: "/hero 5/hero5_composite.png",
+      image: "/hero 5/hero5_composite.webp",
       alt: "Square Zephyr Sculptural Lounge Chair in bentwood walnut ribbon frame with olive moss velvet cushion, glowing spiral chandelier, and solid wood side table",
       isFullCanvas: true,
     },
@@ -363,27 +363,27 @@ export const defaultHeroFurnitureSets: HeroFurnitureSet[] = [
  */
 export const defaultHeroConfig: HeroConfig = {
   // Layer 1: Light sage-green background
-  backgroundImage: "/hero 1/New Project (24).png",
+  backgroundImage: "/hero 1/New Project (24).webp",
   backgroundColor: "#E2ECE0",
 
   // Layer 2: Dark-green organic decorative shape
-  organicShapeImage: "/hero 1/New Project (23).png",
-  organicShapeCropped: "/hero 1/cropped/New Project (23)_crop.png",
+  organicShapeImage: "/hero 1/New Project (23).webp",
+  organicShapeCropped: "/hero 1/cropped/New Project (23)_crop.webp",
 
   // Layer 3: Furniture chair (Change this to replace the furniture!)
   featuredFurniture: heroFurniturePresets["original-armchair"],
 
   // Layer 4: Wooden side table with vase & books
-  sideTableImage: "/hero 1/New Project (19).png",
-  sideTableCropped: "/hero 1/cropped/New Project (19)_crop.png",
+  sideTableImage: "/hero 1/New Project (19).webp",
+  sideTableCropped: "/hero 1/cropped/New Project (19)_crop.webp",
 
   // Layer 5: Hanging gold pendant light
-  pendantImage: "/hero 1/New Project (21).png",
-  pendantCropped: "/hero 1/cropped/New Project (21)_crop.png",
+  pendantImage: "/hero 1/New Project (21).webp",
+  pendantCropped: "/hero 1/cropped/New Project (21)_crop.webp",
 
   // Layer 6: Headline
-  headlineImage: "/hero 1/New Project (18).png",
-  headlineCropped: "/hero 1/cropped/New Project (18)_crop.png",
+  headlineImage: "/hero 1/New Project (18).webp",
+  headlineCropped: "/hero 1/cropped/New Project (18)_crop.webp",
   headlineText: "FURNITURE DESIGN MADE FOR YOU",
 
   // Layer 7: Customer testimonial & curved decorative arrow (Removed as requested)
@@ -398,8 +398,8 @@ export const defaultHeroConfig: HeroConfig = {
   },
 
   // Layer 8: Terracotta SHOW MORE button and scroll indicator
-  buttonImage: "/hero 1/New Project (22).png",
-  buttonCropped: "/hero 1/cropped/New Project (22)_crop.png",
+  buttonImage: "/hero 1/New Project (22).webp",
+  buttonCropped: "/hero 1/cropped/New Project (22)_crop.webp",
   buttonLink: "/shop",
   buttonText: "SHOW MORE",
   scrollIndicator: {
@@ -408,5 +408,5 @@ export const defaultHeroConfig: HeroConfig = {
   },
 
   // Layer 9: Navigation header asset reference
-  headerAssetImage: "/hero 1/New Project (17).png",
+  headerAssetImage: "/hero 1/New Project (17).webp",
 };

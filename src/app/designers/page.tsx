@@ -13,7 +13,7 @@ export default function DesignersPage() {
   return (
     <div className="w-full bg-sage-light min-h-screen pb-24">
       {/* Header */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-10">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 pt-12 pb-10">
         <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-forest-muted mb-2">
           <Link href="/" className="hover:text-forest-deep">Home</Link>
           <span>/</span>
@@ -30,7 +30,7 @@ export default function DesignersPage() {
       </div>
 
       {/* Designers Directory Cards */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {designers.map((designer) => (
             <div

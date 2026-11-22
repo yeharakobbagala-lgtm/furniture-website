@@ -39,7 +39,7 @@ export default function RoomVisualizerPage() {
       rotation: 0,
       flipX: false,
       zIndex: 1,
-      transparentImage: "/furniture-cutouts/prod-1.png",
+      transparentImage: "/furniture-cutouts/prod-1.webp",
     },
   ]);
   const [selectedItemId, setSelectedItemId] = useState<string | null>("vis-item-1");
@@ -129,7 +129,7 @@ export default function RoomVisualizerPage() {
       rotation: 0,
       flipX: false,
       zIndex: placedItems.length + 1,
-      transparentImage: prod.transparentImage || `/furniture-cutouts/${prod.id}.png` || prod.images[0],
+      transparentImage: prod.transparentImage || `/furniture-cutouts/${prod.id}.webp` || prod.images[0],
     };
     setPlacedItems([...placedItems, newItem]);
     setSelectedItemId(newItem.id);

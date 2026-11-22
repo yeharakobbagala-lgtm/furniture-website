@@ -7,16 +7,16 @@ import { ArrowRight, Compass, CheckCircle } from "lucide-react";
 
 export default function StyleQuizBanner() {
   return (
-    <section className="py-20 bg-sage-light border-b border-borderSage/70 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="relative rounded-3xl overflow-hidden bg-forest-dark text-white p-8 sm:p-12 lg:p-16 shadow-card">
+    <section className="py-20 bg-sage-light border-b border-borderSage/70 relative overflow-hidden w-full">
+      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
+        <div className="relative rounded-[36px] overflow-hidden glass-surface-forest text-white p-8 sm:p-12 lg:p-16 shadow-floating border border-white/20">
           {/* Subtle background ambient overlay */}
           <div className="absolute top-0 right-0 w-96 h-96 bg-terracotta/20 rounded-full blur-3xl pointer-events-none" />
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center relative z-10">
             {/* Left Column: Text & CTA */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-forest-deep/60 border border-forest/60 text-xs tracking-widest font-bold uppercase text-terracotta">
+              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-pill-forest text-xs tracking-widest font-bold uppercase text-terracotta border border-white/25">
                 <Compass className="w-3.5 h-3.5" /> INTERIOR STYLE QUIZ
               </div>
 
@@ -50,9 +50,9 @@ export default function StyleQuizBanner() {
               <div className="pt-4">
                 <Link
                   href="/style-quiz"
-                  className="inline-flex items-center gap-2.5 px-8 py-4 rounded-xl bg-terracotta hover:bg-terracotta-hover text-white text-sm font-bold tracking-wider uppercase transition-all shadow-card group"
+                  className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full glass-cta-orange text-white text-xs font-heading font-extrabold tracking-wider uppercase transition-all shadow-floating hover:scale-105 group"
                 >
-                  Discover Your Style
+                  <span>Discover Your Style</span>
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                 </Link>
               </div>

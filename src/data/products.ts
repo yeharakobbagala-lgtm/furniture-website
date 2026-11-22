@@ -17,7 +17,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-1.png",
+    transparentImage: "/furniture-cutouts/prod-1.webp",
     plannerType: "sofa",
     colours: [
       { name: "Ivory Cloud", hex: "#F8F7F0" },
@@ -84,7 +84,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1617806118233-18e1de247200?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-2.png",
+    transparentImage: "/furniture-cutouts/prod-2.webp",
     plannerType: "table",
     colours: [
       { name: "Roman Warm Ivory", hex: "#EADDC7" },
@@ -139,7 +139,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-3.png",
+    transparentImage: "/furniture-cutouts/prod-3.webp",
     plannerType: "chair",
     colours: [
       { name: "Cognac Tan", hex: "#B85232" },
@@ -194,7 +194,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1577140917170-285929fb55b7?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-4.png",
+    transparentImage: "/furniture-cutouts/prod-4.webp",
     plannerType: "chair",
     colours: [
       { name: "Smoked Walnut", hex: "#4A3B32" },
@@ -239,7 +239,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-5.png",
+    transparentImage: "/furniture-cutouts/prod-5.webp",
     plannerType: "bed",
     colours: [
       { name: "Oatmeal Chenille", hex: "#ECE7DD" },
@@ -284,7 +284,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-6.png",
+    transparentImage: "/furniture-cutouts/prod-6.webp",
     plannerType: "desk",
     colours: [
       { name: "American Walnut", hex: "#4A3B32" },
@@ -328,7 +328,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-7.png",
+    transparentImage: "/furniture-cutouts/prod-7.webp",
     plannerType: "table",
     colours: [
       { name: "Natural Pale Oak", hex: "#DFD7CD" },
@@ -372,7 +372,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1538688525198-9b88f6f53126?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-8.png",
+    transparentImage: "/furniture-cutouts/prod-8.webp",
     plannerType: "storage",
     colours: [
       { name: "Oiled White Oak", hex: "#C8AD8D" },
@@ -415,7 +415,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1580481077195-c3a821a58875?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-9.png",
+    transparentImage: "/furniture-cutouts/prod-9.webp",
     plannerType: "chair",
     colours: [
       { name: "Cognac Leather", hex: "#B85232" },
@@ -460,7 +460,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1558997519-83ea9252def8?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-10.png",
+    transparentImage: "/furniture-cutouts/prod-10.webp",
     plannerType: "storage",
     colours: [
       { name: "Smoked Ash", hex: "#4A3B32" },
@@ -503,7 +503,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-11.png",
+    transparentImage: "/furniture-cutouts/prod-11.webp",
     plannerType: "sofa",
     colours: [
       { name: "Sand Sunbrella", hex: "#E8E2D5" },
@@ -546,7 +546,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1503602642458-232111445657?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-12.png",
+    transparentImage: "/furniture-cutouts/prod-12.webp",
     plannerType: "chair",
     colours: [
       { name: "Terracotta Clay", hex: "#B85232" },
@@ -590,7 +590,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-13.png",
+    transparentImage: "/furniture-cutouts/prod-13.webp",
     plannerType: "sofa",
     colours: [
       { name: "Linen Oatmeal", hex: "#ECE7DD" },
@@ -634,7 +634,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1533090161767-e6ffed986c88?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-14.png",
+    transparentImage: "/furniture-cutouts/prod-14.webp",
     plannerType: "table",
     colours: [
       { name: "Ivory Travertine", hex: "#EADDC7" },
@@ -677,7 +677,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1524758631624-e2822e304c36?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-15.png",
+    transparentImage: "/furniture-cutouts/prod-15.webp",
     plannerType: "storage",
     colours: [
       { name: "Forest Moss & Oak", hex: "#465D45" },
@@ -721,7 +721,7 @@ export const products: Product[] = [
       "https://images.unsplash.com/photo-1540518614846-7eded433c457?auto=format&fit=crop&w=1200&q=80",
       "https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?auto=format&fit=crop&w=1200&q=80",
     ],
-    transparentImage: "/furniture-cutouts/prod-16.png",
+    transparentImage: "/furniture-cutouts/prod-16.webp",
     plannerType: "bed",
     colours: [
       { name: "Oiled White Oak", hex: "#C8AD8D" },

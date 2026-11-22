@@ -137,7 +137,7 @@ export default function CheckoutPage() {
 
   return (
     <div className="min-h-screen bg-sage-light py-12">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
         {/* Checkout Header with Progress Stepper */}
         {currentStep !== 6 && (
           <div className="mb-10 space-y-6">
@@ -153,7 +153,7 @@ export default function CheckoutPage() {
               </div>
             </div>
 
-            {/* Step Indicator */}
+            {/* Step Indicator with Apple Glass Pills */}
             <div className="flex items-center justify-between max-w-2xl mx-auto">
               {[
                 { step: 1, label: "Client Info" },
@@ -164,17 +164,17 @@ export default function CheckoutPage() {
               ].map((s) => (
                 <div key={s.step} className="flex flex-col items-center flex-1 relative">
                   <div
-                    className={`w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold transition-all ${
+                    className={`w-9 h-9 rounded-full flex items-center justify-center text-xs font-bold transition-all shadow-soft border ${
                       currentStep === s.step
-                        ? "bg-terracotta text-white shadow-soft ring-4 ring-terracotta/20"
+                        ? "glass-cta-orange text-white ring-4 ring-terracotta/25 border-white/60 scale-105"
                         : currentStep > s.step
-                        ? "bg-forest-dark text-white"
-                        : "bg-white border border-borderSage text-forest-muted"
+                        ? "glass-pill-forest text-white border-white/50"
+                        : "glass-pill text-forest-muted border-white/70"
                     }`}
                   >
                     {currentStep > s.step ? "✓" : s.step}
                   </div>
-                  <span className="text-[11px] font-semibold mt-1.5 text-forest-deep hidden sm:block">
+                  <span className="text-[11px] font-bold mt-1.5 text-forest-deep hidden sm:block">
                     {s.label}
                   </span>
                 </div>
@@ -272,7 +272,7 @@ export default function CheckoutPage() {
           /* STEPS 1-5 Form & Right Summary Grid */
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
             {/* Left Steps Form (8 cols) */}
-            <div className="lg:col-span-8 bg-ivory-warm rounded-3xl border border-borderSage p-6 sm:p-10 shadow-soft">
+            <div className="lg:col-span-8 glass-surface rounded-3xl border border-white/70 bg-white/80 backdrop-blur-3xl p-6 sm:p-10 shadow-floating">
               {/* STEP 1: Customer Information */}
               {currentStep === 1 && (
                 <div className="space-y-6">
@@ -669,7 +669,7 @@ export default function CheckoutPage() {
                     </button>
                     <button
                       onClick={handlePlaceOrder}
-                      className="px-8 py-4 rounded-xl bg-terracotta hover:bg-terracotta-hover text-white text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-colors shadow-card"
+                      className="px-8 py-4 rounded-full glass-cta-orange text-white text-xs font-heading font-extrabold uppercase tracking-widest flex items-center gap-2 transition-all shadow-floating hover:scale-[1.02]"
                     >
                       Confirm Simulated Order ({formatPrice(total)}) <CheckCircle className="w-4 h-4" />
                     </button>
@@ -680,8 +680,8 @@ export default function CheckoutPage() {
 
             {/* Right Summary Column (4 cols) */}
             <div className="lg:col-span-4">
-              <div className="bg-ivory-warm rounded-3xl border border-borderSage p-6 sm:p-8 space-y-6 shadow-soft sticky top-24">
-                <h3 className="font-heading font-bold text-base text-forest-deep pb-3 border-b border-borderSage/70">
+              <div className="glass-surface rounded-3xl border border-white/75 bg-white/85 backdrop-blur-3xl p-6 sm:p-8 space-y-6 shadow-floating sticky top-24">
+                <h3 className="font-heading font-extrabold text-base text-forest-deep pb-3 border-b border-borderSage/40">
                   Cart Breakdown ({items.length})
                 </h3>
 

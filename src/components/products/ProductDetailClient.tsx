@@ -115,7 +115,7 @@ export default function ProductDetailClient({
   return (
     <div className="w-full bg-sage-light min-h-screen pb-24">
       {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-4">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 pt-8 pb-4">
         <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-forest-muted">
           <Link href="/" className="hover:text-forest-deep">Home</Link>
           <span>/</span>
@@ -130,7 +130,7 @@ export default function ProductDetailClient({
       </div>
 
       {/* Main Product Showcase Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 bg-ivory-warm rounded-3xl border border-borderSage p-6 sm:p-10 shadow-soft">
           {/* Left Column: Gallery & Zoom (Cols 1-7) */}
           <div className="lg:col-span-7 space-y-4">
@@ -186,10 +186,10 @@ export default function ProductDetailClient({
                   <button
                     key={idx}
                     onClick={() => setSelectedImageIndex(idx)}
-                    className={`relative w-20 h-20 rounded-xl overflow-hidden bg-sage-50 border-2 transition-all shrink-0 ${
+                    className={`relative w-20 h-20 rounded-2xl overflow-hidden glass-pill border-2 transition-all shrink-0 ${
                       selectedImageIndex === idx
-                        ? "border-forest-deep scale-105 shadow-sm"
-                        : "border-borderSage opacity-75 hover:opacity-100"
+                        ? "border-forest-dark scale-105 shadow-md"
+                        : "border-white/60 opacity-75 hover:opacity-100"
                     }`}
                   >
                     <Image src={img} alt={`${product.name} ${idx + 1}`} fill sizes="80px" className="object-cover" />
@@ -202,9 +202,9 @@ export default function ProductDetailClient({
             <div className="pt-4 grid grid-cols-2 gap-3">
               <Link
                 href="/room-studio/planner"
-                className="p-3.5 rounded-xl bg-sage-100/70 hover:bg-sage-100 border border-borderSage flex items-center gap-3 transition-colors group"
+                className="p-4 rounded-2xl glass-surface-subtle hover:bg-white/80 border border-white/70 flex items-center gap-3 transition-all shadow-soft group"
               >
-                <div className="w-8 h-8 rounded-lg bg-forest-dark text-white flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-xl bg-forest-dark text-white flex items-center justify-center shrink-0 shadow-soft">
                   <Ruler className="w-4 h-4 text-terracotta" />
                 </div>
                 <div>
@@ -217,9 +217,9 @@ export default function ProductDetailClient({
 
               <Link
                 href="/room-studio/visualizer"
-                className="p-3.5 rounded-xl bg-sage-100/70 hover:bg-sage-100 border border-borderSage flex items-center gap-3 transition-colors group"
+                className="p-4 rounded-2xl glass-surface-subtle hover:bg-white/80 border border-white/70 flex items-center gap-3 transition-all shadow-soft group"
               >
-                <div className="w-8 h-8 rounded-lg bg-terracotta text-white flex items-center justify-center shrink-0">
+                <div className="w-9 h-9 rounded-xl bg-terracotta text-white flex items-center justify-center shrink-0 shadow-soft">
                   <Building2 className="w-4 h-4" />
                 </div>
                 <div>
@@ -350,13 +350,13 @@ export default function ProductDetailClient({
             </div>
 
             {/* Shopping Actions: Quantity, Add to Cart, Wishlist, Compare */}
-            <div className="space-y-3 pt-4 border-t border-borderSage/70">
+            <div className="space-y-4 pt-4 border-t border-borderSage/40">
               <div className="flex items-center gap-3">
                 {/* Quantity */}
-                <div className="flex items-center border border-borderSage rounded-xl bg-white px-2 py-1.5">
+                <div className="flex items-center glass-pill rounded-full px-2.5 py-1.5 border border-white/80 shadow-soft">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-8 h-8 flex items-center justify-center text-forest-deep font-bold hover:bg-sage-100 rounded"
+                    className="w-8 h-8 flex items-center justify-center text-forest-deep font-bold hover:bg-white/60 rounded-full"
                   >
                     -
                   </button>
@@ -365,7 +365,7 @@ export default function ProductDetailClient({
                   </span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-8 h-8 flex items-center justify-center text-forest-deep font-bold hover:bg-sage-100 rounded"
+                    className="w-8 h-8 flex items-center justify-center text-forest-deep font-bold hover:bg-white/60 rounded-full"
                   >
                     +
                   </button>
@@ -374,19 +374,19 @@ export default function ProductDetailClient({
                 {/* Add to Bag */}
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 py-3.5 px-6 rounded-xl bg-forest-dark hover:bg-forest-deep text-white font-bold text-sm tracking-wide uppercase transition-all shadow-card flex items-center justify-center gap-2"
+                  className="flex-1 py-4 px-8 rounded-full glass-cta-orange text-white font-heading font-extrabold text-sm tracking-wider uppercase transition-all shadow-floating flex items-center justify-center gap-2 hover:scale-[1.02]"
                 >
-                  <ShoppingBag className="w-4 h-4 text-terracotta" />
+                  <ShoppingBag className="w-4 h-4 text-white" />
                   {addedNotice ? "Added to Cart ✓" : "Add to Cart"}
                 </button>
 
                 {/* Wishlist */}
                 <button
                   onClick={() => toggleWishlist(product)}
-                  className={`w-12 h-12 rounded-xl border flex items-center justify-center transition-colors shadow-soft ${
+                  className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all shadow-soft ${
                     inWishlist
-                      ? "bg-terracotta text-white border-terracotta"
-                      : "bg-white hover:bg-sage-100 text-forest-deep border-borderSage"
+                      ? "glass-cta-orange text-white border-white/60"
+                      : "glass-pill text-forest-deep border-white/70 hover:scale-105"
                   }`}
                   title={inWishlist ? "Saved in Wishlist" : "Save to Wishlist"}
                 >
@@ -398,10 +398,10 @@ export default function ProductDetailClient({
                   onClick={() =>
                     inComparison ? removeFromComparison(product.id) : addToComparison(product)
                   }
-                  className={`w-12 h-12 rounded-xl border flex items-center justify-center transition-colors shadow-soft ${
+                  className={`w-12 h-12 rounded-full border flex items-center justify-center transition-all shadow-soft ${
                     inComparison
-                      ? "bg-forest-deep text-white border-forest-deep"
-                      : "bg-white hover:bg-sage-100 text-forest-deep border-borderSage"
+                      ? "glass-pill-forest text-white border-white/60"
+                      : "glass-pill text-forest-deep border-white/70 hover:scale-105"
                   }`}
                   title={inComparison ? "In Comparison" : "Add to Comparison"}
                 >

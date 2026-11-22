@@ -5,6 +5,111 @@ import { motion, AnimatePresence, Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight, Sparkles, Maximize, Minimize } from "lucide-react";
 import { HeroFurnitureSet, defaultHeroFurnitureSets } from "@/data/hero-config";
 import DepthParallaxViewer from "@/components/ui/DepthParallaxViewer";
+import LiquidHotspot, { HotspotData } from "@/components/ui/glass/LiquidHotspot";
+
+// Slide-specific hotspot data mapping
+const slideHotspots: Record<string, HotspotData[]> = {
+  "set-1-living": [
+    {
+      id: "hs-avery-chair",
+      title: "Avery Ergonomic Lounge",
+      category: "Lounge Chairs",
+      price: "$380",
+      material: "Solid Oak Frame & Textured Bouclé",
+      link: "/shop/lounge-chairs",
+      top: "52%",
+      left: "53%",
+    },
+    {
+      id: "hs-avery-table",
+      title: "Fluted Timber Side Table",
+      category: "Side Tables",
+      price: "$145",
+      material: "Solid Nordic White Oak Finish",
+      link: "/shop/dining-tables",
+      top: "56%",
+      left: "83%",
+    },
+    {
+      id: "hs-avery-lamp",
+      title: "Conical Brass Pendant",
+      category: "Lighting",
+      price: "$89",
+      material: "Matte Powdercoat & Brushed Brass",
+      link: "/shop",
+      top: "22%",
+      left: "71%",
+    },
+  ],
+  "set-2-bedroom": [
+    {
+      id: "hs-koben-bed",
+      title: "Koben Platform Bed",
+      category: "Beds",
+      price: "$920",
+      material: "Channel-Tufted Linen & Hardwood",
+      link: "/shop/beds",
+      top: "56%",
+      left: "52%",
+    },
+    {
+      id: "hs-koben-stand",
+      title: "Blonde Oak Nightstand",
+      category: "Storage",
+      price: "$195",
+      material: "Dual Soft-Close Drawers",
+      link: "/shop/storage",
+      top: "60%",
+      left: "79%",
+    },
+  ],
+  "set-3-sofa": [
+    {
+      id: "hs-lounge-sofa",
+      title: "Curved Living 3-Seater",
+      category: "Sofas",
+      price: "$1,120",
+      material: "Textured Linen & Olive Accents",
+      link: "/shop/sofas",
+      top: "58%",
+      left: "54%",
+    },
+    {
+      id: "hs-lounge-table",
+      title: "Pedestal Oak Side Table",
+      category: "Tables",
+      price: "$165",
+      material: "Sculptural Conical Timber Base",
+      link: "/shop/dining-tables",
+      top: "56%",
+      left: "86%",
+    },
+  ],
+  "set-4-dining": [
+    {
+      id: "hs-dining-table",
+      title: "Nordic Teak Dining Set",
+      category: "Dining",
+      price: "$850",
+      material: "Solid Teakwood & 4 Padded Chairs",
+      link: "/shop/dining-tables",
+      top: "54%",
+      left: "55%",
+    },
+  ],
+  "set-5-sculptural": [
+    {
+      id: "hs-sculptural-chair",
+      title: "Ribbon Sculptural Chair",
+      category: "Artisanal",
+      price: "$680",
+      material: "Bentwood Frame & Moss Velvet",
+      link: "/shop/lounge-chairs",
+      top: "50%",
+      left: "53%",
+    },
+  ],
+};
 
 interface HeroFurnitureShowcaseProps {
   sets?: HeroFurnitureSet[];
@@ -235,32 +340,42 @@ export default function HeroFurnitureShowcase({
               )}
             </>
           )}
+
+          {/* Interactive Liquid Hotspots (VisionOS / Lumora Closer Look Feature) */}
+          <div className="hidden md:block absolute inset-0 w-full h-full pointer-events-none z-20">
+            {slideHotspots[currentSet.id]?.map((hs) => (
+              <LiquidHotspot key={hs.id} hotspot={hs} />
+            ))}
+          </div>
         </motion.div>
       </AnimatePresence>
 
-      {/* LUXURY CAROUSEL SWITCHER PILL (Floats elegantly at bottom right) */}
+      {/* LUXURY CAROUSEL SWITCHER PILL (Floats elegantly at bottom right with Liquid Glass) */}
       <div className="absolute bottom-6 sm:bottom-8 right-4 sm:right-8 z-30 pointer-events-auto flex items-center gap-2 select-none">
-        <div className="inline-flex items-center gap-2 p-1.5 rounded-full bg-[#183323]/90 backdrop-blur-md border border-white/20 shadow-floating text-[#F8F7F0]">
+        <div className="relative inline-flex items-center gap-2 p-2 rounded-full liquid-glass-pill-dark border border-white/25 shadow-floating text-[#F8F7F0]">
+          {/* Ambient Warm Backlight Glow */}
+          <div className="absolute inset-0 rounded-full ambient-glow-warm opacity-40 pointer-events-none" />
+
           {/* Previous Arrow */}
           <button
             onClick={() => paginate(-1)}
             aria-label="Previous furniture set"
-            className="p-1.5 rounded-full hover:bg-white/20 text-[#F8F7F0] transition-colors focus:outline-none"
+            className="p-1.5 rounded-full hover:bg-white/20 text-[#F8F7F0] transition-colors focus:outline-none relative z-10"
           >
             <ChevronLeft className="w-4 h-4" />
           </button>
 
           {/* Interactive Set Tabs */}
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1.5 relative z-10">
             {sets.map((set, idx) => {
               const isActive = idx === currentIndex;
               return (
                 <button
                   key={set.id}
                   onClick={() => goToSlide(idx)}
-                  className={`px-3 py-1 rounded-full text-xs font-medium tracking-wide transition-all ${
+                  className={`px-3.5 py-1.5 rounded-full text-xs tracking-wide transition-all duration-300 ${
                     isActive
-                      ? "bg-[#B85232] text-white shadow-sm font-semibold scale-105"
+                      ? "bg-[#B85232] text-white shadow-soft font-semibold scale-105 border border-white/30"
                       : "text-white/70 hover:text-white hover:bg-white/10"
                   }`}
                 >
@@ -275,18 +390,18 @@ export default function HeroFurnitureShowcase({
           <button
             onClick={() => paginate(1)}
             aria-label="Next furniture set"
-            className="p-1.5 rounded-full hover:bg-white/20 text-[#F8F7F0] transition-colors focus:outline-none"
+            className="p-1.5 rounded-full hover:bg-white/20 text-[#F8F7F0] transition-colors focus:outline-none relative z-10"
           >
             <ChevronRight className="w-4 h-4" />
           </button>
 
           {/* Full Screen Toggle Button */}
-          <div className="w-[1px] h-3 bg-white/20 mx-0.5" />
+          <div className="w-[1px] h-3 bg-white/20 mx-0.5 relative z-10" />
           <button
             onClick={toggleFullscreen}
             aria-label={isFullscreen ? "Exit Fullscreen" : "Full Screen"}
             title={isFullscreen ? "Exit Fullscreen" : "Full Screen"}
-            className="p-1.5 rounded-full hover:bg-white/20 text-[#F8F7F0] transition-colors focus:outline-none"
+            className="p-1.5 rounded-full hover:bg-white/20 text-[#F8F7F0] transition-colors focus:outline-none relative z-10"
           >
             {isFullscreen ? <Minimize className="w-3.5 h-3.5" /> : <Maximize className="w-3.5 h-3.5" />}
           </button>

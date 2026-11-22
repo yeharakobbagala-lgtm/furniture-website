@@ -22,14 +22,19 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-forest-dark text-sage-50 border-t border-forest-deep/20 pt-16 pb-12 transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer className="glass-surface-forest text-sage-50 border-t border-white/20 pt-20 pb-14 w-full relative overflow-hidden select-none">
+      {/* Top Specular Rim Highlight */}
+      <div className="absolute top-0 left-12 right-12 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
+      {/* Ambient Glow */}
+      <div className="absolute -top-40 left-1/3 w-[600px] h-[300px] bg-emerald-500/10 blur-3xl rounded-full pointer-events-none" />
+
+      <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 relative z-10">
         {/* Top Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-16 border-b border-forest-deep/40">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 pb-16 border-b border-white/15">
           {/* Brand & Manifesto */}
           <div className="lg:col-span-2 space-y-4">
             <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-lg bg-ivory text-forest-deep flex items-center justify-center font-bold">
+              <div className="w-9 h-9 rounded-xl glass-pill bg-white text-forest-deep flex items-center justify-center font-bold shadow-soft border border-white/80">
                 <svg
                   width="18"
                   height="18"
@@ -54,7 +59,7 @@ export default function Footer() {
 
             {/* Newsletter Subscription */}
             <div className="pt-2">
-              <h4 className="text-xs uppercase tracking-widest font-semibold text-white mb-2">
+              <h4 className="text-xs uppercase tracking-widest font-bold text-white mb-2">
                 Join the Private Circle
               </h4>
               <p className="text-xs text-sage-300 mb-3">
@@ -62,7 +67,7 @@ export default function Footer() {
               </p>
 
               {subscribed ? (
-                <div className="flex items-center gap-2 text-xs text-sage-200 bg-forest-deep/60 p-3 rounded-xl border border-forest/50">
+                <div className="flex items-center gap-2 text-xs text-sage-200 glass-pill-forest p-3.5 rounded-2xl border border-white/30">
                   <CheckCircle2 className="w-4 h-4 text-terracotta" />
                   <span>Welcome. Check your inbox for our seasonal editorial journal.</span>
                 </div>
@@ -70,7 +75,7 @@ export default function Footer() {
                 <form onSubmit={handleSubscribe} className="space-y-1.5">
                   <div className="flex items-center gap-2">
                     <div className="relative flex-1">
-                      <Mail className="w-4 h-4 text-sage-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                      <Mail className="w-4 h-4 text-sage-300 absolute left-3.5 top-1/2 -translate-y-1/2" />
                       <input
                         type="email"
                         value={newsletterEmail}
@@ -79,12 +84,12 @@ export default function Footer() {
                           if (error) setError("");
                         }}
                         placeholder="Enter your email address"
-                        className="w-full bg-forest-deep/70 text-white placeholder:text-sage-400 text-xs rounded-xl pl-9 pr-3 py-2.5 border border-forest/60 focus:outline-none focus:border-terracotta transition-colors"
+                        className="w-full bg-white/10 text-white placeholder:text-sage-400 text-xs rounded-full pl-10 pr-4 py-3 border border-white/20 focus:outline-none focus:border-white/50 backdrop-blur-md transition-all"
                       />
                     </div>
                     <button
                       type="submit"
-                      className="px-4 py-2.5 rounded-xl bg-terracotta hover:bg-terracotta-hover text-white text-xs font-semibold transition-colors flex items-center gap-1 shrink-0"
+                      className="px-5 py-3 rounded-full glass-cta-orange text-white text-xs font-heading font-extrabold tracking-wider uppercase transition-all shadow-soft flex items-center gap-1.5 shrink-0 hover:scale-105"
                     >
                       Subscribe <ArrowRight className="w-3.5 h-3.5" />
                     </button>

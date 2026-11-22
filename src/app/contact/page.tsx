@@ -18,7 +18,7 @@ export default function ContactPage() {
 
   return (
     <div className="w-full bg-sage-light min-h-screen py-16">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
         {/* Header */}
         <div className="max-w-2xl mb-12 space-y-3">
           <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-forest-muted">

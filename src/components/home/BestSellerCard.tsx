@@ -1,15 +1,35 @@
 "use client";
 
-import React from "react";
+import React, { useRef, useState } from "react";
+import Link from "next/link";
+import { ArrowUpRight, ShoppingBag, Sparkles } from "lucide-react";
 import { BestSellerItem } from "@/data/best-sellers";
 import FurnitureImage from "./FurnitureImage";
-import ExploreButton from "./ExploreButton";
 
 interface BestSellerCardProps {
   item: BestSellerItem;
 }
 
+const priceLookup: Record<string, string> = {
+  "bs-1": "$1,280",
+  "bs-2": "$890",
+  "bs-3": "$380",
+  "bs-4": "$195",
+};
+
 export default function BestSellerCard({ item }: BestSellerCardProps) {
+  const cardRef = useRef<HTMLDivElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 50, y: 50 });
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardRef.current) return;
+    const rect = cardRef.current.getBoundingClientRect();
+    const x = ((e.clientX - rect.left) / rect.width) * 100;
+    const y = ((e.clientY - rect.top) / rect.height) * 100;
+    setMousePos({ x, y });
+  };
+
   // Proportional sizing so the sofa is grand and wide, table is balanced, and individual chairs are natural
   const getImageSizing = (id: string) => {
     switch (id) {
@@ -25,6 +45,8 @@ export default function BestSellerCard({ item }: BestSellerCardProps) {
         return "max-w-[85%] max-h-[135px] sm:max-h-[145px]";
     }
   };
+
+  const price = priceLookup[item.id] || "$299";
 
   return (
     <div className="group relative flex flex-col pt-24 sm:pt-28">
@@ -42,18 +64,48 @@ export default function BestSellerCard({ item }: BestSellerCardProps) {
       </div>
 
       {/* 
-        Dark Forest-Green Card Body (#263F2D):
-        Rounded corners, clean spacing, housing category, title and explore button.
+        Liquid Glass Dark Card Body:
+        Refractive glassmorphism with top specular bevel, ambient warm backlighting,
+        and dynamic cursor reflection (Apple VisionOS / Lumora / Illume style)
       */}
-      <div className="relative w-full rounded-[28px] sm:rounded-[32px] bg-[#263F2D] p-6 sm:p-7 pt-20 sm:pt-24 flex flex-col justify-between min-h-[310px] sm:min-h-[330px] shadow-soft border border-[#34533d]/40 transition-all duration-300 group-hover:shadow-floating group-hover:-translate-y-1">
-        {/* Subtle radial ambient gradient for tactile depth */}
-        <div className="absolute inset-0 rounded-[28px] sm:rounded-[32px] bg-gradient-to-b from-white/[0.03] to-transparent pointer-events-none" />
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        className="relative w-full rounded-[28px] sm:rounded-[34px] liquid-glass-dark p-6 sm:p-7 pt-20 sm:pt-24 flex flex-col justify-between min-h-[320px] sm:min-h-[340px] shadow-floating border border-white/15 transition-all duration-500 group-hover:-translate-y-2 group-hover:border-white/30"
+      >
+        {/* Ambient Warm Backlight Glow inside card */}
+        <div
+          className={`absolute inset-0 rounded-[28px] sm:rounded-[34px] ambient-glow-warm pointer-events-none transition-opacity duration-500 ${
+            isHovered ? "opacity-70" : "opacity-35"
+          }`}
+        />
+
+        {/* Dynamic Specular Reflection following mouse cursor */}
+        {isHovered && (
+          <div
+            className="absolute inset-0 rounded-[28px] sm:rounded-[34px] pointer-events-none transition-opacity duration-300"
+            style={{
+              background: `radial-gradient(circle 220px at ${mousePos.x}% ${mousePos.y}%, rgba(255, 255, 255, 0.12), transparent 70%)`,
+            }}
+          />
+        )}
+
+        {/* Top Rim Specular Line */}
+        <div className="absolute top-0 left-8 right-8 h-[1px] bg-gradient-to-r from-transparent via-white/40 to-transparent pointer-events-none" />
 
         {/* Card Content: Category & Two-Line Title */}
         <div className="relative z-10 space-y-2 mb-6">
-          <span className="block text-[11px] sm:text-xs font-semibold uppercase tracking-[0.18em] text-white/80 font-sans">
-            {item.category}
-          </span>
+          <div className="flex items-center justify-between">
+            <span className="block text-[11px] sm:text-xs font-semibold uppercase tracking-[0.2em] text-[#E0A97E] font-sans">
+              {item.category}
+            </span>
+            <span className="text-[10px] uppercase tracking-wider text-white/50 font-medium">
+              Curated
+            </span>
+          </div>
+
           <h3 className="font-heading font-bold text-2xl sm:text-[26px] text-white tracking-tight leading-[1.16]">
             {item.titleLines ? (
               <>
@@ -66,9 +118,27 @@ export default function BestSellerCard({ item }: BestSellerCardProps) {
           </h3>
         </div>
 
-        {/* Explore More Button */}
-        <div className="relative z-10 pt-1">
-          <ExploreButton href={item.destination} />
+        {/* Floating Liquid Glass Bottom Pill (Matches Illume / Lampby reference) */}
+        <div className="relative z-10 pt-2">
+          <Link
+            href={item.destination}
+            className="group/pill w-full flex items-center justify-between p-2 pl-4 rounded-2xl liquid-glass-pill-dark border border-white/20 transition-all duration-300 hover:border-white/45 hover:bg-white/15"
+          >
+            {/* Price Info */}
+            <div className="flex flex-col">
+              <span className="text-[10px] text-white/60 uppercase tracking-wider font-medium leading-none">
+                Direct From Atelier
+              </span>
+              <span className="text-sm sm:text-base font-bold text-white tracking-tight leading-tight mt-0.5">
+                Price · {price}
+              </span>
+            </div>
+
+            {/* Droplet Glass Action Button */}
+            <div className="w-9 h-9 rounded-xl bg-white/20 backdrop-blur-md border border-white/40 flex items-center justify-center text-white shadow-soft transition-all duration-300 group-hover/pill:bg-[#B85232] group-hover/pill:scale-105">
+              <ArrowUpRight className="w-4 h-4 transition-transform duration-300 group-hover/pill:translate-x-0.5 group-hover/pill:-translate-y-0.5" />
+            </div>
+          </Link>
         </div>
       </div>
     </div>

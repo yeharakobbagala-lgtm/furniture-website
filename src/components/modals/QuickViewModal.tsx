@@ -32,19 +32,19 @@ export default function QuickViewModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/60 backdrop-blur-sm animate-fadeIn">
-      <div className="relative w-full max-w-4xl bg-ivory-warm rounded-3xl shadow-floating border border-borderSage overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/45 backdrop-blur-md animate-fadeIn">
+      <div className="relative w-full max-w-4xl glass-surface rounded-[32px] shadow-[0_30px_80px_rgba(20,55,35,0.22),inset_0_1px_1px_rgba(255,255,255,0.9)] border border-white/75 bg-white/88 backdrop-blur-3xl overflow-hidden">
         {/* Close Button */}
         <button
           onClick={closeQuickView}
-          className="absolute top-5 right-5 z-10 w-9 h-9 rounded-full bg-white/80 hover:bg-white text-forest-deep flex items-center justify-center shadow-soft transition-colors"
+          className="absolute top-5 right-5 z-20 w-9 h-9 rounded-full glass-pill flex items-center justify-center text-forest-deep shadow-soft transition-all hover:scale-105 border border-white/80"
         >
-          <X className="w-5 h-5" />
+          <X className="w-4 h-4" />
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 max-h-[85vh] overflow-y-auto">
           {/* Left: Product Imagery */}
-          <div className="relative bg-sage-50 min-h-[320px] md:min-h-[480px]">
+          <div className="relative bg-sage-50/60 min-h-[320px] md:min-h-[480px]">
             <Image
               src={product.images[0]}
               alt={product.name}
@@ -53,12 +53,12 @@ export default function QuickViewModal() {
               className="object-cover"
             />
             {product.bestSeller && (
-              <span className="absolute top-5 left-5 px-3 py-1 rounded-full bg-forest-dark text-white text-xs font-semibold tracking-wider uppercase">
+              <span className="absolute top-5 left-5 px-3 py-1 rounded-full glass-pill-forest text-white text-xs font-semibold tracking-wider uppercase shadow-soft">
                 Best Seller
               </span>
             )}
             {product.newArrival && (
-              <span className="absolute top-5 left-5 px-3 py-1 rounded-full bg-terracotta text-white text-xs font-semibold tracking-wider uppercase">
+              <span className="absolute top-5 left-5 px-3.5 py-1 rounded-full glass-cta-orange text-white text-xs font-bold tracking-wider uppercase shadow-soft">
                 New Arrival
               </span>
             )}
@@ -157,22 +157,22 @@ export default function QuickViewModal() {
             </div>
 
             {/* Actions: Quantity, Add to Cart, Wishlist */}
-            <div className="space-y-3 pt-4 border-t border-borderSage/70">
+            <div className="space-y-3 pt-4 border-t border-borderSage/40">
               <div className="flex items-center gap-3">
                 {/* Quantity */}
-                <div className="flex items-center border border-borderSage rounded-xl bg-white px-2 py-1.5">
+                <div className="flex items-center glass-pill rounded-full px-2 py-1 border border-white/80 shadow-soft">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-7 h-7 flex items-center justify-center text-forest-deep font-bold hover:bg-sage-100 rounded"
+                    className="w-7 h-7 flex items-center justify-center text-forest-deep font-bold hover:bg-white/60 rounded-full"
                   >
                     -
                   </button>
-                  <span className="w-8 text-center text-sm font-semibold text-forest-deep">
+                  <span className="w-8 text-center text-sm font-bold text-forest-deep">
                     {quantity}
                   </span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-7 h-7 flex items-center justify-center text-forest-deep font-bold hover:bg-sage-100 rounded"
+                    className="w-7 h-7 flex items-center justify-center text-forest-deep font-bold hover:bg-white/60 rounded-full"
                   >
                     +
                   </button>
@@ -181,23 +181,23 @@ export default function QuickViewModal() {
                 {/* Add to Cart */}
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 py-3 px-5 rounded-xl bg-forest-dark hover:bg-forest-deep text-white font-semibold text-sm flex items-center justify-center gap-2 shadow-soft transition-all"
+                  className="flex-1 py-3 px-6 rounded-full glass-cta-orange text-white font-bold text-sm flex items-center justify-center gap-2 shadow-floating transition-all hover:scale-[1.02]"
                 >
-                  <ShoppingBag className="w-4 h-4 text-terracotta" />
+                  <ShoppingBag className="w-4 h-4 text-white" />
                   {addedNotice ? "Added to Bag ✓" : "Add to Bag"}
                 </button>
 
                 {/* Wishlist */}
                 <button
                   onClick={() => toggleWishlist(product)}
-                  className={`w-11 h-11 rounded-xl border flex items-center justify-center transition-colors ${
+                  className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all ${
                     inWishlist
-                      ? "bg-terracotta/10 border-terracotta text-terracotta"
-                      : "border-borderSage bg-white hover:bg-sage-100 text-forest-deep"
+                      ? "glass-cta-orange text-white border-white/60"
+                      : "glass-pill text-forest-deep border-white/70 hover:scale-105"
                   }`}
                   title={inWishlist ? "Remove from Wishlist" : "Save to Wishlist"}
                 >
-                  <Heart className={`w-5 h-5 ${inWishlist ? "fill-terracotta" : ""}`} />
+                  <Heart className={`w-5 h-5 ${inWishlist ? "fill-white" : ""}`} />
                 </button>
               </div>
 

@@ -23,10 +23,10 @@ export default function RegisterPage() {
   };
 
   return (
-    <div className="min-h-screen bg-sage-light py-16 flex items-center justify-center px-4">
-      <div className="w-full max-w-md bg-ivory-warm rounded-3xl border border-borderSage p-8 sm:p-10 shadow-card space-y-6 animate-fadeIn">
+    <div className="min-h-screen bg-sage-light py-20 flex items-center justify-center px-4">
+      <div className="w-full max-w-md glass-surface rounded-3xl border border-white/75 bg-white/85 backdrop-blur-3xl p-8 sm:p-10 shadow-floating space-y-6 animate-fadeIn">
         <div className="text-center space-y-2">
-          <div className="w-12 h-12 rounded-2xl bg-terracotta text-white flex items-center justify-center mx-auto shadow-soft">
+          <div className="w-12 h-12 rounded-2xl glass-cta-orange text-white flex items-center justify-center mx-auto shadow-soft border border-white/40">
             <User className="w-6 h-6" />
           </div>
           <h1 className="text-2xl font-heading font-extrabold text-forest-deep">

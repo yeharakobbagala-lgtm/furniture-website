@@ -43,6 +43,8 @@ const config: Config = {
         sans: ["var(--font-inter)", "sans-serif"],
         heading: ["var(--font-manrope)", "sans-serif"],
         serif: ["var(--font-cormorant)", "serif"],
+        orangeAvenue: ["var(--font-orange-avenue)", "OrangeAvenue", "serif"],
+        transcity: ["var(--font-transcity)", "Transcity", "sans-serif"],
       },
       boxShadow: {
         soft: "0 4px 20px -2px rgba(16, 45, 37, 0.05)",

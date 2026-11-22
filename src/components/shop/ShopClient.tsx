@@ -189,7 +189,7 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
             className="object-cover opacity-60"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/40 to-transparent" />
-          <div className="absolute inset-0 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col justify-end pb-10 text-white">
+          <div className="absolute inset-0 w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 flex flex-col justify-end pb-10 text-white">
             <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-sage-300 mb-2">
               <Link href="/shop" className="hover:text-white">Shop</Link>
               <span>/</span>
@@ -204,7 +204,7 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
           </div>
         </div>
       ) : (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-6">
+        <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 pt-8 pb-6">
           <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-forest-muted mb-2">
             <Link href="/" className="hover:text-forest-deep">Home</Link>
             <span>/</span>
@@ -224,9 +224,9 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
       )}
 
       {/* Main Container */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
         {/* Controls Bar: Search, View Switch, Sort, Mobile Filter Toggle */}
-        <div className="bg-ivory-warm rounded-2xl border border-borderSage p-4 mb-8 flex flex-wrap items-center justify-between gap-4 shadow-soft">
+        <div className="glass-surface rounded-3xl p-4 sm:p-5 mb-8 flex flex-wrap items-center justify-between gap-4 shadow-floating border border-white/70 bg-white/75 backdrop-blur-2xl">
           {/* Search in Catalog */}
           <div className="relative flex-1 min-w-[220px] max-w-md">
             <Search className="w-4 h-4 text-forest-muted absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -238,7 +238,7 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
                 setCurrentPage(1);
               }}
               placeholder="Search by model, timber, or silhouette..."
-              className="w-full bg-white text-forest-deep placeholder:text-forest-muted/70 text-xs sm:text-sm rounded-xl pl-9 pr-8 py-2.5 border border-borderSage focus:outline-none focus:border-forest-dark transition-colors"
+              className="w-full glass-input text-forest-deep placeholder:text-forest-muted/70 text-xs sm:text-sm rounded-2xl pl-9 pr-8 py-2.5 border border-white/70 focus:outline-none focus:border-forest-dark transition-all"
             />
             {searchQuery && (
               <button
@@ -255,7 +255,7 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
             {/* Mobile Filter Toggle */}
             <button
               onClick={() => setMobileFilterOpen(true)}
-              className="lg:hidden px-3.5 py-2.5 rounded-xl border border-borderSage bg-white text-forest-deep text-xs font-semibold flex items-center gap-2 hover:bg-sage-100 transition-colors"
+              className="lg:hidden px-4 py-2.5 rounded-2xl glass-pill text-forest-deep text-xs font-bold flex items-center gap-2 border border-white/80 transition-all"
             >
               <SlidersHorizontal className="w-4 h-4 text-terracotta" />
               Filters
@@ -269,7 +269,7 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="appearance-none bg-white border border-borderSage rounded-xl px-3.5 py-2.5 pr-8 text-xs sm:text-sm font-semibold text-forest-deep focus:outline-none focus:border-forest-dark cursor-pointer shadow-sm"
+                className="appearance-none glass-pill rounded-2xl px-4 py-2.5 pr-8 text-xs sm:text-sm font-bold text-forest-deep focus:outline-none border border-white/80 cursor-pointer shadow-soft"
               >
                 <option value="featured">Featured Curations</option>
                 <option value="newest">New Arrivals</option>
@@ -282,12 +282,12 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
             </div>
 
             {/* View Mode Toggle */}
-            <div className="hidden sm:flex items-center rounded-xl border border-borderSage bg-white p-1">
+            <div className="hidden sm:flex items-center rounded-2xl glass-pill border border-white/80 p-1">
               <button
                 onClick={() => setViewMode("grid")}
-                className={`p-1.5 rounded-lg transition-colors ${
+                className={`p-1.5 rounded-xl transition-all ${
                   viewMode === "grid"
-                    ? "bg-forest-dark text-white shadow-sm"
+                    ? "bg-forest-dark text-white shadow-soft"
                     : "text-forest-muted hover:text-forest-deep"
                 }`}
                 title="Grid view"
@@ -296,9 +296,9 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
               </button>
               <button
                 onClick={() => setViewMode("list")}
-                className={`p-1.5 rounded-lg transition-colors ${
+                className={`p-1.5 rounded-xl transition-all ${
                   viewMode === "list"
-                    ? "bg-forest-dark text-white shadow-sm"
+                    ? "bg-forest-dark text-white shadow-soft"
                     : "text-forest-muted hover:text-forest-deep"
                 }`}
                 title="List view"
@@ -382,15 +382,15 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
         {/* Layout Grid: Desktop Sidebar + Product Content */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           {/* Desktop Filter Sidebar (3 cols) */}
-          <aside className="hidden lg:block lg:col-span-3 bg-ivory-warm rounded-2xl border border-borderSage p-6 space-y-6 sticky top-24">
-            <div className="flex items-center justify-between pb-4 border-b border-borderSage/70">
-              <span className="font-heading font-bold text-forest-deep text-base">
+          <aside className="hidden lg:block lg:col-span-3 glass-surface-subtle rounded-3xl border border-white/65 p-6 space-y-6 sticky top-24 shadow-soft">
+            <div className="flex items-center justify-between pb-4 border-b border-borderSage/40">
+              <span className="font-heading font-extrabold text-forest-deep text-base">
                 Refine Selection
               </span>
               {hasActiveFilters && (
                 <button
                   onClick={clearAllFilters}
-                  className="text-xs text-terracotta hover:underline font-semibold"
+                  className="text-xs text-terracotta hover:underline font-bold"
                 >
                   Reset
                 </button>
