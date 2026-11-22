@@ -36,7 +36,7 @@ export default function HeroActions({ config }: HeroActionsProps) {
           </div>
 
           {/* React Bits CircularText Artisanal Living Seal (Bottom-Right) */}
-            <div className="hidden md:flex absolute right-[4.2%] lg:right-[4.8%] top-[76%] -translate-y-1/2 pointer-events-auto select-none items-center justify-center z-[15] scale-85 xl:scale-100 origin-center transition-transform">
+            <div className="hidden md:flex absolute right-[5.5%] lg:right-[6%] top-[77%] -translate-y-1/2 pointer-events-auto select-none items-center justify-center z-[15] scale-85 xl:scale-100 origin-center transition-transform">
               <CircularText
                 text="• SQUARE LIVING • ARCHITECTURAL DESIGN • EST. 2026 • "
                 onHover="speedUp"
@@ -50,9 +50,9 @@ export default function HeroActions({ config }: HeroActionsProps) {
                 color="#000000"
                 className="font-sans uppercase tracking-[0.15em]"
               >
-                  <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-md border border-black/15 shadow-[0_4px_18px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.95)] flex items-center justify-center transition-transform duration-300 hover:scale-110">
-                    <Armchair className="w-6 h-6 text-terracotta" strokeWidth={2.2} />
-                  </div>
+                <div className="w-12 h-12 rounded-full bg-white/90 backdrop-blur-md border border-black/15 shadow-[0_4px_18px_rgba(0,0,0,0.1),inset_0_1px_1px_rgba(255,255,255,0.95)] flex items-center justify-center transition-transform duration-300 hover:scale-110">
+                  <Armchair className="w-6 h-6 text-terracotta" strokeWidth={2.2} />
+                </div>
               </CircularText>
             </div>
           </div>

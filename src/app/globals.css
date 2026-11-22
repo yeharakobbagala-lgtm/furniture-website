@@ -33,6 +33,13 @@
     min-height: 100vh;
   }
 
+  /* Universal Desktop Scaling: Locks proportions identically across 13" Mac and large laptops */
+  @media (min-width: 1024px) and (max-width: 1535px) {
+    body {
+      zoom: calc(100vw / 1536);
+    }
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-heading tracking-tight;
   }
