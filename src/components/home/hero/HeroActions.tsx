@@ -36,7 +36,7 @@ export default function HeroActions({ config }: HeroActionsProps) {
           </div>
 
           {/* React Bits CircularText Artisanal Living Seal (Bottom-Right) */}
-            <div className="hidden md:flex absolute right-[4.2%] lg:right-[4.8%] top-[76%] -translate-y-1/2 pointer-events-auto select-none items-center justify-center z-[15]">
+            <div className="hidden md:flex absolute right-[4.2%] lg:right-[4.8%] top-[76%] -translate-y-1/2 pointer-events-auto select-none items-center justify-center z-[15] scale-85 xl:scale-100 origin-center transition-transform">
               <CircularText
                 text="• SQUARE LIVING • ARCHITECTURAL DESIGN • EST. 2026 • "
                 onHover="speedUp"

@@ -183,12 +183,12 @@ function CollageCard({ item, className = "", priority = false }: CollageCardProp
 
         {/* Bottom Floating Liquid Glass Pill Label */}
         <div className="absolute bottom-3 left-3 sm:bottom-3.5 sm:left-3.5 z-20 pointer-events-none">
-          <div className="inline-flex items-center gap-2 sm:gap-2.5 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full bg-white/45 backdrop-blur-xl border border-white/70 shadow-[0_6px_20px_rgba(0,0,0,0.16),inset_0_1px_1.5px_rgba(255,255,255,0.85)] text-white transition-all duration-300 group-hover:bg-white/60 group-hover:border-white">
+          <div className="inline-flex items-center gap-1.5 sm:gap-2.5 px-2.5 sm:px-3.5 py-1.5 sm:py-2 rounded-full bg-white/45 backdrop-blur-xl border border-white/70 shadow-[0_6px_20px_rgba(0,0,0,0.16),inset_0_1px_1.5px_rgba(255,255,255,0.85)] text-white whitespace-nowrap transition-all duration-300 group-hover:bg-white/60 group-hover:border-white">
             {/* White Category Icon */}
             <IconComponent className="w-4 h-4 text-white drop-shadow-sm shrink-0" />
 
             {/* Category Name */}
-            <span className="font-heading font-bold text-white text-xs sm:text-[13px] tracking-wide drop-shadow-sm select-none">
+            <span className="font-heading font-bold text-white text-xs sm:text-[13px] tracking-wide drop-shadow-sm select-none whitespace-nowrap">
               {item.name}
             </span>
 
@@ -207,7 +207,7 @@ export default function CategorySection() {
   const { chairs, sofas, couch, storage, tables, bedroom } = categoriesList;
 
   return (
-    <section className="py-12 sm:py-16 lg:py-20 bg-[#DFEADA] overflow-hidden border-b border-borderSage/70 select-none w-full">
+    <section className="py-8 sm:py-12 lg:py-14 xl:py-20 bg-[#DFEADA] overflow-hidden border-b border-borderSage/70 select-none w-full">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-16">
         {/* Main 2-Column Responsive Layout matching reference */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 xl:gap-10 items-center">
@@ -229,7 +229,7 @@ export default function CategorySection() {
               {/* ---------------------------------------------------- */}
               {/* ROW 1: Chairs (narrower ~37%) + Sofas (wider ~63%)   */}
               {/* ---------------------------------------------------- */}
-              <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 lg:gap-4.5 w-full h-[220px] sm:h-[240px] lg:h-[255px] xl:h-[270px]">
+              <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 lg:gap-4.5 w-full h-[200px] sm:h-[220px] lg:h-[220px] xl:h-[270px]">
                 {/* 1. Chairs */}
                 <CollageCard
                   item={chairs}
@@ -247,7 +247,7 @@ export default function CategorySection() {
               {/* ---------------------------------------------------- */}
               {/* ROW 2: Coach (~31%) + Storage (~38%) + Tables (~31%) */}
               {/* ---------------------------------------------------- */}
-              <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 lg:gap-4.5 w-full h-[210px] sm:h-[225px] lg:h-[235px] xl:h-[250px]">
+              <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-4 lg:gap-4.5 w-full h-[190px] sm:h-[210px] lg:h-[205px] xl:h-[250px]">
                 {/* 3. Coach */}
                 <CollageCard
                   item={couch}
@@ -268,7 +268,7 @@ export default function CategorySection() {
               {/* ---------------------------------------------------- */}
               {/* ROW 3: Bedroom (Full-Width Horizontal Card)          */}
               {/* ---------------------------------------------------- */}
-              <div className="w-full h-[190px] sm:h-[210px] lg:h-[225px] xl:h-[240px]">
+              <div className="w-full h-[175px] sm:h-[195px] lg:h-[195px] xl:h-[240px]">
                 {/* 6. Bedroom */}
                 <CollageCard
                   item={bedroom}
@@ -287,7 +287,7 @@ export default function CategorySection() {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true, margin: "-40px" }}
             transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-5 xl:col-span-4 relative rounded-[36px] sm:rounded-[42px] lg:rounded-[48px] p-6 sm:p-8 lg:p-9 xl:p-10 flex flex-col justify-start overflow-hidden border-[1.5px] border-white/80 shadow-[0_24px_60px_rgba(18,48,32,0.1),inset_0_2px_3px_rgba(255,255,255,0.95),inset_0_-2px_4px_rgba(0,0,0,0.04)]"
+            className="lg:col-span-5 xl:col-span-4 relative rounded-[32px] sm:rounded-[42px] lg:rounded-[44px] xl:rounded-[48px] p-5 sm:p-7 lg:p-7 xl:p-10 flex flex-col justify-start overflow-hidden border-[1.5px] border-white/80 shadow-[0_24px_60px_rgba(18,48,32,0.1),inset_0_2px_3px_rgba(255,255,255,0.95),inset_0_-2px_4px_rgba(0,0,0,0.04)]"
             style={{
               background: "linear-gradient(140deg, rgba(255, 255, 255, 0.54) 0%, rgba(228, 242, 224, 0.34) 50%, rgba(255, 255, 255, 0.48) 100%)",
               backdropFilter: "blur(28px) saturate(190%)",
@@ -313,23 +313,23 @@ export default function CategorySection() {
               </div>
 
               {/* Main Heading */}
-              <h2 className="text-3xl sm:text-[36px] lg:text-[40px] font-heading font-extrabold text-[#0F2B20] tracking-[-0.03em] leading-[1.1]">
+              <h2 className="text-2xl sm:text-[32px] lg:text-[34px] xl:text-[40px] font-heading font-extrabold text-[#0F2B20] tracking-[-0.03em] leading-[1.1]">
                 Explore By Categories
               </h2>
 
               {/* Italic Subtitle */}
-              <p className="text-[15px] sm:text-[16px] font-serif italic text-[#264433] font-medium leading-relaxed">
+              <p className="text-[14px] sm:text-[16px] font-serif italic text-[#264433] font-medium leading-relaxed">
                 &ldquo;Transform Your Home with Modern Comfort&rdquo;
               </p>
 
               {/* Description */}
-              <p className="text-[13px] sm:text-[13.5px] text-[#4A5D4F] leading-[1.6]">
+              <p className="text-[12.5px] sm:text-[13.5px] text-[#4A5D4F] leading-[1.6]">
                 Clear, emotional, and reflects our architectural aesthetic — crafted for comfort, natural sustainability, and refined style.
               </p>
             </div>
 
             {/* Service Features (Tactile 3D Porcelain/Glass Pebble Droplets) */}
-            <div className="space-y-3.5 sm:space-y-4 my-5 sm:my-6 relative z-10">
+            <div className="space-y-2.5 sm:space-y-3 xl:space-y-4 my-3.5 sm:my-4 xl:my-6 relative z-10">
               {trustFeatures.map((feat, idx) => {
                 const IconComponent = feat.icon;
                 return (

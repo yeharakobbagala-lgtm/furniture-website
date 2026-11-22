@@ -30,7 +30,7 @@ export default function HeroContent({ config }: HeroContentProps) {
 
           {/* Editorial Subtitle Bridging the Gap Down to the CTA Button - refined editorial Lora font */}
           <p
-            className="mt-10 sm:mt-12 lg:mt-[50px] text-base sm:text-lg lg:text-[18px] text-[#1A3828] max-w-[490px] leading-[1.6] select-text font-medium italic tracking-[0.01em]"
+            className="mt-6 sm:mt-8 lg:mt-9 xl:mt-11 text-sm sm:text-base lg:text-[16px] xl:text-[18px] text-[#1A3828] max-w-[460px] xl:max-w-[530px] leading-[1.5] xl:leading-[1.6] select-text font-medium italic tracking-[0.01em]"
             style={{
               fontFamily: "'Lora', var(--font-lora), var(--font-cormorant), Georgia, serif",
               fontWeight: 500,

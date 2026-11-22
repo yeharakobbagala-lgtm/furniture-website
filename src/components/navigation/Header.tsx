@@ -98,22 +98,22 @@ export default function Header() {
             </div>
 
             {/* Centre: Desktop Navigation (Expanded & Spread Out) */}
-            <nav className="hidden lg:flex items-center gap-7 xl:gap-11 2xl:gap-14 mx-4">
+            <nav className="hidden lg:flex items-center gap-3.5 lg:gap-4.5 xl:gap-8 2xl:gap-11 mx-2 xl:mx-4">
               {/* Furniture with Rich Mega Dropdown */}
               <div
-                className="relative"
+                className="relative shrink-0"
                 onMouseEnter={() => setFurnitureDropdownOpen(true)}
                 onMouseLeave={() => setFurnitureDropdownOpen(false)}
               >
                 <Link
                   href="/shop"
-                  className={`relative flex items-center gap-1.5 text-sm xl:text-[15px] font-semibold tracking-wide transition-colors py-1 px-1.5 ${
+                  className={`relative flex items-center gap-1.5 text-sm xl:text-[15px] font-semibold tracking-wide whitespace-nowrap transition-colors py-1 px-1.5 ${
                     pathname.startsWith("/shop")
                       ? "text-terracotta"
                       : "text-forest-deep hover:text-terracotta"
                   }`}
                 >
-                  Furniture
+                  <span>Furniture</span>
                   <ChevronDown
                     className={`w-3.5 h-3.5 transition-transform duration-200 ${
                       furnitureDropdownOpen ? "rotate-180 text-terracotta" : "text-forest-muted"
@@ -167,18 +167,18 @@ export default function Header() {
 
               {/* Room Studio Dropdown */}
               <div
-                className="relative"
+                className="relative shrink-0"
                 onMouseEnter={() => setRoomStudioDropdownOpen(true)}
                 onMouseLeave={() => setRoomStudioDropdownOpen(false)}
               >
                 <span
-                  className={`flex items-center gap-1.5 text-sm xl:text-[15px] font-semibold tracking-wide cursor-pointer transition-colors py-1 px-1.5 ${
+                  className={`flex items-center gap-1.5 text-sm xl:text-[15px] font-semibold tracking-wide whitespace-nowrap cursor-pointer transition-colors py-1 px-1.5 ${
                     pathname.startsWith("/room-studio")
                       ? "text-terracotta"
                       : "text-forest-deep hover:text-terracotta"
                   }`}
                 >
-                  Room Studio
+                  <span>Room Studio</span>
                   <ChevronDown
                     className={`w-3.5 h-3.5 transition-transform duration-200 ${
                       roomStudioDropdownOpen ? "rotate-180 text-terracotta" : "text-forest-muted"
@@ -248,7 +248,7 @@ export default function Header() {
                   <Link
                     key={link.href}
                     href={link.href}
-                    className={`relative text-sm xl:text-[15px] font-semibold tracking-wide transition-colors py-1 px-1.5 ${
+                    className={`relative text-sm xl:text-[15px] font-semibold tracking-wide whitespace-nowrap shrink-0 transition-colors py-1 px-1.5 ${
                       isActive ? "text-terracotta" : "text-forest-deep hover:text-terracotta"
                     }`}
                   >
