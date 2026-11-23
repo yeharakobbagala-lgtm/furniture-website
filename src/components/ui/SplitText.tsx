@@ -9,7 +9,11 @@ import { useGSAP } from '@gsap/react';
 import './SplitText.css';
 
 if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
+  try {
+    gsap.registerPlugin(ScrollTrigger, GSAPSplitText, useGSAP);
+  } catch (e) {
+    // safe guard plugin registration
+  }
 }
 
 const DEFAULT_FROM = { opacity: 0, y: 40 };
@@ -346,44 +350,55 @@ const SplitText: React.FC<SplitTextProps> = ({
         if (liveRef.current.trigger === 'click') cycle();
       };
 
-      const splitInstance = new GSAPSplitText(el, {
-        type: splitType,
-        smartWrap: true,
-        autoSplit: splitType === 'lines',
-        mask: mask ? unit : undefined,
-        linesClass: 'split-line',
-        wordsClass: 'split-word',
-        charsClass: 'split-char',
-        reduceWhiteSpace: false,
-        onSplit: (self: any) => {
-          pieces = [self[unit], self.chars, self.words, self.lines].find(list => list && list.length) || [];
-          movers = mask && self.masks?.length === pieces.length ? self.masks : pieces;
-          order = gsap.utils.distribute({ each: delay / 1000, from: staggerFrom });
-          centers = null;
-          springs.length = 0;
-          kicks.length = 0;
-          if (busy && busy !== intro) {
-            busy.kill();
-            busy = null;
-          }
-          if (revealed) return undefined;
-          intro = reveal(true, {
-            scrollTrigger:
-              trigger === 'load'
-                ? undefined
-                : { trigger: el, start, once: true, fastScrollEnd: true, anticipatePin: 0.4 },
-            onComplete: () => {
-              revealed = true;
-              intro = null;
-              busy = null;
+      let splitInstance: any = null;
+      try {
+        splitInstance = new GSAPSplitText(el, {
+          type: splitType,
+          smartWrap: true,
+          autoSplit: splitType === 'lines',
+          mask: mask ? unit : undefined,
+          linesClass: 'split-line',
+          wordsClass: 'split-word',
+          charsClass: 'split-char',
+          reduceWhiteSpace: false,
+          onSplit: (self: any) => {
+            try {
+              pieces = [self[unit], self.chars, self.words, self.lines].find(list => list && list.length) || [];
+              movers = mask && self.masks?.length === pieces.length ? self.masks : pieces;
+              order = gsap.utils.distribute({ each: delay / 1000, from: staggerFrom });
+              centers = null;
+              springs.length = 0;
+              kicks.length = 0;
+              if (busy && busy !== intro) {
+                try { busy.kill(); } catch (e) {}
+                busy = null;
+              }
+              if (revealed) return undefined;
+              intro = reveal(true, {
+                scrollTrigger:
+                  trigger === 'load'
+                    ? undefined
+                    : { trigger: el, start, once: true, fastScrollEnd: true, anticipatePin: 0.4 },
+                onComplete: () => {
+                  revealed = true;
+                  intro = null;
+                  busy = null;
+                  finish();
+                  queue();
+                }
+              });
+              busy = intro;
+              return intro;
+            } catch (err) {
               finish();
-              queue();
+              return undefined;
             }
-          });
-          busy = intro;
-          return intro;
-        }
-      });
+          }
+        });
+      } catch (err) {
+        setReady(true);
+        finish();
+      }
       setReady(true);
       if (revealed) queue();
 
@@ -393,20 +408,26 @@ const SplitText: React.FC<SplitTextProps> = ({
       el.addEventListener('click', onClick);
 
       return () => {
-        cancelAnimationFrame(raf);
-        queued?.kill();
-        busy?.kill();
-        el.removeEventListener('pointerenter', onEnter);
-        el.removeEventListener('pointermove', onMove);
-        el.removeEventListener('pointerleave', onLeave);
-        el.removeEventListener('click', onClick);
-        movers.forEach(node => {
-          if (node && node.style) node.style.translate = '';
-        });
-        ScrollTrigger.getAll().forEach(st => {
-          if (st.trigger === el) st.kill();
-        });
-        splitInstance.revert();
+        try {
+          cancelAnimationFrame(raf);
+          queued?.kill?.();
+          busy?.kill?.();
+          el.removeEventListener('pointerenter', onEnter);
+          el.removeEventListener('pointermove', onMove);
+          el.removeEventListener('pointerleave', onLeave);
+          el.removeEventListener('click', onClick);
+          movers?.forEach?.(node => {
+            if (node && node.style) node.style.translate = '';
+          });
+          ScrollTrigger.getAll().forEach(st => {
+            if (st.trigger === el) {
+              try { st.kill(); } catch (e) {}
+            }
+          });
+          splitInstance?.revert?.();
+        } catch (e) {
+          // safe cleanup
+        }
       };
     },
     {

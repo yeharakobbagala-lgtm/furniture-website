@@ -390,11 +390,19 @@ export default function CategorySection() {
               </div>
 
               {/* Headline */}
-              <h2 className="font-['OrangeAvenue',var(--font-orange-avenue),serif] font-normal text-3xl sm:text-4xl lg:text-[46px] text-[#102D25] leading-[1.08] tracking-tight">
+              <h2
+                className="font-orangeAvenue font-normal text-3xl sm:text-4xl lg:text-[46px] text-[#102D25] leading-[1.08] tracking-tight"
+                style={{
+                  fontFamily: "var(--font-orange-avenue), 'OrangeAvenue', serif",
+                  fontFeatureSettings: '"liga" 1, "dlig" 1, "calt" 1, "swsh" 1, "ss01" 0',
+                  fontVariantLigatures: "common-ligatures discretionary-ligatures contextual",
+                }}
+              >
                 <SplitText
                   text="Furniture"
                   tag="span"
                   effect="rise"
+                  splitType="words"
                   hoverEffect="lift"
                   trigger="view"
                   delay={45}
@@ -405,6 +413,7 @@ export default function CategorySection() {
                   text="Collection"
                   tag="span"
                   effect="rise"
+                  splitType="words"
                   hoverEffect="lift"
                   trigger="view"
                   delay={45}

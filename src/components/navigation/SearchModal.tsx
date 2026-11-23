@@ -65,7 +65,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-forest-deep/40 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-3xl glass-surface rounded-3xl shadow-[0_30px_70px_rgba(20,55,35,0.2),inset_0_1px_1px_rgba(255,255,255,0.85)] border border-white/70 bg-white/80 backdrop-blur-3xl overflow-hidden">
+      <div className="relative w-full max-w-3xl rounded-3xl shadow-[0_30px_70px_rgba(20,55,35,0.25),inset_0_1px_1px_rgba(255,255,255,0.85)] border border-white/80 bg-[#FAF9F5] backdrop-blur-3xl overflow-hidden">
         {/* Search Input Bar */}
         <div className="flex items-center gap-3 px-6 py-4.5 border-b border-borderSage/40 bg-white/50">
           <Search className="w-5 h-5 text-forest-muted" />

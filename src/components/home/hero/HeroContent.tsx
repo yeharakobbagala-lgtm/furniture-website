@@ -43,12 +43,13 @@ export default function HeroContent({ config }: HeroContentProps) {
 
           {/* Main Headline with Orange Avenue Ligatures and Generous Line Gaps */}
           <h1
-            className="font-['OrangeAvenue',var(--font-orange-avenue),serif] text-[#0F2B20] text-[clamp(2.9rem,5.1vw,5.8rem)] leading-[1.06] tracking-[-0.015em] pointer-events-auto cursor-default"
+            className="font-orangeAvenue text-[#0F2B20] text-[clamp(2.9rem,5.1vw,5.8rem)] leading-[1.06] tracking-[-0.015em] pointer-events-auto cursor-default font-normal"
             style={{
-              fontFamily: "'OrangeAvenue', var(--font-orange-avenue), serif",
-              WebkitTextStroke: "1.2px #0F2B20",
-              textShadow: "0 0 1px #0F2B20, 0 0 0.8px #0F2B20",
-              fontFeatureSettings: '"liga" 1, "dlig" 1, "calt" 1, "swsh" 1',
+              fontFamily: "var(--font-orange-avenue), 'OrangeAvenue', serif",
+              fontFeatureSettings: '"liga" 1, "dlig" 1, "calt" 1, "swsh" 1, "ss01" 0',
+              fontVariantLigatures: "common-ligatures discretionary-ligatures contextual",
+              WebkitFontSmoothing: "antialiased",
+              MozOsxFontSmoothing: "grayscale",
             }}
           >
             <div className="block">
@@ -56,12 +57,12 @@ export default function HeroContent({ config }: HeroContentProps) {
                 text="Furniture"
                 tag="span"
                 effect="rise"
-                splitType="chars"
+                splitType="words"
                 delay={45}
                 duration={1.1}
                 trigger="load"
                 hoverEffect="lift"
-                className="font-['OrangeAvenue',var(--font-orange-avenue),serif]"
+                className="font-orangeAvenue font-normal"
               />
             </div>
             <div className="block mt-2.5 sm:mt-3.5 lg:mt-4">
@@ -69,12 +70,12 @@ export default function HeroContent({ config }: HeroContentProps) {
                 text="Design"
                 tag="span"
                 effect="rise"
-                splitType="chars"
+                splitType="words"
                 delay={50}
                 duration={1.1}
                 trigger="load"
                 hoverEffect="lift"
-                className="font-['OrangeAvenue',var(--font-orange-avenue),serif]"
+                className="font-orangeAvenue font-normal"
               />
             </div>
             <div className="block mt-2.5 sm:mt-3.5 lg:mt-4 whitespace-nowrap">
@@ -82,12 +83,12 @@ export default function HeroContent({ config }: HeroContentProps) {
                 text="Made for You"
                 tag="span"
                 effect="rise"
-                splitType="chars"
+                splitType="words"
                 delay={40}
                 duration={1.2}
                 trigger="load"
                 hoverEffect="lift"
-                className="font-['OrangeAvenue',var(--font-orange-avenue),serif]"
+                className="font-orangeAvenue font-normal"
               />
             </div>
           </h1>

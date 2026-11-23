@@ -36,7 +36,7 @@ const lora = Lora({
 });
 
 const orangeAvenue = localFont({
-  src: "../../public/font hero/orange-avenue/OrangeAvenueDEMO-Regular.otf",
+  src: "../../public/fonts/OrangeAvenueDEMO-Regular.otf",
   variable: "--font-orange-avenue",
   display: "swap",
 });

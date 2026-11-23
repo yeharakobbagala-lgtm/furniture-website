@@ -32,19 +32,20 @@ export default function QuickViewModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/45 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-4xl glass-surface rounded-[32px] shadow-[0_30px_80px_rgba(20,55,35,0.22),inset_0_1px_1px_rgba(255,255,255,0.9)] border border-white/75 bg-white/88 backdrop-blur-3xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-forest-deep/60 backdrop-blur-md animate-fadeIn">
+      <div className="relative w-full max-w-4xl rounded-[28px] sm:rounded-[32px] shadow-[0_30px_90px_rgba(10,35,25,0.35),inset_0_1px_2px_rgba(255,255,255,0.9)] border border-white/80 bg-[#FAF9F5] backdrop-blur-3xl overflow-hidden">
         {/* Close Button */}
         <button
           onClick={closeQuickView}
-          className="absolute top-5 right-5 z-20 w-9 h-9 rounded-full glass-pill flex items-center justify-center text-forest-deep shadow-soft transition-all hover:scale-105 border border-white/80"
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center text-forest-deep shadow-soft transition-all hover:scale-105 border border-forest-deep/10"
+          aria-label="Close Quick View"
         >
-          <X className="w-4 h-4" />
+          <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
         <div className="grid grid-cols-1 md:grid-cols-2 max-h-[85vh] overflow-y-auto">
           {/* Left: Product Imagery */}
-          <div className="relative bg-sage-50/60 min-h-[320px] md:min-h-[480px]">
+          <div className="relative bg-[#ECEFEA] min-h-[320px] md:min-h-[480px]">
             <Image
               src={product.images[0]}
               alt={product.name}
@@ -65,44 +66,44 @@ export default function QuickViewModal() {
           </div>
 
           {/* Right: Product Details & Controls */}
-          <div className="p-6 md:p-8 flex flex-col justify-between space-y-6">
+          <div className="p-6 sm:p-7 md:p-8 flex flex-col justify-between space-y-6 bg-[#FAF9F5]">
             <div>
               {/* Category & Rating */}
-              <div className="flex items-center justify-between text-xs text-forest-muted mb-2">
-                <span className="uppercase tracking-widest font-semibold">
+              <div className="flex items-center justify-between text-xs mb-2">
+                <span className="uppercase tracking-widest font-extrabold text-[11px] text-[#B85232]">
                   {product.categoryName}
                 </span>
-                <div className="flex items-center gap-1 text-forest-deep font-semibold">
-                  <Star className="w-3.5 h-3.5 fill-terracotta text-terracotta" />
+                <div className="flex items-center gap-1.5 text-xs font-bold text-[#102D25] bg-white px-2.5 py-1 rounded-full border border-forest-deep/10 shadow-xs">
+                  <Star className="w-3.5 h-3.5 fill-[#B85232] text-[#B85232]" />
                   <span>{product.rating}</span>
-                  <span className="text-forest-muted">({product.reviewCount})</span>
+                  <span className="text-forest-muted font-normal">({product.reviewCount})</span>
                 </div>
               </div>
 
               {/* Title & Price */}
-              <h2 className="text-2xl font-heading font-bold text-forest-deep mb-2">
+              <h2 className="text-2xl sm:text-[26px] font-heading font-extrabold text-[#102D25] leading-snug mb-2">
                 {product.name}
               </h2>
               <div className="flex items-baseline gap-3 mb-4">
-                <span className="text-2xl font-bold text-forest-deep">
+                <span className="text-2xl sm:text-[28px] font-extrabold text-[#102D25]">
                   {formatPrice(product.price)}
                 </span>
                 {product.originalPrice && (
-                  <span className="text-base text-forest-muted line-through">
+                  <span className="text-base text-forest-muted line-through font-medium">
                     {formatPrice(product.originalPrice)}
                   </span>
                 )}
               </div>
 
               {/* Description */}
-              <p className="text-sm text-forest-muted leading-relaxed line-clamp-3 mb-6">
+              <p className="text-sm text-[#2C4A3E] leading-relaxed line-clamp-3 mb-6 font-normal">
                 {product.description}
               </p>
 
               {/* Color Options */}
               <div className="space-y-2 mb-4">
-                <span className="text-xs uppercase tracking-wider font-semibold text-forest-deep block">
-                  Upholstery / Finish: <strong className="font-bold">{currentColor.name}</strong>
+                <span className="text-xs uppercase tracking-wider font-bold text-[#102D25] block">
+                  Upholstery / Finish: <strong className="font-extrabold text-[#B85232]">{currentColor.name}</strong>
                 </span>
                 <div className="flex items-center gap-2">
                   {product.colours.map((color, idx) => (
@@ -133,19 +134,19 @@ export default function QuickViewModal() {
 
               {/* Materials */}
               {product.materials.length > 0 && (
-                <div className="space-y-1.5 mb-6">
-                  <span className="text-xs uppercase tracking-wider font-semibold text-forest-deep block">
+                <div className="space-y-2 mb-6">
+                  <span className="text-xs uppercase tracking-wider font-bold text-[#102D25] block">
                     Material Specification:
                   </span>
-                  <div className="flex flex-wrap gap-1.5">
+                  <div className="flex flex-wrap gap-2">
                     {product.materials.map((mat, idx) => (
                       <button
                         key={mat}
                         onClick={() => setSelectedMaterialIndex(idx)}
-                        className={`text-xs px-2.5 py-1 rounded-lg border transition-colors ${
+                        className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-all ${
                           selectedMaterialIndex === idx
-                            ? "bg-forest-dark text-white border-forest-dark"
-                            : "bg-white text-forest-deep border-borderSage hover:bg-sage-100"
+                            ? "bg-[#102D25] text-white border-[#102D25] shadow-sm font-semibold"
+                            : "bg-white text-[#102D25] border-forest-deep/20 hover:border-forest-deep/50 hover:bg-forest-deep/5"
                         }`}
                       >
                         {mat}
@@ -157,22 +158,22 @@ export default function QuickViewModal() {
             </div>
 
             {/* Actions: Quantity, Add to Cart, Wishlist */}
-            <div className="space-y-3 pt-4 border-t border-borderSage/40">
+            <div className="space-y-3 pt-4 border-t border-forest-deep/10">
               <div className="flex items-center gap-3">
                 {/* Quantity */}
-                <div className="flex items-center glass-pill rounded-full px-2 py-1 border border-white/80 shadow-soft">
+                <div className="flex items-center rounded-full px-2 py-1 bg-white border border-forest-deep/15 shadow-sm">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="w-7 h-7 flex items-center justify-center text-forest-deep font-bold hover:bg-white/60 rounded-full"
+                    className="w-7 h-7 flex items-center justify-center text-[#102D25] font-extrabold hover:bg-forest-deep/10 rounded-full transition-colors"
                   >
                     -
                   </button>
-                  <span className="w-8 text-center text-sm font-bold text-forest-deep">
+                  <span className="w-8 text-center text-sm font-bold text-[#102D25]">
                     {quantity}
                   </span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="w-7 h-7 flex items-center justify-center text-forest-deep font-bold hover:bg-white/60 rounded-full"
+                    className="w-7 h-7 flex items-center justify-center text-[#102D25] font-extrabold hover:bg-forest-deep/10 rounded-full transition-colors"
                   >
                     +
                   </button>
@@ -181,7 +182,7 @@ export default function QuickViewModal() {
                 {/* Add to Cart */}
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 py-3 px-6 rounded-full glass-cta-orange text-white font-bold text-sm flex items-center justify-center gap-2 shadow-floating transition-all hover:scale-[1.02]"
+                  className="flex-1 py-3.5 px-6 rounded-full glass-cta-orange text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-floating transition-all hover:scale-[1.02] active:scale-[0.98]"
                 >
                   <ShoppingBag className="w-4 h-4 text-white" />
                   {addedNotice ? "Added to Bag ✓" : "Add to Bag"}
@@ -193,7 +194,7 @@ export default function QuickViewModal() {
                   className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all ${
                     inWishlist
                       ? "glass-cta-orange text-white border-white/60"
-                      : "glass-pill text-forest-deep border-white/70 hover:scale-105"
+                      : "bg-white text-forest-deep border-forest-deep/20 hover:border-forest-deep/50 hover:scale-105 shadow-sm"
                   }`}
                   title={inWishlist ? "Remove from Wishlist" : "Save to Wishlist"}
                 >
@@ -202,14 +203,14 @@ export default function QuickViewModal() {
               </div>
 
               {/* Guarantees & Full Details Link */}
-              <div className="flex items-center justify-between text-xs text-forest-muted pt-2">
-                <span className="flex items-center gap-1">
-                  <Truck className="w-3.5 h-3.5 text-forest-deep" /> White-Glove Available
+              <div className="flex items-center justify-between text-xs text-[#2C4A3E] pt-2 font-medium">
+                <span className="flex items-center gap-1.5">
+                  <Truck className="w-3.5 h-3.5 text-[#102D25]" /> White-Glove Available
                 </span>
                 <Link
                   href={`/product/${product.slug}`}
                   onClick={closeQuickView}
-                  className="text-terracotta font-semibold hover:underline flex items-center gap-1"
+                  className="text-[#B85232] font-bold hover:underline flex items-center gap-1"
                 >
                   View Full Specifications <ArrowRight className="w-3.5 h-3.5" />
                 </Link>
