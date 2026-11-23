@@ -46,7 +46,7 @@ When selecting a dining table, architectural scale and edge joinery dictate the 
     image: "https://images.unsplash.com/photo-1615066390971-03e4e1c36ddf?auto=format&fit=crop&w=1200&q=80",
     category: "Interior Inspiration",
     author: {
-      name: "Matteo Rossi",
+      name: "Gamini Jayasuriya",
       role: "Master Joinery Designer",
       avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80",
     },
@@ -68,7 +68,7 @@ Incorporating natural timber grain, acoustic linen paneling, and tactile leather
     image: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1200&q=80",
     category: "Design Stories",
     author: {
-      name: "Kenji Takahashi",
+      name: "Sanjaya Bandara",
       role: "Workspace Architect",
       avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=200&q=80",
     },
@@ -90,7 +90,7 @@ Learn our workshop's seasonal oiling techniques, optimal humidity balances, and 
     image: "https://images.unsplash.com/photo-1595428774223-ef52624120d2?auto=format&fit=crop&w=1200&q=80",
     category: "Care & Living",
     author: {
-      name: "Elena Lindqvist",
+      name: "Ananya de Silva",
       role: "Principal Furniture Architect",
       avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
     },

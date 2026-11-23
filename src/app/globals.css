@@ -333,3 +333,21 @@
   animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
+
+/* Mobile: translucent pale-mint floating header pill */
+@media (max-width: 1023px) {
+  .header-liquid-glass {
+    background: linear-gradient(135deg, rgba(232, 244, 227, 0.86) 0%, rgba(218, 236, 211, 0.72) 100%);
+    box-shadow:
+      0 10px 28px -8px rgba(16, 45, 37, 0.14),
+      inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.75);
+  }
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}

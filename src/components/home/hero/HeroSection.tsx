@@ -14,12 +14,12 @@ interface HeroSectionProps {
 
 export default function HeroSection({ initialConfig = defaultHeroConfig }: HeroSectionProps) {
   const [config, setConfig] = useState<HeroConfig>(initialConfig);
-  // Default to 4 (Zephyr Sculptural Lounge Chair, as previewed in design), seamlessly switchable across all 5 suites
-  const [currentIndex, setCurrentIndex] = useState(4);
+  // Default to 0 ("set-1-living", Nordic Lounge Armchair matching reference design)
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   return (
     <section
-      className="relative w-full overflow-hidden bg-[#E2ECE0]"
+      className="relative w-full overflow-hidden bg-[#E4F0DF]"
       aria-label="Square Furniture Hero Showcase"
     >
       {/* 
@@ -47,11 +47,13 @@ export default function HeroSection({ initialConfig = defaultHeroConfig }: HeroS
 
       {/* 
         MOBILE VIEWPORT (< lg):
-        Tailored vertical mobile architecture matching the reference design:
-        Top typography stack -> Center furniture showcase with organic backdrop ->
-        Centered CTA button with accolades -> Bottom suite navigation dock.
+        Tailored editorial vertical mobile architecture matching the reference design:
+        Floating header clearance -> Edition eyebrow -> 2-line Editorial Headline ->
+        Serif italic description -> Dominant Furniture Showcase with organic backdrop & side elements ->
+        Three Brand Benefits (Solid Timber, Bespoke Atelier, 10-Yr Warranty) ->
+        SHOW MORE CTA button -> Segmented Room Collection selector dock.
       */}
-      <div className="block lg:hidden relative w-full select-none">
+      <div className="block lg:hidden relative w-full overflow-hidden select-none">
         <HeroMobileView
           config={config}
           sets={defaultHeroFurnitureSets}

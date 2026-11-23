@@ -64,10 +64,17 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-forest-deep/40 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-3xl rounded-3xl shadow-[0_30px_70px_rgba(20,55,35,0.25),inset_0_1px_1px_rgba(255,255,255,0.85)] border border-white/80 bg-[#FAF9F5] backdrop-blur-3xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 bg-forest-deep/60 backdrop-blur-xl animate-fadeIn">
+      <div className="relative w-full max-w-3xl rounded-[32px] shadow-[0_30px_70px_rgba(20,55,35,0.25),inset_0_2px_3px_rgba(255,255,255,0.98),inset_0_-1px_2px_rgba(0,0,0,0.04)] border border-white/90 bg-gradient-to-b from-white/90 via-white/80 to-white/65 backdrop-blur-3xl overflow-hidden">
+        {/* Top specular reflection beam */}
+        <div className="absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none z-30" />
+        
+        {/* Ambient liquid light orbs */}
+        <div className="absolute -top-16 -right-16 w-52 h-52 rounded-full bg-[#E0A97E]/18 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-16 -left-16 w-56 h-56 rounded-full bg-[#8EB497]/22 blur-3xl pointer-events-none" />
+
         {/* Search Input Bar */}
-        <div className="flex items-center gap-3 px-6 py-4.5 border-b border-borderSage/40 bg-white/50">
+        <div className="relative z-10 flex items-center gap-3 px-6 py-4.5 border-b border-forest-deep/10 bg-white/40 backdrop-blur-md">
           <Search className="w-5 h-5 text-forest-muted" />
           <input
             type="text"
@@ -87,7 +94,7 @@ export default function SearchModal({ isOpen, onClose }: SearchModalProps) {
           )}
           <button
             onClick={onClose}
-            className="px-3 py-1.5 text-xs uppercase tracking-wider font-semibold text-forest-muted hover:text-forest-deep bg-white/60 hover:bg-white rounded-xl border border-white/80 shadow-soft transition-all"
+            className="px-3.5 py-1.5 text-xs uppercase tracking-wider font-bold text-forest-deep bg-white/75 hover:bg-white rounded-full border border-white/90 shadow-[0_2px_8px_rgba(23,60,43,0.06),inset_0_1px_1.5px_rgba(255,255,255,0.95)] transition-all active:scale-95"
           >
             Esc
           </button>

@@ -89,6 +89,7 @@ export default function RoomPlannerPage() {
   const [saveModalOpen, setSaveModalOpen] = useState(false);
   const [designNameInput, setDesignNameInput] = useState("Sanctuary Living Suite");
   const [savedNotice, setSavedNotice] = useState(false);
+  const [exportNotice, setExportNotice] = useState(false);
   const [bomModalOpen, setBomModalOpen] = useState(false);
 
   // Store bindings
@@ -290,10 +291,53 @@ export default function RoomPlannerPage() {
   const handleExportPlan = () => {
     const canvasElement = document.querySelector("canvas");
     if (!canvasElement) return;
-    const link = document.createElement("a");
-    link.download = `Square-${roomName.toLowerCase().replace(/\s+/g, "-")}-plan.png`;
-    link.href = canvasElement.toDataURL("image/png");
-    link.click();
+
+    try {
+      if (canvasElement.toBlob) {
+        canvasElement.toBlob((blob) => {
+          if (!blob) {
+            const dataUrl = canvasElement.toDataURL("image/png");
+            const link = document.createElement("a");
+            link.download = `Square-${roomName.toLowerCase().replace(/\s+/g, "-")}-plan.png`;
+            link.href = dataUrl;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+          } else {
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement("a");
+            link.download = `Square-${roomName.toLowerCase().replace(/\s+/g, "-")}-plan.png`;
+            link.href = url;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            setTimeout(() => URL.revokeObjectURL(url), 2000);
+          }
+          setExportNotice(true);
+          setTimeout(() => setExportNotice(false), 3500);
+        }, "image/png");
+      } else {
+        const dataUrl = canvasElement.toDataURL("image/png");
+        const link = document.createElement("a");
+        link.download = `Square-${roomName.toLowerCase().replace(/\s+/g, "-")}-plan.png`;
+        link.href = dataUrl;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        setExportNotice(true);
+        setTimeout(() => setExportNotice(false), 3500);
+      }
+    } catch {
+      const dataUrl = canvasElement.toDataURL("image/png");
+      const link = document.createElement("a");
+      link.download = `Square-${roomName.toLowerCase().replace(/\s+/g, "-")}-plan.png`;
+      link.href = dataUrl;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      setExportNotice(true);
+      setTimeout(() => setExportNotice(false), 3500);
+    }
   };
 
   // Bill of materials
@@ -1572,121 +1616,180 @@ export default function RoomPlannerPage() {
           </div>
         </aside>
       </div>
-
-      {/* Bill of Materials Modal */}
-      {bomModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/60 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-2xl bg-ivory-warm rounded-3xl p-6 sm:p-8 shadow-floating border border-borderSage">
-            <h3 className="text-2xl font-heading font-extrabold text-forest-deep mb-1">
-              Room Bill of Materials
-            </h3>
-            <p className="text-xs text-forest-muted mb-6">
-              Complete inventory of pieces positioned in your current &ldquo;{roomName}&rdquo; canvas.
-            </p>
-
-            <div className="space-y-3 max-h-72 overflow-y-auto mb-6 pr-1">
-              {billOfMaterials.length === 0 ? (
-                <div className="py-8 text-center text-forest-muted text-xs">
-                  No furniture pieces placed yet. Add furniture from the library catalog!
-                </div>
-              ) : (
-                billOfMaterials.map(({ item, product }, idx) => (
-                  <div
-                    key={idx}
-                    className="p-3 rounded-xl bg-white border border-borderSage flex items-center justify-between text-xs"
-                  >
-                    <div className="flex items-center gap-3">
-                      <div className="relative w-12 h-12 rounded-lg bg-sage-50 overflow-hidden shrink-0 border border-borderSage/50">
-                        <Image
-                          src={product.images[0]}
-                          alt={product.name}
-                          fill
-                          sizes="48px"
-                          className="object-cover"
-                        />
-                      </div>
-                      <div>
-                        <p className="font-heading font-bold text-forest-deep">{product.name}</p>
-                        <p className="text-forest-muted text-[10px]">
-                          {product.dimensions.width}W × {product.dimensions.depth}D × {product.dimensions.height}H cm
-                        </p>
-                      </div>
-                    </div>
-                    <span className="font-bold text-forest-deep">{formatPrice(product.price)}</span>
-                  </div>
-                ))
-              )}
-            </div>
-
-            <div className="pt-4 border-t border-borderSage flex justify-between items-baseline mb-6">
-              <span className="font-bold text-forest-deep">Total Room Furnishings:</span>
-              <span className="text-2xl font-extrabold text-forest-deep">{formatPrice(bomTotal)}</span>
-            </div>
-
-            <div className="flex gap-3">
-              <button
-                onClick={() => setBomModalOpen(false)}
-                className="flex-1 py-3 rounded-xl border border-borderSage bg-white text-xs font-bold uppercase hover:bg-sage-100 transition-colors"
-              >
-                Close
-              </button>
-              <button
-                onClick={handleAddAllBomToBag}
-                disabled={items.length === 0}
-                className="flex-1 py-3 rounded-xl bg-terracotta hover:bg-terracotta-hover disabled:opacity-40 text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-soft flex items-center justify-center gap-2"
-              >
-                <ShoppingBag className="w-4 h-4" /> Add All to Shopping Bag
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
-
-      {/* Save Design Modal */}
-      {saveModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/60 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-md bg-ivory-warm rounded-3xl p-6 sm:p-8 shadow-floating border border-borderSage">
-            <h3 className="text-xl font-heading font-bold text-forest-deep mb-2">
-              Save Room Design Locally
-            </h3>
-            <p className="text-xs text-forest-muted mb-4">
-              Name this layout to access it anytime in your Customer Account dashboard.
-            </p>
-
-            <form onSubmit={handleSaveDesign} className="space-y-4">
-              <div>
-                <label className="text-xs font-bold uppercase text-forest-deep block mb-1">
-                  Design Title
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={designNameInput}
-                  onChange={(e) => setDesignNameInput(e.target.value)}
-                  className="w-full bg-white border border-borderSage rounded-xl px-3.5 py-2.5 text-xs text-forest-deep focus:outline-none focus:ring-1 focus:ring-forest-dark"
-                />
-              </div>
-
-              <div className="flex gap-3 pt-2">
-                <button
-                  type="button"
-                  onClick={() => setSaveModalOpen(false)}
-                  className="flex-1 py-2.5 rounded-xl border border-borderSage bg-white text-xs font-bold uppercase hover:bg-sage-100 transition-colors"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  className="flex-1 py-2.5 rounded-xl bg-terracotta hover:bg-terracotta-hover text-white text-xs font-bold uppercase tracking-wider transition-colors shadow-soft"
-                >
-                  Save Design
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
     </div>
+
+      {/* Global Saved Design Notification Toast (Apple Liquid Glass Pill) */}
+      {savedNotice && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-[#173C2B]/90 via-[#1C412E]/90 to-[#122A1E]/90 backdrop-blur-2xl text-white text-xs py-2.5 px-5 rounded-full shadow-[0_12px_32px_rgba(23,60,43,0.35),inset_0_1.5px_2px_rgba(255,255,255,0.3)] border border-white/25 font-semibold animate-fadeIn flex items-center gap-2">
+          <ShieldCheck className="w-4 h-4 text-emerald-400" /> Room layout successfully saved to your Customer Account!
+        </div>
+      )}
+
+      {/* Global Export PNG Notification Toast (Apple Liquid Glass Pill) */}
+      {exportNotice && (
+        <div className="fixed top-20 left-1/2 -translate-x-1/2 z-50 bg-gradient-to-r from-[#173C2B]/90 via-[#1C412E]/90 to-[#122A1E]/90 backdrop-blur-2xl text-white text-xs py-2.5 px-5 rounded-full shadow-[0_12px_32px_rgba(23,60,43,0.35),inset_0_1.5px_2px_rgba(255,255,255,0.3)] border border-white/25 font-semibold animate-fadeIn flex items-center gap-2">
+          <Download className="w-4 h-4 text-[#38BDF8]" /> 2D Room layout plan downloaded successfully!
+        </div>
+      )}
+
+      {/* Bill of Materials Modal (Apple Liquid Glass Design) */}
+      {bomModalOpen && (
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setBomModalOpen(false);
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/60 backdrop-blur-xl animate-fadeIn"
+        >
+          <div className="relative w-full max-w-2xl rounded-[32px] bg-gradient-to-b from-white/90 via-white/75 to-white/60 backdrop-blur-3xl border border-white/90 shadow-[0_25px_70px_rgba(16,45,37,0.25),inset_0_2px_3px_rgba(255,255,255,0.98),inset_0_-1px_2px_rgba(0,0,0,0.04)] p-6 sm:p-8 overflow-hidden">
+            {/* Top specular reflection beam */}
+            <div className="absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+            
+            {/* Refraction ambient light orbs */}
+            <div className="absolute -top-16 -right-16 w-48 h-48 rounded-full bg-[#E0A97E]/20 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-16 -left-16 w-52 h-52 rounded-full bg-[#8EB497]/25 blur-3xl pointer-events-none" />
+
+            <button
+              onClick={() => setBomModalOpen(false)}
+              aria-label="Close"
+              className="absolute top-5 right-5 z-20 w-9 h-9 rounded-full bg-white/75 hover:bg-white backdrop-blur-md border border-white/90 text-[#173C2B] shadow-[0_2px_8px_rgba(23,60,43,0.06),inset_0_1px_1.5px_rgba(255,255,255,0.95)] flex items-center justify-center transition-all active:scale-95"
+            >
+              <X className="w-4.5 h-4.5" />
+            </button>
+
+            <div className="relative z-10">
+              <h3 className="text-2xl font-heading font-extrabold text-forest-deep mb-1">
+                Room Bill of Materials
+              </h3>
+              <p className="text-xs text-forest-muted mb-6">
+                Complete inventory of pieces positioned in your current &ldquo;{roomName}&rdquo; canvas.
+              </p>
+
+              <div className="space-y-3 max-h-72 overflow-y-auto mb-6 pr-1 custom-scrollbar">
+                {billOfMaterials.length === 0 ? (
+                  <div className="py-8 text-center text-forest-muted text-xs">
+                    No furniture pieces placed yet. Add furniture from the library catalog!
+                  </div>
+                ) : (
+                  billOfMaterials.map(({ item, product }, idx) => (
+                    <div
+                      key={idx}
+                      className="group p-3.5 rounded-2xl bg-gradient-to-b from-white/80 via-white/65 to-white/50 backdrop-blur-xl border border-white/90 shadow-[0_4px_16px_rgba(23,60,43,0.05),inset_0_1.5px_2px_rgba(255,255,255,0.95)] flex items-center justify-between text-xs transition-all hover:bg-white/90"
+                    >
+                      <div className="flex items-center gap-3">
+                        <div className="relative w-12 h-12 rounded-xl bg-white/90 overflow-hidden shrink-0 border border-white/90 shadow-xs">
+                          <Image
+                            src={product.images[0]}
+                            alt={product.name}
+                            fill
+                            sizes="48px"
+                            className="object-cover"
+                          />
+                        </div>
+                        <div>
+                          <p className="font-heading font-bold text-forest-deep text-[13px]">{product.name}</p>
+                          <p className="text-forest-muted text-[10px] mt-0.5">
+                            {product.dimensions.width}W × {product.dimensions.depth}D × {product.dimensions.height}H cm
+                          </p>
+                        </div>
+                      </div>
+                      <span className="font-extrabold text-forest-deep text-sm">{formatPrice(product.price)}</span>
+                    </div>
+                  ))
+                )}
+              </div>
+
+              <div className="pt-4 border-t border-forest-deep/10 flex justify-between items-baseline mb-6">
+                <span className="font-bold text-forest-deep">Total Room Furnishings:</span>
+                <span className="text-2xl font-extrabold text-forest-deep">{formatPrice(bomTotal)}</span>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => setBomModalOpen(false)}
+                  className="flex-1 py-3 rounded-full border border-white/90 bg-gradient-to-b from-white/85 to-white/60 backdrop-blur-xl text-forest-deep text-xs font-bold uppercase tracking-wider hover:bg-white shadow-[0_4px_14px_rgba(23,60,43,0.06),inset_0_1.5px_2px_rgba(255,255,255,0.95)] active:scale-95 transition-all cursor-pointer"
+                >
+                  Close
+                </button>
+                <button
+                  onClick={handleAddAllBomToBag}
+                  disabled={items.length === 0}
+                  className="flex-1 py-3 rounded-full bg-gradient-to-r from-[#E05424] via-[#D94D1E] to-[#BE3B12] hover:shadow-[0_16px_36px_rgba(217,77,30,0.5)] disabled:opacity-40 text-white text-xs font-bold uppercase tracking-wider transition-all shadow-[0_12px_28px_rgba(217,77,30,0.4),inset_0_1.5px_2px_rgba(255,255,255,0.5)] flex items-center justify-center gap-2 cursor-pointer active:scale-95 border border-white/30"
+                >
+                  <ShoppingBag className="w-4 h-4" /> Add All to Shopping Bag
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Save Design Modal (Apple Liquid Glass Design) */}
+      {saveModalOpen && (
+        <div
+          onClick={(e) => {
+            if (e.target === e.currentTarget) setSaveModalOpen(false);
+          }}
+          className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/60 backdrop-blur-xl animate-fadeIn"
+        >
+          <div className="relative w-full max-w-md rounded-[32px] bg-gradient-to-b from-white/90 via-white/75 to-white/60 backdrop-blur-3xl border border-white/90 shadow-[0_25px_70px_rgba(16,45,37,0.25),inset_0_2px_3px_rgba(255,255,255,0.98),inset_0_-1px_2px_rgba(0,0,0,0.04)] p-6 sm:p-8 overflow-hidden">
+            {/* Top specular reflection beam */}
+            <div className="absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+            
+            {/* Refraction ambient light orbs */}
+            <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full bg-[#E0A97E]/20 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-12 -left-12 w-44 h-44 rounded-full bg-[#8EB497]/25 blur-3xl pointer-events-none" />
+
+            <button
+              type="button"
+              onClick={() => setSaveModalOpen(false)}
+              aria-label="Close"
+              className="absolute top-5 right-5 z-20 w-9 h-9 rounded-full bg-white/75 hover:bg-white backdrop-blur-md border border-white/90 text-[#173C2B] shadow-[0_2px_8px_rgba(23,60,43,0.06),inset_0_1px_1.5px_rgba(255,255,255,0.95)] flex items-center justify-center transition-all active:scale-95"
+            >
+              <X className="w-4.5 h-4.5" />
+            </button>
+
+            <div className="relative z-10">
+              <h3 className="text-xl font-heading font-bold text-forest-deep mb-2">
+                Save Room Design Locally
+              </h3>
+              <p className="text-xs text-forest-muted mb-5">
+                Name this layout to access it anytime in your Customer Account dashboard.
+              </p>
+
+              <form onSubmit={handleSaveDesign} className="space-y-4">
+                <div>
+                  <label className="text-xs font-bold uppercase text-forest-deep block mb-1.5">
+                    Design Title
+                  </label>
+                  <input
+                    type="text"
+                    required
+                    value={designNameInput}
+                    onChange={(e) => setDesignNameInput(e.target.value)}
+                    className="w-full bg-white/70 focus:bg-white/90 backdrop-blur-md border border-white/90 focus:border-white rounded-xl px-4 py-2.5 text-xs text-forest-deep shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] focus:outline-none focus:ring-2 focus:ring-[#173C2B]/20 transition-all"
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <button
+                    type="button"
+                    onClick={() => setSaveModalOpen(false)}
+                    className="flex-1 py-2.5 rounded-full border border-white/90 bg-gradient-to-b from-white/85 to-white/60 backdrop-blur-xl text-forest-deep text-xs font-bold uppercase tracking-wider hover:bg-white shadow-[0_4px_14px_rgba(23,60,43,0.06),inset_0_1.5px_2px_rgba(255,255,255,0.95)] active:scale-95 transition-all cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    type="submit"
+                    className="flex-1 py-2.5 rounded-full bg-gradient-to-r from-[#E05424] via-[#D94D1E] to-[#BE3B12] hover:shadow-[0_16px_36px_rgba(217,77,30,0.5)] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-[0_12px_28px_rgba(217,77,30,0.4),inset_0_1.5px_2px_rgba(255,255,255,0.5)] active:scale-95 cursor-pointer border border-white/30"
+                  >
+                    Save Design
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

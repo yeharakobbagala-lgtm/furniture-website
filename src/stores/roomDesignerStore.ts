@@ -196,26 +196,27 @@ export const useRoomDesignerStore = create<RoomDesignerState>()(
       setViewMode: (viewMode) => set({ viewMode }),
       setActiveTool: (activeTool) => set({ activeTool }),
 
-      selectItem: (id) =>
+      selectItem: (id) => {
         set({
           selectedItemId: id,
           selectedDoorId: null,
           selectedWindowId: null,
-        }),
+        });
+      },
 
       selectDoor: (id) =>
-        set({
+        set((state) => ({
           selectedDoorId: id,
-          selectedItemId: null,
+          selectedItemId: id ? null : state.selectedItemId,
           selectedWindowId: null,
-        }),
+        })),
 
       selectWindow: (id) =>
-        set({
+        set((state) => ({
           selectedWindowId: id,
-          selectedItemId: null,
+          selectedItemId: id ? null : state.selectedItemId,
           selectedDoorId: null,
-        }),
+        })),
 
       addItem: (itemData) => {
         const state = get();

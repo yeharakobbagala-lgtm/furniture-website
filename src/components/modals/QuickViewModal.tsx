@@ -32,20 +32,27 @@ export default function QuickViewModal() {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-forest-deep/60 backdrop-blur-md animate-fadeIn">
-      <div className="relative w-full max-w-4xl rounded-[28px] sm:rounded-[32px] shadow-[0_30px_90px_rgba(10,35,25,0.35),inset_0_1px_2px_rgba(255,255,255,0.9)] border border-white/80 bg-[#FAF9F5] backdrop-blur-3xl overflow-hidden">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 bg-forest-deep/60 backdrop-blur-xl animate-fadeIn">
+      <div className="relative w-full max-w-4xl rounded-[28px] sm:rounded-[32px] shadow-[0_30px_90px_rgba(10,35,25,0.35),inset_0_2px_3px_rgba(255,255,255,0.98),inset_0_-1px_2px_rgba(0,0,0,0.04)] border border-white/90 bg-gradient-to-b from-white/90 via-white/80 to-white/65 backdrop-blur-3xl overflow-hidden">
+        {/* Top specular reflection beam */}
+        <div className="absolute top-0 left-8 right-8 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none z-30" />
+        
+        {/* Ambient liquid light orbs */}
+        <div className="absolute -top-20 -right-20 w-56 h-56 rounded-full bg-[#E0A97E]/20 blur-3xl pointer-events-none" />
+        <div className="absolute -bottom-20 -left-20 w-60 h-60 rounded-full bg-[#8EB497]/22 blur-3xl pointer-events-none" />
+
         {/* Close Button */}
         <button
           onClick={closeQuickView}
-          className="absolute top-4 right-4 sm:top-5 sm:right-5 z-20 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/90 hover:bg-white flex items-center justify-center text-forest-deep shadow-soft transition-all hover:scale-105 border border-forest-deep/10"
+          className="absolute top-4 right-4 sm:top-5 sm:right-5 z-30 w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-white/75 hover:bg-white backdrop-blur-md flex items-center justify-center text-forest-deep shadow-[0_2px_8px_rgba(23,60,43,0.06),inset_0_1px_1.5px_rgba(255,255,255,0.95)] transition-all hover:scale-105 border border-white/90"
           aria-label="Close Quick View"
         >
           <X className="w-4 h-4 sm:w-5 sm:h-5" />
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 max-h-[85vh] overflow-y-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 max-h-[85vh] overflow-y-auto relative z-10">
           {/* Left: Product Imagery */}
-          <div className="relative bg-[#ECEFEA] min-h-[320px] md:min-h-[480px]">
+          <div className="relative bg-[#ECEFEA]/80 min-h-[320px] md:min-h-[480px]">
             <Image
               src={product.images[0]}
               alt={product.name}
@@ -66,14 +73,14 @@ export default function QuickViewModal() {
           </div>
 
           {/* Right: Product Details & Controls */}
-          <div className="p-6 sm:p-7 md:p-8 flex flex-col justify-between space-y-6 bg-[#FAF9F5]">
+          <div className="p-6 sm:p-7 md:p-8 flex flex-col justify-between space-y-6 bg-gradient-to-b from-white/85 via-white/70 to-white/55 backdrop-blur-2xl">
             <div>
               {/* Category & Rating */}
               <div className="flex items-center justify-between text-xs mb-2">
                 <span className="uppercase tracking-widest font-extrabold text-[11px] text-[#B85232]">
                   {product.categoryName}
                 </span>
-                <div className="flex items-center gap-1.5 text-xs font-bold text-[#102D25] bg-white px-2.5 py-1 rounded-full border border-forest-deep/10 shadow-xs">
+                <div className="flex items-center gap-1.5 text-xs font-bold text-[#102D25] bg-white/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-white/90 shadow-xs">
                   <Star className="w-3.5 h-3.5 fill-[#B85232] text-[#B85232]" />
                   <span>{product.rating}</span>
                   <span className="text-forest-muted font-normal">({product.reviewCount})</span>
@@ -113,7 +120,7 @@ export default function QuickViewModal() {
                       className={`w-8 h-8 rounded-full border-2 transition-all flex items-center justify-center ${
                         selectedColorIndex === idx
                           ? "border-forest-deep scale-110 shadow-sm"
-                          : "border-borderSage hover:scale-105"
+                          : "border-white/80 hover:scale-105"
                       }`}
                       style={{ backgroundColor: color.hex }}
                       title={color.name}
@@ -143,10 +150,10 @@ export default function QuickViewModal() {
                       <button
                         key={mat}
                         onClick={() => setSelectedMaterialIndex(idx)}
-                        className={`text-xs px-3 py-1.5 rounded-lg border font-medium transition-all ${
+                        className={`text-xs px-3.5 py-1.5 rounded-full border font-semibold transition-all active:scale-95 ${
                           selectedMaterialIndex === idx
-                            ? "bg-[#102D25] text-white border-[#102D25] shadow-sm font-semibold"
-                            : "bg-white text-[#102D25] border-forest-deep/20 hover:border-forest-deep/50 hover:bg-forest-deep/5"
+                            ? "bg-[#102D25] text-white border-white/30 shadow-[0_4px_12px_rgba(16,45,37,0.3)]"
+                            : "bg-white/60 hover:bg-white/85 backdrop-blur-md text-[#102D25] border-white/85 shadow-[0_2px_8px_rgba(23,60,43,0.04),inset_0_1px_1.5px_rgba(255,255,255,0.9)]"
                         }`}
                       >
                         {mat}
@@ -161,7 +168,7 @@ export default function QuickViewModal() {
             <div className="space-y-3 pt-4 border-t border-forest-deep/10">
               <div className="flex items-center gap-3">
                 {/* Quantity */}
-                <div className="flex items-center rounded-full px-2 py-1 bg-white border border-forest-deep/15 shadow-sm">
+                <div className="flex items-center rounded-full px-2 py-1 bg-white/75 backdrop-blur-md border border-white/90 shadow-[0_2px_8px_rgba(23,60,43,0.05),inset_0_1px_1.5px_rgba(255,255,255,0.95)]">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
                     className="w-7 h-7 flex items-center justify-center text-[#102D25] font-extrabold hover:bg-forest-deep/10 rounded-full transition-colors"
@@ -182,7 +189,7 @@ export default function QuickViewModal() {
                 {/* Add to Cart */}
                 <button
                   onClick={handleAddToCart}
-                  className="flex-1 py-3.5 px-6 rounded-full glass-cta-orange text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-floating transition-all hover:scale-[1.02] active:scale-[0.98]"
+                  className="flex-1 py-3.5 px-6 rounded-full bg-gradient-to-r from-[#E05424] via-[#D94D1E] to-[#BE3B12] text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow-[0_12px_28px_rgba(217,77,30,0.4),inset_0_1.5px_2px_rgba(255,255,255,0.5)] border border-white/30 transition-all hover:shadow-[0_16px_36px_rgba(217,77,30,0.5)] active:scale-[0.98]"
                 >
                   <ShoppingBag className="w-4 h-4 text-white" />
                   {addedNotice ? "Added to Bag ✓" : "Add to Bag"}
@@ -191,10 +198,10 @@ export default function QuickViewModal() {
                 {/* Wishlist */}
                 <button
                   onClick={() => toggleWishlist(product)}
-                  className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all ${
+                  className={`w-11 h-11 rounded-full border flex items-center justify-center transition-all active:scale-95 ${
                     inWishlist
-                      ? "glass-cta-orange text-white border-white/60"
-                      : "bg-white text-forest-deep border-forest-deep/20 hover:border-forest-deep/50 hover:scale-105 shadow-sm"
+                      ? "bg-gradient-to-b from-[#E05424] to-[#B83E14] text-white border-white/50 shadow-[0_6px_18px_rgba(217,77,30,0.4),inset_0_1px_1.5px_rgba(255,255,255,0.6)]"
+                      : "bg-white/75 hover:bg-white backdrop-blur-md text-forest-deep border-white/90 shadow-[0_2px_8px_rgba(23,60,43,0.06),inset_0_1px_1.5px_rgba(255,255,255,0.95)]"
                   }`}
                   title={inWishlist ? "Remove from Wishlist" : "Save to Wishlist"}
                 >

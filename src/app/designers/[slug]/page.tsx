@@ -11,9 +11,17 @@ interface DesignerPageProps {
   params: Promise<{ slug: string }>;
 }
 
+const slugAliasMap: Record<string, string> = {
+  "elena-lindqvist": "ananya-de-silva",
+  "matteo-rossi": "gamini-jayasuriya",
+  "charlotte-vane": "roshani-fernando",
+  "kenji-takahashi": "sanjaya-bandara",
+};
+
 export async function generateMetadata({ params }: DesignerPageProps) {
   const { slug } = await params;
-  const designer = designers.find((d) => d.slug === slug);
+  const resolvedSlug = slugAliasMap[slug] || slug;
+  const designer = designers.find((d) => d.slug === resolvedSlug || d.slug === slug);
   if (!designer) return { title: "Designer Not Found — Square" };
   return {
     title: `${designer.name} Atelier — Square Furniture & Living`,
@@ -23,7 +31,8 @@ export async function generateMetadata({ params }: DesignerPageProps) {
 
 export default async function DesignerDetailPage({ params }: DesignerPageProps) {
   const { slug } = await params;
-  const designer = designers.find((d) => d.slug === slug);
+  const resolvedSlug = slugAliasMap[slug] || slug;
+  const designer = designers.find((d) => d.slug === resolvedSlug || d.slug === slug);
 
   if (!designer) {
     notFound();

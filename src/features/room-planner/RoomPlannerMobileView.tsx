@@ -330,23 +330,23 @@ export default function RoomPlannerMobileView({
           </button>
 
           {/* Zoom */}
-          <div className="flex items-center border border-borderSage rounded-xl bg-white/90 shrink-0 shadow-2xs">
+          <div className="flex items-center border border-borderSage rounded-xl bg-white/90 shrink-0 shadow-2xs overflow-hidden">
             <button
-              onClick={() => setZoom(Math.max(0.5, zoom - 0.1))}
+              onClick={() => setZoom(Math.max(0.5, Number((zoom - 0.1).toFixed(1))))}
               aria-label="Zoom out"
-              className="p-1.5 text-[#173C2B]"
+              className="px-2.5 py-1.5 text-[#173C2B] hover:bg-[#E5EDE1] active:scale-90 transition-all flex items-center justify-center cursor-pointer"
             >
-              <ZoomOut className="w-3 h-3" />
+              <ZoomOut className="w-3.5 h-3.5" />
             </button>
-            <span className="text-[10.5px] font-bold text-[#587763] px-1">
+            <span className="text-[11px] font-bold text-[#587763] px-1.5 select-none min-w-[38px] text-center">
               {Math.round(zoom * 100)}%
             </span>
             <button
-              onClick={() => setZoom(Math.min(2.0, zoom + 0.1))}
+              onClick={() => setZoom(Math.min(2.0, Number((zoom + 0.1).toFixed(1))))}
               aria-label="Zoom in"
-              className="p-1.5 text-[#173C2B]"
+              className="px-2.5 py-1.5 text-[#173C2B] hover:bg-[#E5EDE1] active:scale-90 transition-all flex items-center justify-center cursor-pointer"
             >
-              <ZoomIn className="w-3 h-3" />
+              <ZoomIn className="w-3.5 h-3.5" />
             </button>
           </div>
 
@@ -354,7 +354,8 @@ export default function RoomPlannerMobileView({
           <button
             onClick={handleExportPlan}
             aria-label="Export PNG"
-            className="p-2 rounded-xl border border-borderSage bg-white/90 text-[#173C2B] hover:bg-[#E5EDE1] transition-colors shrink-0 shadow-2xs"
+            className="p-2 rounded-xl border border-borderSage bg-white/90 text-[#173C2B] hover:bg-[#E5EDE1] active:scale-95 transition-all shrink-0 shadow-2xs flex items-center justify-center cursor-pointer"
+            title="Export 2D Room Plan as PNG"
           >
             <Download className="w-3.5 h-3.5" />
           </button>
@@ -362,7 +363,7 @@ export default function RoomPlannerMobileView({
           {/* Bill of Materials Button */}
           <button
             onClick={() => setBomModalOpen(true)}
-            className="px-3 py-1.5 rounded-xl border border-borderSage bg-white/90 text-[#173C2B] text-xs font-bold flex items-center gap-1.5 shrink-0 shadow-2xs"
+            className="px-3 py-1.5 rounded-xl border border-borderSage bg-white/90 hover:bg-[#E5EDE1] active:scale-95 transition-all text-[#173C2B] text-xs font-bold flex items-center gap-1.5 shrink-0 shadow-2xs cursor-pointer"
           >
             <ShoppingBag className="w-3.5 h-3.5 text-[#D94D1E]" />
             <span>BOM ({items.length})</span>
@@ -371,7 +372,7 @@ export default function RoomPlannerMobileView({
           {/* Save Button */}
           <button
             onClick={() => setSaveModalOpen(true)}
-            className="px-3.5 py-1.5 rounded-xl bg-[#D94D1E] hover:bg-[#c34217] text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shrink-0 shadow-sm"
+            className="px-3.5 py-1.5 rounded-xl bg-[#D94D1E] hover:bg-[#c34217] active:scale-95 transition-all text-white text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shrink-0 shadow-sm cursor-pointer"
           >
             <Save className="w-3.5 h-3.5" />
             <span>SAVE</span>
@@ -733,164 +734,7 @@ export default function RoomPlannerMobileView({
         )}
 
         {/* ============================================================ */}
-        {/* 7. SELECTED PIECE DETAILS CARD (BELOW LIBRARY, ABOVE AUDIT)  */}
-        {/* ============================================================ */}
-        {selectedItem && (
-          <div
-            id="selected-piece-details-card"
-            key={selectedItem.id}
-            className="w-full bg-white/95 backdrop-blur-xl rounded-3xl border border-white/80 shadow-xs p-4 sm:p-5 transition-all duration-300 animate-slideUp"
-          >
-            {/* Collapsible Drag Handle */}
-            <div
-              onClick={() => setIsBottomSheetCollapsed(!isBottomSheetCollapsed)}
-              className="w-12 h-1.5 rounded-full bg-gray-300 mx-auto -mt-1 mb-3 cursor-pointer"
-            />
-
-            {/* Header: Product Info & Price */}
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <div className="relative w-12 h-12 rounded-xl bg-sage-50 overflow-hidden shrink-0 border border-borderSage">
-                  {selectedProduct?.images?.[0] ? (
-                    <Image
-                      src={selectedProduct.images[0]}
-                      alt={selectedItem.name}
-                      fill
-                      className="object-contain p-1"
-                    />
-                  ) : (
-                    <div className="w-full h-full bg-[#173C2B]/10 flex items-center justify-center font-bold text-xs">
-                      FP
-                    </div>
-                  )}
-                </div>
-                <div>
-                  <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#D94D1E] block">
-                    SELECTED PIECE DETAILS
-                  </span>
-                  <h3 className="font-heading font-extrabold text-[14px] sm:text-[15px] text-[#173C2B] leading-tight">
-                    {selectedItem.name}
-                  </h3>
-                  <p className="text-[11px] text-[#587763]">
-                    {Math.round(selectedItem.width)} × {Math.round(selectedItem.height)} {selectedProduct?.dimensions?.height ? `× ${selectedProduct.dimensions.height} ` : ""}cm
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center gap-2">
-                {selectedProduct && (
-                  <span className="font-heading font-black text-sm sm:text-base text-[#173C2B] whitespace-nowrap">
-                    {formatPrice(selectedProduct.price)}
-                  </span>
-                )}
-                <button
-                  onClick={() => selectItem(null)}
-                  aria-label="Close inspector"
-                  className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-[#173C2B] flex items-center justify-center transition-colors shrink-0"
-                >
-                  <X className="w-4 h-4" />
-                </button>
-              </div>
-            </div>
-
-            {/* Expanded Content (Rotation, Finishes, Actions) */}
-            {!isBottomSheetCollapsed && (
-              <div className="mt-4 pt-3 border-t border-gray-100 space-y-3.5">
-                {/* Rotation Angle & Fabric Swatches in 2 columns */}
-                <div className="grid grid-cols-2 gap-3">
-                  {/* Rotation Angle */}
-                  <div>
-                    <span className="text-[11px] font-bold text-[#173C2B] block mb-1.5">
-                      Rotation Angle
-                    </span>
-                    <div className="grid grid-cols-4 gap-1">
-                      {[0, 90, 180, 270].map((angle) => (
-                        <button
-                          key={angle}
-                          onClick={() => updateItemRotation(selectedItem.id, angle)}
-                          className={`py-1 rounded-lg text-xs font-bold transition-all ${
-                            Math.round(selectedItem.rotation) % 360 === angle
-                              ? "bg-[#173C2B] text-white shadow-2xs"
-                              : "bg-gray-100 text-[#173C2B] hover:bg-gray-200"
-                          }`}
-                        >
-                          {angle}°
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Fabric / Finish Colors */}
-                  <div>
-                    <span className="text-[11px] font-bold text-[#173C2B] block mb-1.5">
-                      Finish / Fabric Color
-                    </span>
-                    <div className="flex items-center gap-2 pt-0.5">
-                      {(selectedProduct?.colours && selectedProduct.colours.length > 0
-                        ? selectedProduct.colours
-                        : [
-                            { hex: "#F8F7F0", name: "Oatmeal Bouclé" },
-                            { hex: "#2E5339", name: "Forest Velvet" },
-                            { hex: "#B85232", name: "Terracotta" },
-                            { hex: "#1C2421", name: "Smoked Noir" },
-                          ]
-                      ).map((c) => {
-                        const isColorActive =
-                          selectedItem.colorHex === c.hex ||
-                          (c.hex === "#F8F7F0" && (!selectedItem.colorHex || selectedItem.colorHex === "#FFFFFF" || selectedItem.colorHex === "#F8F7F0"));
-                        return (
-                          <button
-                            key={c.hex}
-                            onClick={() => updateItemColor(selectedItem.id, c.hex)}
-                            aria-label={c.name}
-                            className={`w-6 h-6 rounded-full border transition-all ${
-                              isColorActive
-                                ? "ring-2 ring-[#B85232] ring-offset-1 scale-110 border-[#B85232]"
-                                : "border-gray-300 hover:scale-105"
-                            }`}
-                            style={{ backgroundColor: c.hex }}
-                          />
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-
-                {/* Actions: Duplicate, Add to Cart, Remove */}
-                <div className="grid grid-cols-3 gap-2 pt-1">
-                  <button
-                    onClick={() => duplicateItem(selectedItem.id)}
-                    className="py-2.5 px-1.5 rounded-xl border border-borderSage bg-white hover:bg-sage-50 text-[11.5px] font-bold text-[#173C2B] flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all"
-                  >
-                    <Copy className="w-3.5 h-3.5" />
-                    <span>Duplicate</span>
-                  </button>
-
-                  <button
-                    onClick={() => {
-                      if (selectedProduct) addItemToCart(selectedProduct, 1);
-                    }}
-                    className="py-2.5 px-1.5 rounded-xl bg-[#173C2B] hover:bg-[#102D21] text-[11.5px] font-bold text-white flex items-center justify-center gap-1 shadow-sm active:scale-95 transition-all"
-                  >
-                    <ShoppingBag className="w-3.5 h-3.5 text-[#E0A97E]" />
-                    <span>Add to Cart</span>
-                  </button>
-
-                  <button
-                    onClick={() => removeItem(selectedItem.id)}
-                    className="py-2.5 px-1.5 rounded-xl border border-red-200 bg-red-50/70 hover:bg-red-100 text-[11.5px] font-bold text-red-700 flex items-center justify-center gap-1 shadow-2xs active:scale-95 transition-all whitespace-nowrap"
-                  >
-                    <Trash2 className="w-3.5 h-3.5 shrink-0" />
-                    <span className="truncate">Remove from Room</span>
-                  </button>
-                </div>
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* ============================================================ */}
-        {/* 8. SPACE ENGINE AUDIT                                        */}
+        {/* 7. SPACE ENGINE AUDIT                                        */}
         {/* ============================================================ */}
         <div className="bg-white/90 backdrop-blur-md rounded-2xl p-3 px-4 border border-white/80 shadow-xs flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -918,6 +762,164 @@ export default function RoomPlannerMobileView({
           </div>
         </div>
       </div>
+
+      {/* ============================================================ */}
+      {/* 8. SELECTED PIECE DETAILS POPUP (FIXED BOTTOM SHEET)         */}
+      {/* Pops up from bottom when ANY 2D product in room is tapped   */}
+      {/* ============================================================ */}
+      {selectedItem && (
+        <div
+          id="selected-piece-details-card"
+          key={selectedItem.id}
+          className="fixed inset-x-0 bottom-0 z-50 max-w-lg mx-auto bg-white/98 backdrop-blur-2xl rounded-t-[28px] border-t border-gray-200/90 shadow-[0_-12px_40px_rgba(0,0,0,0.18)] p-4 sm:p-5 pb-[calc(1.25rem+env(safe-area-inset-bottom,0px))] transition-all duration-300 animate-slideUp"
+        >
+          {/* Collapsible Drag Handle */}
+          <div
+            onClick={() => setIsBottomSheetCollapsed(!isBottomSheetCollapsed)}
+            className="w-12 h-1.5 rounded-full bg-gray-300 hover:bg-gray-400 mx-auto -mt-1 mb-3.5 cursor-pointer transition-colors"
+          />
+
+          {/* Header: Product Info & Price */}
+          <div className="flex items-start justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <div className="relative w-12 h-12 rounded-xl bg-sage-50 overflow-hidden shrink-0 border border-borderSage">
+                {selectedProduct?.images?.[0] ? (
+                  <Image
+                    src={selectedProduct.images[0]}
+                    alt={selectedItem.name}
+                    fill
+                    className="object-contain p-1"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-[#173C2B]/10 flex items-center justify-center font-bold text-xs">
+                    FP
+                  </div>
+                )}
+              </div>
+              <div>
+                <span className="text-[10px] font-extrabold uppercase tracking-wider text-[#D94D1E] block">
+                  SELECTED PIECE DETAILS
+                </span>
+                <h3 className="font-heading font-extrabold text-[14px] sm:text-[15px] text-[#173C2B] leading-tight">
+                  {selectedItem.name}
+                </h3>
+                <p className="text-[11px] text-[#587763]">
+                  {Math.round(selectedItem.width)} × {Math.round(selectedItem.height)} {selectedProduct?.dimensions?.height ? `× ${selectedProduct.dimensions.height} ` : ""}cm
+                </p>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              {selectedProduct && (
+                <span className="font-heading font-black text-sm sm:text-base text-[#173C2B] whitespace-nowrap">
+                  {formatPrice(selectedProduct.price)}
+                </span>
+              )}
+              <button
+                onClick={() => selectItem(null)}
+                aria-label="Close inspector"
+                className="w-7 h-7 rounded-full bg-gray-100 hover:bg-gray-200 text-[#173C2B] flex items-center justify-center transition-colors shrink-0"
+              >
+                <X className="w-4 h-4" />
+              </button>
+            </div>
+          </div>
+
+          {/* Expanded Content (Rotation, Finishes, Actions) */}
+          {!isBottomSheetCollapsed && (
+            <div className="mt-4 pt-3 border-t border-gray-100 space-y-3.5">
+              {/* Rotation Angle & Fabric Swatches in 2 columns */}
+              <div className="grid grid-cols-2 gap-3">
+                {/* Rotation Angle */}
+                <div>
+                  <span className="text-[11px] font-bold text-[#173C2B] block mb-1.5">
+                    Rotation Angle
+                  </span>
+                  <div className="grid grid-cols-4 gap-1">
+                    {[0, 90, 180, 270].map((angle) => (
+                      <button
+                        key={angle}
+                        onClick={() => updateItemRotation(selectedItem.id, angle)}
+                        className={`py-1 rounded-lg text-xs font-bold transition-all ${
+                          Math.round(selectedItem.rotation) % 360 === angle
+                            ? "bg-[#173C2B] text-white shadow-2xs"
+                            : "bg-gray-100 text-[#173C2B] hover:bg-gray-200"
+                        }`}
+                      >
+                        {angle}°
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Fabric / Finish Colors */}
+                <div>
+                  <span className="text-[11px] font-bold text-[#173C2B] block mb-1.5">
+                    Finish / Fabric Color
+                  </span>
+                  <div className="flex items-center gap-2 pt-0.5">
+                    {(selectedProduct?.colours && selectedProduct.colours.length > 0
+                      ? selectedProduct.colours
+                      : [
+                          { hex: "#F8F7F0", name: "Oatmeal Bouclé" },
+                          { hex: "#2E5339", name: "Forest Velvet" },
+                          { hex: "#B85232", name: "Terracotta" },
+                          { hex: "#1C2421", name: "Smoked Noir" },
+                        ]
+                    ).map((c) => {
+                      const isColorActive =
+                        selectedItem.colorHex === c.hex ||
+                        (c.hex === "#F8F7F0" && (!selectedItem.colorHex || selectedItem.colorHex === "#FFFFFF" || selectedItem.colorHex === "#F8F7F0"));
+                      return (
+                        <button
+                          key={c.hex}
+                          onClick={() => updateItemColor(selectedItem.id, c.hex)}
+                          aria-label={c.name}
+                          className={`w-6 h-6 rounded-full border transition-all ${
+                            isColorActive
+                              ? "ring-2 ring-[#B85232] ring-offset-1 scale-110 border-[#B85232]"
+                              : "border-gray-300 hover:scale-105"
+                          }`}
+                          style={{ backgroundColor: c.hex }}
+                        />
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+
+              {/* Actions: Duplicate, Add to Cart, Remove */}
+              <div className="grid grid-cols-3 gap-2 pt-1">
+                <button
+                  onClick={() => duplicateItem(selectedItem.id)}
+                  className="py-2.5 px-2 rounded-xl border border-borderSage bg-white hover:bg-sage-50 text-[11.5px] font-bold text-[#173C2B] flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 transition-all whitespace-nowrap"
+                >
+                  <Copy className="w-3.5 h-3.5" />
+                  <span>Duplicate</span>
+                </button>
+
+                <button
+                  onClick={() => {
+                    if (selectedProduct) addItemToCart(selectedProduct, 1);
+                  }}
+                  className="py-2.5 px-2 rounded-xl bg-[#173C2B] hover:bg-[#102D21] text-[11.5px] font-bold text-white flex items-center justify-center gap-1.5 shadow-sm active:scale-95 transition-all whitespace-nowrap"
+                >
+                  <ShoppingBag className="w-3.5 h-3.5 text-[#E0A97E]" />
+                  <span>Add to Cart</span>
+                </button>
+
+                <button
+                  onClick={() => removeItem(selectedItem.id)}
+                  className="py-2.5 px-2 rounded-xl border border-red-200 bg-red-50/70 hover:bg-red-100 text-[11.5px] font-bold text-red-700 flex items-center justify-center gap-1.5 shadow-2xs active:scale-95 transition-all whitespace-nowrap"
+                >
+                  <Trash2 className="w-3.5 h-3.5 shrink-0" />
+                  <span>Remove</span>
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 }

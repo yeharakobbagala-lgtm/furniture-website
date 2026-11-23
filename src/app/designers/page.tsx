@@ -24,7 +24,7 @@ export default function DesignersPage() {
             Master Designers & Ateliers
           </h1>
           <p className="text-sm sm:text-base text-forest-muted leading-relaxed">
-            Every piece at Square is the product of an intimate dialogue with masters of modern joinery, European stone quarries, and sustainable textile weaving.
+            Every piece at Square is the product of an intimate dialogue with masters of Sri Lankan joinery, seasoned Ceylon hardwoods, and heritage handloom weaving.
           </p>
         </div>
       </div>

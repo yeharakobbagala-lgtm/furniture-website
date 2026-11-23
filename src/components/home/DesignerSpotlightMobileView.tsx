@@ -64,20 +64,20 @@ export default function DesignerSpotlightMobileView() {
   return (
     <section className="relative w-full py-8 sm:py-10 bg-sage-light border-b border-borderSage/70 select-none overflow-hidden text-[#102D25]">
       {/* Header */}
-      <div className="px-6 pb-3 max-w-[440px]">
+      <div className="px-6 pb-2 max-w-[440px]">
         <span className="text-[11px] uppercase tracking-[0.22em] font-extrabold text-[#D94D1E] block">
-          MASTER ATELIERS
+          CEYLON ATELIERS
         </span>
-        <h2 className="text-[34px] sm:text-[38px] font-heading font-black tracking-tight text-[#173C2B] leading-[1.05] mt-1.5">
+        <h2 className="text-[32px] sm:text-[36px] font-heading font-black tracking-tight text-[#173C2B] leading-[1.05] mt-1">
           Designer Spotlight
         </h2>
-        <p className="text-xs sm:text-[13px] text-[#587763] font-normal leading-[1.48] mt-2 max-w-[310px]">
-          Meet the visionary architects and master craftsmen shaping our collection.
+        <p className="text-xs text-[#587763] font-normal leading-normal mt-1.5 max-w-[310px]">
+          Sri Lankan architects & master joiners shaping our handcrafted collection.
         </p>
 
         <Link
           href="/designers"
-          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#173C2B] underline underline-offset-4 decoration-[#173C2B]/50 hover:text-[#D94D1E] hover:decoration-[#D94D1E] transition-all mt-3 group"
+          className="inline-flex items-center gap-1.5 text-xs font-bold text-[#173C2B] underline underline-offset-4 decoration-[#173C2B]/50 hover:text-[#D94D1E] hover:decoration-[#D94D1E] transition-all mt-2.5 group"
         >
           <span>Meet all master craftsmen</span>
           <ArrowRight className="w-3.5 h-3.5 transition-transform group-hover:translate-x-1" />
@@ -124,13 +124,13 @@ export default function DesignerSpotlightMobileView() {
               </div>
 
               {/* Bio & Specialty */}
-              <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 space-y-3 bg-white/60 backdrop-blur-md">
-                <p className="text-xs text-[#587763] leading-relaxed line-clamp-3">
+              <div className="p-4 flex flex-col justify-between flex-1 space-y-2.5 bg-white/70 backdrop-blur-md">
+                <p className="text-[12px] text-[#587763] leading-relaxed line-clamp-2">
                   {designer.biography}
                 </p>
 
                 <div className="pt-2 border-t border-borderSage/70 flex items-center justify-between">
-                  <span className="text-[11px] font-medium text-[#173C2B]/80 truncate max-w-[150px]">
+                  <span className="text-[10.5px] font-semibold text-[#173C2B]/85 truncate max-w-[155px]">
                     {designer.speciality}
                   </span>
                   <Link

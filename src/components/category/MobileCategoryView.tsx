@@ -173,7 +173,7 @@ export default function MobileCategoryView({
           title: `Square — ${activeCategory.name}`,
           text: activeCategory.description,
           url: window.location.href,
-        }).catch(() => {});
+        }).catch(() => { });
       } else {
         navigator.clipboard?.writeText(window.location.href);
         setCopied(true);
@@ -196,7 +196,28 @@ export default function MobileCategoryView({
   }, [activeIndex, total]);
 
   return (
-    <div className="relative w-full min-h-[100dvh] bg-[#E5EDE1] text-[#173C2B] overflow-x-hidden flex flex-col justify-between select-none">
+    <div className="relative w-full min-h-[100dvh] bg-gradient-to-b from-[#E3ECE0] via-[#E8EFE5] to-[#DFE9DC] text-[#173C2B] overflow-x-hidden flex flex-col justify-between select-none">
+      {/* ============================================================ */}
+      {/* LIQUID GLASS AMBIENT LIGHT & REFRACTION ORBS (APPLE UI)     */}
+      {/* ============================================================ */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        {/* Soft organic decorative curves */}
+        <div className="absolute top-0 left-0 w-40 h-28 bg-gradient-to-br from-white/50 to-transparent rounded-br-[120px] pointer-events-none opacity-80" />
+        <div className="absolute top-12 right-0 w-48 h-36 bg-gradient-to-bl from-[#8EB497]/25 to-transparent rounded-bl-[140px] pointer-events-none" />
+        <div className="absolute bottom-0 right-0 w-52 h-36 bg-gradient-to-tl from-[#173C2B]/12 to-transparent rounded-tl-[160px] pointer-events-none" />
+
+        {/* Luminous Apple Spatial refraction orbs */}
+        {/* Vibrant emerald/mint orb behind orbital arc */}
+        <div className="absolute -top-16 left-1/2 -translate-x-1/2 w-96 h-96 rounded-full bg-[#4CD895]/22 blur-[95px] transform-gpu" />
+        {/* Warm apricot/terracotta ambient glow behind category title & pills */}
+        <div className="absolute top-1/3 -right-20 w-88 h-88 rounded-full bg-[#FF9A6C]/22 blur-[100px] transform-gpu" />
+        {/* Deep forest liquid glow behind featured card */}
+        <div className="absolute top-1/2 -left-20 w-80 h-80 rounded-full bg-[#173C2B]/16 blur-[85px] transform-gpu" />
+        {/* Warm terracotta liquid glow behind action buttons & CTA */}
+        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-88 h-72 rounded-full bg-[#E05424]/16 blur-[90px] transform-gpu" />
+        {/* Subtle mesh backdrop sheen */}
+        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/40" />
+      </div>
       {/* ============================================================ */}
       {/* 1. FLOATING PALE-MINT MOBILE HEADER                          */}
       {/* ============================================================ */}
@@ -371,11 +392,10 @@ export default function MobileCategoryView({
                 >
                   <div
                     style={{ width: `${cardW}px`, height: `${cardH}px` }}
-                    className={`relative rounded-[19px] overflow-hidden transition-all duration-300 ${
-                      isCenter
-                        ? "border-[2.5px] border-[#65D9A0] shadow-[0_10px_24px_rgba(101,217,160,0.4),0_6px_16px_rgba(23,60,43,0.14)]"
-                        : "border-[1.5px] border-white/80 shadow-[0_4px_12px_rgba(23,60,43,0.08)] opacity-90 hover:opacity-100"
-                    }`}
+                    className={`relative rounded-[22px] overflow-hidden transition-all duration-300 ${isCenter
+                      ? "border-[2.5px] border-[#43CA87] shadow-[0_0_28px_rgba(67,202,135,0.5),0_12px_28px_rgba(23,60,43,0.18),inset_0_2px_3px_rgba(255,255,255,1)]"
+                      : "border-[1.5px] border-white/90 shadow-[0_8px_20px_rgba(23,60,43,0.08),inset_0_1.5px_2px_rgba(255,255,255,0.9)] opacity-90 hover:opacity-100 backdrop-blur-md"
+                      }`}
                   >
                     <Image
                       src={item.image}
@@ -385,7 +405,9 @@ export default function MobileCategoryView({
                       className="object-cover"
                     />
                     {/* Top specular reflection line */}
-                    <div className="absolute top-0 left-2 right-2 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
+                    <div className="absolute top-0 left-2 right-2 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+                    {/* Subtle bottom bevel reflection */}
+                    <div className="absolute bottom-0 left-2 right-2 h-[1px] bg-gradient-to-r from-transparent via-black/10 to-transparent pointer-events-none" />
                   </div>
                 </motion.div>
               );
@@ -407,14 +429,15 @@ export default function MobileCategoryView({
             transition={{ duration: 0.25 }}
             className="flex flex-col items-start"
           >
-            {/* Category Tag */}
-            <span className="text-[10px] uppercase tracking-[0.22em] font-extrabold text-[#587763]">
+            {/* Category Tag as Apple Liquid Glass Capsule */}
+            <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/55 backdrop-blur-xl border border-white/80 border-t-white/95 text-[9.5px] uppercase tracking-[0.22em] font-extrabold text-[#234E37] shadow-[0_3px_10px_rgba(23,60,43,0.06),inset_0_1.5px_2px_rgba(255,255,255,0.95)]">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#3D8B62] animate-pulse" />
               {activeCategory.tag}
             </span>
 
             {/* Headline in Orange Avenue / Serif */}
             <h1
-              className="font-orangeAvenue text-[#173C2B] text-[34px] sm:text-[38px] leading-[1.06] tracking-[-0.015em] font-medium mt-1"
+              className="font-orangeAvenue text-[#173C2B] text-[34px] sm:text-[38px] leading-[1.06] tracking-[-0.015em] font-medium mt-1.5"
               style={{
                 fontFamily: "var(--font-orange-avenue), 'OrangeAvenue', serif",
                 fontFeatureSettings: '"liga" 1, "dlig" 1, "calt" 1, "swsh" 1, "ss01" 0',
@@ -435,7 +458,7 @@ export default function MobileCategoryView({
       </div>
 
       {/* ============================================================ */}
-      {/* 5. CATEGORY FILTER CHIPS (ROUNDED PILLS)                     */}
+      {/* 5. CATEGORY FILTER CHIPS (APPLE LIQUID GLASS PILLS)          */}
       {/* ============================================================ */}
       <div className="w-full max-w-[420px] mx-auto px-5 sm:px-6 py-2.5 z-10">
         <div className="flex flex-wrap gap-2 overflow-x-auto no-scrollbar py-0.5">
@@ -445,13 +468,17 @@ export default function MobileCategoryView({
               <button
                 key={pill}
                 onClick={() => setSelectedPill(isSelected ? null : pill)}
-                className={`px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide border transition-all duration-200 active:scale-95 ${
-                  isSelected
-                    ? "bg-[#173C2B] text-white border-[#173C2B] shadow-xs"
-                    : "bg-[#EAF3E7]/80 hover:bg-white text-[#173C2B] border-[#C9D9C8] shadow-2xs"
-                }`}
+                className={`group relative px-3.5 py-1.5 rounded-full text-xs font-semibold tracking-wide transition-all duration-200 active:scale-95 overflow-hidden ${isSelected
+                  ? "bg-gradient-to-r from-[#173C2B] via-[#1E4D36] to-[#173C2B] text-white border border-white/35 shadow-[0_8px_22px_rgba(23,60,43,0.35),inset_0_1.5px_2px_rgba(255,255,255,0.5)]"
+                  : "bg-gradient-to-b from-white/70 via-white/50 to-white/35 hover:bg-white/75 backdrop-blur-2xl text-[#173C2B] border border-white/85 border-t-white/95 shadow-[0_4px_16px_rgba(23,60,43,0.06),inset_0_1.5px_2px_rgba(255,255,255,0.95),inset_0_-1px_1px_rgba(0,0,0,0.03)]"
+                  }`}
               >
-                {pill}
+                {/* Specular highlight glint on pill */}
+                <div className={`absolute top-0 left-2 right-2 h-[1px] pointer-events-none ${isSelected
+                  ? "bg-gradient-to-r from-transparent via-white/50 to-transparent"
+                  : "bg-gradient-to-r from-transparent via-white/95 to-transparent"
+                  }`} />
+                <span className="relative z-10">{pill}</span>
               </button>
             );
           })}
@@ -459,75 +486,82 @@ export default function MobileCategoryView({
       </div>
 
       {/* ============================================================ */}
-      {/* 6. FEATURED CATEGORY CARD (WHITE FLOATING CAPSULE)           */}
+      {/* 6. FEATURED CATEGORY CARD (APPLE LIQUID GLASS CAPSULE)       */}
       {/* ============================================================ */}
-      <div className="w-full max-w-[420px] mx-auto px-5 sm:px-6 py-1 z-10">
+      <div className="w-full max-w-[420px] mx-auto px-5 sm:px-6 py-1.5 z-10">
         <Link
           href={`/shop/${activeCategory.slug}`}
           onClick={() => onExplore?.(activeCategory.slug)}
-          className="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-3xl bg-white shadow-[0_8px_24px_rgba(23,60,43,0.08)] border border-white/90 hover:shadow-[0_12px_32px_rgba(23,60,43,0.12)] transition-all duration-300 active:scale-[0.99]"
+          className="group relative flex items-center justify-between p-3.5 sm:p-4 rounded-[28px] bg-gradient-to-b from-white/80 via-white/55 to-white/40 backdrop-blur-3xl border border-white/90 border-t-white shadow-[0_20px_50px_rgba(23,60,43,0.12),0_4px_12px_rgba(23,60,43,0.06),inset_0_2px_3px_rgba(255,255,255,0.98),inset_0_-1.5px_2px_rgba(0,0,0,0.04)] hover:shadow-[0_24px_56px_rgba(23,60,43,0.16)] transition-all duration-300 active:scale-[0.99] overflow-hidden"
         >
-          {/* Left Square Icon */}
-          <div className="w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-[#EAF5E7] text-[#173C2B] flex items-center justify-center shrink-0 border border-[#D5E5D1]">
+          {/* Top specular reflection beam */}
+          <div className="absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+          {/* Soft internal liquid shimmer orb */}
+          <div className="absolute -top-10 -left-6 w-36 h-36 bg-white/40 rounded-full blur-2xl pointer-events-none" />
+
+          {/* Left Square Icon in Frosted Glass */}
+          <div className="relative w-13 h-13 sm:w-14 sm:h-14 rounded-2xl bg-gradient-to-b from-white/90 to-white/60 backdrop-blur-xl text-[#173C2B] flex items-center justify-center shrink-0 border border-white/95 shadow-[0_6px_18px_rgba(23,60,43,0.08),inset_0_1.5px_2px_rgba(255,255,255,1)]">
             <ActiveIcon className="w-6 h-6 stroke-[1.8]" />
+            <div className="absolute top-0 left-2 right-2 h-[1px] bg-gradient-to-r from-transparent via-white to-transparent pointer-events-none" />
           </div>
 
           {/* Center Category Title & Subtitle */}
           <div className="flex-1 min-w-0 px-3.5 text-left">
-            <h3 className="font-heading font-extrabold text-base text-[#173C2B] leading-tight truncate">
+            <h3 className="font-heading font-extrabold text-[16px] sm:text-[17px] text-[#173C2B] leading-tight truncate">
               {activeCategory.name}
             </h3>
-            <p className="text-[11px] sm:text-xs text-[#587763] truncate mt-0.5">
+            <p className="text-[11.5px] sm:text-xs text-[#52745D] font-medium truncate mt-0.5">
               {activeCategory.subtitle}
             </p>
           </div>
 
-          {/* Right Dark Forest-Green Circular Arrow Button */}
-          <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#173C2B] group-hover:bg-[#D94D1E] text-white flex items-center justify-center shrink-0 shadow-md transition-colors duration-300">
+          {/* Right Dark Forest-Green Liquid Glass Circular Arrow Button */}
+          <div className="w-11 h-11 sm:w-11 sm:h-11 rounded-full bg-gradient-to-b from-[#1C412E] to-[#11291D] group-hover:from-[#D94D1E] group-hover:to-[#B83E14] text-white flex items-center justify-center shrink-0 border border-white/35 border-t-white/60 shadow-[0_8px_20px_rgba(17,41,29,0.38),inset_0_1.5px_2px_rgba(255,255,255,0.45)] transition-all duration-300">
             <ChevronRight className="w-5 h-5 transition-transform group-hover:translate-x-0.5" />
           </div>
         </Link>
       </div>
 
       {/* ============================================================ */}
-      {/* 7. SOCIAL INTERACTION BUTTONS (FAVOURITE, SAVE, SHARE)       */}
+      {/* 7. SOCIAL ACTION BUTTONS (APPLE LIQUID GLASS FLOATING ORBS) */}
       {/* ============================================================ */}
-      <div className="w-full max-w-[420px] mx-auto px-5 sm:px-6 py-2 z-10 flex items-center justify-center gap-4">
+      <div className="w-full max-w-[420px] mx-auto px-5 sm:px-6 py-2.5 z-10 flex items-center justify-center gap-4">
         {/* Wishlist / Favourite */}
         <button
           onClick={() => setLiked(!liked)}
           aria-label="Add category to wishlist"
-          className={`w-11 h-11 rounded-full flex items-center justify-center border shadow-xs transition-all active:scale-95 ${
-            liked
-              ? "bg-[#D94D1E] border-[#D94D1E] text-white shadow-md"
-              : "bg-white/80 hover:bg-white text-[#173C2B] border-white/80"
-          }`}
+          className={`relative w-13 h-13 rounded-full flex items-center justify-center border transition-all active:scale-90 overflow-hidden ${liked
+            ? "bg-gradient-to-b from-[#E25626] to-[#B83E14] border-white/45 border-t-white/70 text-white shadow-[0_10px_28px_rgba(224,84,36,0.45),inset_0_2px_2.5px_rgba(255,255,255,0.6)]"
+            : "bg-gradient-to-b from-white/80 via-white/55 to-white/40 backdrop-blur-2xl text-[#173C2B] border-white/90 border-t-white shadow-[0_10px_26px_rgba(23,60,43,0.08),inset_0_2px_2.5px_rgba(255,255,255,0.98),inset_0_-1px_1.5px_rgba(0,0,0,0.04)] hover:bg-white/90"
+            }`}
         >
-          <Heart className={`w-4.5 h-4.5 ${liked ? "fill-white" : ""}`} />
+          <div className="absolute top-1 left-2.5 right-2.5 h-[1px] bg-white/80 rounded-full pointer-events-none" />
+          <Heart className={`w-5 h-5 ${liked ? "fill-white" : ""}`} />
         </button>
 
         {/* Save / Bookmark */}
         <button
           onClick={() => setSaved(!saved)}
           aria-label="Bookmark collection"
-          className={`w-11 h-11 rounded-full flex items-center justify-center border shadow-xs transition-all active:scale-95 ${
-            saved
-              ? "bg-[#173C2B] border-[#173C2B] text-white shadow-md"
-              : "bg-white/80 hover:bg-white text-[#173C2B] border-white/80"
-          }`}
+          className={`relative w-13 h-13 rounded-full flex items-center justify-center border transition-all active:scale-90 overflow-hidden ${saved
+            ? "bg-gradient-to-b from-[#1E4532] to-[#122A1E] border-white/45 border-t-white/70 text-white shadow-[0_10px_28px_rgba(23,60,43,0.45),inset_0_2px_2.5px_rgba(255,255,255,0.5)]"
+            : "bg-gradient-to-b from-white/80 via-white/55 to-white/40 backdrop-blur-2xl text-[#173C2B] border-white/90 border-t-white shadow-[0_10px_26px_rgba(23,60,43,0.08),inset_0_2px_2.5px_rgba(255,255,255,0.98),inset_0_-1px_1.5px_rgba(0,0,0,0.04)] hover:bg-white/90"
+            }`}
         >
-          <Bookmark className={`w-4.5 h-4.5 ${saved ? "fill-white" : ""}`} />
+          <div className="absolute top-1 left-2.5 right-2.5 h-[1px] bg-white/80 rounded-full pointer-events-none" />
+          <Bookmark className={`w-5 h-5 ${saved ? "fill-white" : ""}`} />
         </button>
 
         {/* Share */}
         <button
           onClick={handleShare}
           aria-label="Share collection"
-          className="relative w-11 h-11 rounded-full bg-white/80 hover:bg-white text-[#173C2B] border border-white/80 shadow-xs flex items-center justify-center transition-all active:scale-95"
+          className="relative w-13 h-13 rounded-full bg-gradient-to-b from-white/80 via-white/55 to-white/40 backdrop-blur-2xl text-[#173C2B] border border-white/90 border-t-white shadow-[0_10px_26px_rgba(23,60,43,0.08),inset_0_2px_2.5px_rgba(255,255,255,0.98),inset_0_-1px_1.5px_rgba(0,0,0,0.04)] hover:bg-white/90 flex items-center justify-center transition-all active:scale-90 overflow-hidden"
         >
-          {copied ? <Check className="w-4.5 h-4.5 text-emerald-600" /> : <Share2 className="w-4.5 h-4.5" />}
+          <div className="absolute top-1 left-2.5 right-2.5 h-[1px] bg-white/80 rounded-full pointer-events-none" />
+          {copied ? <Check className="w-5 h-5 text-emerald-600" /> : <Share2 className="w-5 h-5" />}
           {copied && (
-            <span className="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#173C2B] text-white text-[9.5px] font-bold px-2 py-0.5 rounded shadow">
+            <span className="absolute -top-7 left-1/2 -translate-x-1/2 bg-[#173C2B] text-white text-[9.5px] font-bold px-2 py-0.5 rounded-full shadow-md">
               Copied!
             </span>
           )}
@@ -535,35 +569,39 @@ export default function MobileCategoryView({
       </div>
 
       {/* ============================================================ */}
-      {/* 8. PRIMARY CTA (BURNT ORANGE / TERRACOTTA PILL)              */}
+      {/* 8. PRIMARY CTA (APPLE LIQUID TERRACOTTA PILL)                */}
       {/* ============================================================ */}
       <div className="w-full max-w-[420px] mx-auto px-5 sm:px-6 py-2 z-10 flex justify-center">
         <Link
           href={`/shop/${activeCategory.slug}`}
           onClick={() => onExplore?.(activeCategory.slug)}
-          className="w-full max-w-[340px] py-3.5 sm:py-4 px-8 rounded-full bg-[#D94D1E] hover:bg-[#C23F14] text-white font-heading font-extrabold text-[13px] sm:text-sm uppercase tracking-wider shadow-[0_8px_25px_rgba(217,77,30,0.35)] flex items-center justify-center gap-2 active:scale-98 transition-all select-none"
+          className="relative w-full max-w-[340px] py-4 px-8 rounded-full bg-gradient-to-r from-[#E05424] via-[#D94D1E] to-[#BE3B12] text-white font-heading font-extrabold text-[13px] sm:text-sm uppercase tracking-wider border border-white/35 border-t-white/60 shadow-[0_16px_40px_rgba(217,77,30,0.45),inset_0_2px_2.5px_rgba(255,255,255,0.55),inset_0_-1.5px_2px_rgba(0,0,0,0.18)] hover:shadow-[0_20px_48px_rgba(217,77,30,0.55)] flex items-center justify-center gap-2 active:scale-98 transition-all select-none overflow-hidden"
         >
-          <span>Explore Collection</span>
-          <ArrowRight className="w-4 h-4" />
+          {/* Top specular highlight line */}
+          <div className="absolute top-0 left-6 right-6 h-[1px] bg-gradient-to-r from-transparent via-white/80 to-transparent pointer-events-none" />
+          <span className="relative z-10">Explore Collection</span>
+          <ArrowRight className="w-4 h-4 relative z-10" />
         </Link>
       </div>
 
       {/* ============================================================ */}
-      {/* 9. BOTTOM COLLECTION NAVIGATION (< & >)                      */}
+      {/* 9. BOTTOM COLLECTION NAVIGATION (APPLE LIQUID GLASS PILLS)  */}
       {/* ============================================================ */}
       <div className="w-full max-w-[420px] mx-auto px-5 sm:px-6 pt-1 pb-5 sm:pb-6 z-10 flex items-center justify-center gap-3">
         <button
           onClick={handlePrev}
           aria-label="Previous category collection"
-          className="w-11 h-11 rounded-full bg-white/80 hover:bg-white text-[#173C2B] border border-white/80 shadow-xs flex items-center justify-center transition-all active:scale-90"
+          className="relative w-12 h-12 rounded-full bg-gradient-to-b from-white/80 via-white/55 to-white/40 backdrop-blur-2xl text-[#173C2B] border border-white/90 border-t-white shadow-[0_8px_22px_rgba(23,60,43,0.08),inset_0_2px_2.5px_rgba(255,255,255,0.98)] hover:bg-white/90 flex items-center justify-center transition-all active:scale-90 overflow-hidden"
         >
+          <div className="absolute top-1 left-2.5 right-2.5 h-[1px] bg-white/80 rounded-full pointer-events-none" />
           <ChevronLeft className="w-5 h-5" />
         </button>
         <button
           onClick={handleNext}
           aria-label="Next category collection"
-          className="w-11 h-11 rounded-full bg-white/80 hover:bg-white text-[#173C2B] border border-white/80 shadow-xs flex items-center justify-center transition-all active:scale-90"
+          className="relative w-12 h-12 rounded-full bg-gradient-to-b from-white/80 via-white/55 to-white/40 backdrop-blur-2xl text-[#173C2B] border border-white/90 border-t-white shadow-[0_8px_22px_rgba(23,60,43,0.08),inset_0_2px_2.5px_rgba(255,255,255,0.98)] hover:bg-white/90 flex items-center justify-center transition-all active:scale-90 overflow-hidden"
         >
+          <div className="absolute top-1 left-2.5 right-2.5 h-[1px] bg-white/80 rounded-full pointer-events-none" />
           <ChevronRight className="w-5 h-5" />
         </button>
       </div>

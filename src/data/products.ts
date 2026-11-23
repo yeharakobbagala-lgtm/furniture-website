@@ -38,7 +38,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel", "reception"],
     designerId: "des-1",
-    designerName: "Elena Lindqvist",
+    designerName: "Ananya de Silva",
     collectionId: "col-1",
     specifications: [
       { label: "Frame Construction", value: "Kiln-dried solid European beech and FSC pine" },
@@ -103,7 +103,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel", "restaurant", "conference"],
     designerId: "des-2",
-    designerName: "Matteo Rossi",
+    designerName: "Gamini Jayasuriya",
     collectionId: "col-1",
     specifications: [
       { label: "Stone Origin", value: "Tivoli Quarries, Italy" },
@@ -159,7 +159,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel", "reception", "office"],
     designerId: "des-1",
-    designerName: "Elena Lindqvist",
+    designerName: "Ananya de Silva",
     collectionId: "col-2",
     specifications: [
       { label: "Wood Finish", value: "Clear matte protective organic oil" },
@@ -214,7 +214,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["restaurant", "hotel"],
     designerId: "des-2",
-    designerName: "Matteo Rossi",
+    designerName: "Gamini Jayasuriya",
     collectionId: "col-2",
     specifications: [
       { label: "Joinery", value: "Traditional mortise and tenon jointing" },
@@ -259,7 +259,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel"],
     designerId: "des-3",
-    designerName: "Charlotte Vane",
+    designerName: "Roshani Fernando",
     collectionId: "col-4",
     specifications: [
       { label: "Mattress Compatibility", value: "Fits Standard King / Queen without box spring" },
@@ -303,7 +303,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["office", "workspace"],
     designerId: "des-4",
-    designerName: "Kenji Takahashi",
+    designerName: "Sanjaya Bandara",
     collectionId: "col-6",
     specifications: [
       { label: "Cable Management", value: "Concealed center drop hatch with dual USB-C/power" },
@@ -347,7 +347,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel", "reception"],
     designerId: "des-1",
-    designerName: "Elena Lindqvist",
+    designerName: "Ananya de Silva",
     collectionId: "col-2",
     specifications: [
       { label: "Top Thickness", value: "45 mm solid timber slab" },
@@ -391,7 +391,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel", "conference", "office"],
     designerId: "des-3",
-    designerName: "Charlotte Vane",
+    designerName: "Roshani Fernando",
     collectionId: "col-1",
     specifications: [
       { label: "Interior Shelving", value: "3 adjustable shelves with cable pass-throughs" },
@@ -435,7 +435,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["office", "conference", "workspace"],
     designerId: "des-4",
-    designerName: "Kenji Takahashi",
+    designerName: "Sanjaya Bandara",
     collectionId: "col-6",
     specifications: [
       { label: "Certification", value: "BIFMA Level 3 & Greenguard Gold Certified" },
@@ -479,7 +479,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel"],
     designerId: "des-4",
-    designerName: "Kenji Takahashi",
+    designerName: "Sanjaya Bandara",
     collectionId: "col-4",
     specifications: [
       { label: "Lighting", value: "2700K warm diffused LED strips with proximity sensors" },
@@ -522,7 +522,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel", "restaurant"],
     designerId: "des-3",
-    designerName: "Charlotte Vane",
+    designerName: "Roshani Fernando",
     collectionId: "col-1",
     specifications: [
       { label: "Timber Treatment", value: "Natural high-oil teak; untreated to allow natural silvering" },
@@ -566,7 +566,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["restaurant", "hotel", "conference"],
     designerId: "des-2",
-    designerName: "Matteo Rossi",
+    designerName: "Gamini Jayasuriya",
     collectionId: "col-5",
     specifications: [
       { label: "Swivel Function", value: "360-degree self-centering auto-return mechanism" },
@@ -610,7 +610,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel", "reception"],
     designerId: "des-3",
-    designerName: "Charlotte Vane",
+    designerName: "Roshani Fernando",
     collectionId: "col-1",
     specifications: [
       { label: "Modules Included", value: "Corner unit, 2 armless center units, oversized ottoman" },
@@ -653,7 +653,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel", "reception", "restaurant"],
     designerId: "des-2",
-    designerName: "Matteo Rossi",
+    designerName: "Gamini Jayasuriya",
     collectionId: "col-1",
     specifications: [
       { label: "Weight", value: "28 kg" },
@@ -697,7 +697,7 @@ export const products: Product[] = [
     suitableFor: ["commercial", "residential"],
     commercialCategories: ["office", "workspace", "reception"],
     designerId: "des-4",
-    designerName: "Kenji Takahashi",
+    designerName: "Sanjaya Bandara",
     collectionId: "col-6",
     specifications: [
       { label: "Acoustic Rating", value: "NRC 0.85 sound absorption coefficient" },
@@ -740,7 +740,7 @@ export const products: Product[] = [
     suitableFor: ["residential", "commercial"],
     commercialCategories: ["hotel"],
     designerId: "des-1",
-    designerName: "Elena Lindqvist",
+    designerName: "Ananya de Silva",
     collectionId: "col-4",
     specifications: [
       { label: "Clearance Under Bed", value: "24 cm" },

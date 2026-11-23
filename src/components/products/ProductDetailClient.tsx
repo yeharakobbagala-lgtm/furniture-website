@@ -711,67 +711,77 @@ export default function ProductDetailClient({
         </div>
       )}
 
-      {/* Commercial Quotation Modal */}
+      {/* Commercial Quotation Modal (Apple Liquid Glass Design) */}
       {quoteModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/60 backdrop-blur-sm animate-fadeIn">
-          <div className="relative w-full max-w-lg bg-ivory-warm rounded-3xl p-6 sm:p-8 shadow-floating border border-borderSage">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-forest-deep/60 backdrop-blur-xl animate-fadeIn">
+          <div className="relative w-full max-w-lg rounded-[32px] bg-gradient-to-b from-white/90 via-white/75 to-white/60 backdrop-blur-3xl border border-white/90 shadow-[0_25px_70px_rgba(16,45,37,0.25),inset_0_2px_3px_rgba(255,255,255,0.98),inset_0_-1px_2px_rgba(0,0,0,0.04)] p-6 sm:p-8 overflow-hidden">
+            {/* Top specular reflection beam */}
+            <div className="absolute top-0 left-6 right-6 h-[1.5px] bg-gradient-to-r from-transparent via-white/95 to-transparent pointer-events-none" />
+
+            {/* Refraction ambient light orbs */}
+            <div className="absolute -top-12 -right-12 w-44 h-44 rounded-full bg-[#E0A97E]/20 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-12 -left-12 w-48 h-48 rounded-full bg-[#8EB497]/25 blur-3xl pointer-events-none" />
+
             <button
               onClick={() => setQuoteModalOpen(false)}
-              className="absolute top-5 right-5 p-1 rounded-lg text-forest-muted hover:text-forest-deep"
+              aria-label="Close"
+              className="absolute top-5 right-5 z-20 w-9 h-9 rounded-full bg-white/75 hover:bg-white backdrop-blur-md border border-white/90 text-[#173C2B] shadow-[0_2px_8px_rgba(23,60,43,0.06),inset_0_1px_1.5px_rgba(255,255,255,0.95)] flex items-center justify-center transition-all active:scale-95"
             >
-              <X className="w-5 h-5" />
+              <X className="w-4.5 h-4.5" />
             </button>
 
-            <div className="flex items-center gap-2 text-xs font-bold uppercase text-terracotta mb-1">
-              <Building2 className="w-4 h-4" /> Commercial RFQ System
-            </div>
-            <h3 className="text-xl font-heading font-bold text-forest-deep mb-2">
-              Add to Commercial Quotation
-            </h3>
-            <p className="text-xs text-forest-muted mb-4">
-              Specifying {product.name} for hotels, offices, restaurants, or residential developments.
-            </p>
-
-            <div className="space-y-4">
-              <div>
-                <label className="text-xs font-bold uppercase text-forest-deep block mb-1">
-                  Estimated Quantity Needed
-                </label>
-                <input
-                  type="number"
-                  min="1"
-                  value={quoteQty}
-                  onChange={(e) => setQuoteQty(parseInt(e.target.value) || 1)}
-                  className="w-full bg-white border border-borderSage rounded-xl px-3 py-2 text-sm text-forest-deep focus:outline-none"
-                />
+            <div className="relative z-10">
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/60 backdrop-blur-md border border-white/90 text-xs font-bold uppercase text-terracotta mb-2 shadow-xs">
+                <Building2 className="w-4 h-4" /> Commercial RFQ System
               </div>
+              <h3 className="text-xl font-heading font-bold text-forest-deep mb-1">
+                Add to Commercial Quotation
+              </h3>
+              <p className="text-xs text-forest-muted mb-4">
+                Specifying {product.name} for hotels, offices, restaurants, or residential developments.
+              </p>
 
-              <div>
-                <label className="text-xs font-bold uppercase text-forest-deep block mb-1">
-                  Custom Specification or Flame Retardancy Notes
-                </label>
-                <textarea
-                  rows={3}
-                  value={quoteNotes}
-                  onChange={(e) => setQuoteNotes(e.target.value)}
-                  placeholder="e.g. Crib 5 fire certification needed for boutique hotel lobby..."
-                  className="w-full bg-white border border-borderSage rounded-xl px-3 py-2 text-xs text-forest-deep focus:outline-none"
-                />
-              </div>
+              <div className="space-y-4">
+                <div>
+                  <label className="text-xs font-bold uppercase text-forest-deep block mb-1.5">
+                    Estimated Quantity Needed
+                  </label>
+                  <input
+                    type="number"
+                    min="1"
+                    value={quoteQty}
+                    onChange={(e) => setQuoteQty(parseInt(e.target.value) || 1)}
+                    className="w-full bg-white/70 focus:bg-white/90 backdrop-blur-md border border-white/90 rounded-xl px-4 py-2.5 text-sm text-forest-deep focus:outline-none focus:ring-2 focus:ring-[#173C2B]/20 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] transition-all"
+                  />
+                </div>
 
-              <div className="flex gap-3 pt-2">
-                <button
-                  onClick={() => setQuoteModalOpen(false)}
-                  className="flex-1 py-3 rounded-xl border border-borderSage bg-white text-xs font-bold uppercase"
-                >
-                  Cancel
-                </button>
-                <button
-                  onClick={handleAddCommercialQuote}
-                  className="flex-1 py-3 rounded-xl bg-terracotta hover:bg-terracotta-hover text-white text-xs font-bold uppercase transition-colors"
-                >
-                  Add to Quotation Draft
-                </button>
+                <div>
+                  <label className="text-xs font-bold uppercase text-forest-deep block mb-1.5">
+                    Custom Specification or Flame Retardancy Notes
+                  </label>
+                  <textarea
+                    rows={3}
+                    value={quoteNotes}
+                    onChange={(e) => setQuoteNotes(e.target.value)}
+                    placeholder="e.g. Crib 5 fire certification needed for boutique hotel lobby..."
+                    className="w-full bg-white/70 focus:bg-white/90 backdrop-blur-md border border-white/90 rounded-xl px-4 py-2.5 text-xs text-forest-deep focus:outline-none focus:ring-2 focus:ring-[#173C2B]/20 shadow-[inset_0_1px_2px_rgba(0,0,0,0.04)] transition-all resize-none"
+                  />
+                </div>
+
+                <div className="flex gap-3 pt-2">
+                  <button
+                    onClick={() => setQuoteModalOpen(false)}
+                    className="flex-1 py-3 rounded-full border border-white/90 bg-gradient-to-b from-white/85 to-white/60 backdrop-blur-xl text-forest-deep text-xs font-bold uppercase tracking-wider hover:bg-white shadow-[0_4px_14px_rgba(23,60,43,0.06),inset_0_1.5px_2px_rgba(255,255,255,0.95)] active:scale-95 transition-all cursor-pointer"
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    onClick={handleAddCommercialQuote}
+                    className="flex-1 py-3 rounded-full bg-gradient-to-r from-[#E05424] via-[#D94D1E] to-[#BE3B12] hover:shadow-[0_16px_36px_rgba(217,77,30,0.5)] text-white text-xs font-bold uppercase tracking-wider transition-all shadow-[0_12px_28px_rgba(217,77,30,0.4),inset_0_1.5px_2px_rgba(255,255,255,0.5)] active:scale-95 cursor-pointer border border-white/30"
+                  >
+                    Add to Quotation Draft
+                  </button>
+                </div>
               </div>
             </div>
           </div>

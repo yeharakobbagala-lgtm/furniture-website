@@ -689,34 +689,38 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
         </div>
       </div>
 
-      {/* Mobile Filters Drawer */}
+      {/* Mobile Filters Drawer (Apple Liquid Glass Design) */}
       {mobileFilterOpen && (
-        <div className="fixed inset-0 z-50 flex justify-end bg-forest-deep/60 backdrop-blur-sm lg:hidden animate-fadeIn">
-          <div className="w-full max-w-md bg-ivory-warm h-full overflow-y-auto p-6 space-y-6">
-            <div className="flex items-center justify-between pb-4 border-b border-borderSage">
-              <span className="font-heading font-bold text-forest-deep text-lg">
+        <div className="fixed inset-0 z-50 flex justify-end bg-forest-deep/60 backdrop-blur-xl lg:hidden animate-fadeIn">
+          <div className="relative w-full max-w-md bg-gradient-to-b from-white/95 via-white/85 to-white/70 backdrop-blur-3xl border-l border-white/90 shadow-[0_20px_60px_rgba(16,45,37,0.3),inset_1.5px_0_2px_rgba(255,255,255,0.95)] h-full overflow-y-auto p-6 space-y-6 overflow-x-hidden">
+            {/* Ambient Refraction Orbs */}
+            <div className="absolute top-10 -right-20 w-60 h-60 rounded-full bg-[#E0A97E]/20 blur-3xl pointer-events-none" />
+            <div className="absolute bottom-20 -left-20 w-60 h-60 rounded-full bg-[#8EB497]/25 blur-3xl pointer-events-none" />
+
+            <div className="relative z-10 flex items-center justify-between pb-4 border-b border-forest-deep/10">
+              <span className="font-heading font-extrabold text-forest-deep text-xl">
                 Filter Catalog
               </span>
               <button
                 onClick={() => setMobileFilterOpen(false)}
-                className="p-1 rounded-lg text-forest-muted hover:text-forest-deep"
+                className="w-9 h-9 rounded-full bg-white/75 hover:bg-white backdrop-blur-md border border-white/90 text-[#173C2B] shadow-[0_2px_8px_rgba(23,60,43,0.06),inset_0_1px_1.5px_rgba(255,255,255,0.95)] flex items-center justify-center transition-all active:scale-95"
               >
-                <X className="w-5 h-5" />
+                <X className="w-4.5 h-4.5" />
               </button>
             </div>
 
             {/* Mobile Categories */}
-            <div>
-              <span className="text-xs uppercase tracking-wider font-bold text-forest-deep block mb-3">
+            <div className="relative z-10">
+              <span className="text-xs uppercase tracking-wider font-extrabold text-forest-deep block mb-3">
                 Categories
               </span>
-              <div className="grid grid-cols-2 gap-1.5">
+              <div className="grid grid-cols-2 gap-2">
                 <button
                   onClick={() => setSelectedCategory("all")}
-                  className={`text-left text-xs py-2 px-3 rounded-lg font-medium border ${
+                  className={`text-left text-xs py-2.5 px-3.5 rounded-xl font-semibold border transition-all active:scale-95 ${
                     selectedCategory === "all"
-                      ? "bg-forest-dark text-white border-forest-dark"
-                      : "bg-white text-forest-deep border-borderSage"
+                      ? "bg-gradient-to-r from-[#173C2B] to-[#1E4D36] text-white border-white/30 shadow-[0_4px_12px_rgba(23,60,43,0.25)]"
+                      : "bg-white/60 hover:bg-white/85 backdrop-blur-md text-forest-deep border-white/90 shadow-[0_2px_8px_rgba(23,60,43,0.04),inset_0_1px_1.5px_rgba(255,255,255,0.95)]"
                   }`}
                 >
                   All Models
@@ -725,10 +729,10 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
                   <button
                     key={c.id}
                     onClick={() => setSelectedCategory(c.slug)}
-                    className={`text-left text-xs py-2 px-3 rounded-lg font-medium border ${
+                    className={`text-left text-xs py-2.5 px-3.5 rounded-xl font-semibold border transition-all active:scale-95 ${
                       selectedCategory === c.slug
-                        ? "bg-forest-dark text-white border-forest-dark"
-                        : "bg-white text-forest-deep border-borderSage"
+                        ? "bg-gradient-to-r from-[#173C2B] to-[#1E4D36] text-white border-white/30 shadow-[0_4px_12px_rgba(23,60,43,0.25)]"
+                        : "bg-white/60 hover:bg-white/85 backdrop-blur-md text-forest-deep border-white/90 shadow-[0_2px_8px_rgba(23,60,43,0.04),inset_0_1px_1.5px_rgba(255,255,255,0.95)]"
                     }`}
                   >
                     {c.name}
@@ -738,8 +742,8 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
             </div>
 
             {/* Mobile Price */}
-            <div className="pt-4 border-t border-borderSage">
-              <span className="text-xs uppercase tracking-wider font-bold text-forest-deep block mb-2">
+            <div className="relative z-10 pt-4 border-t border-forest-deep/10">
+              <span className="text-xs uppercase tracking-wider font-extrabold text-forest-deep block mb-2">
                 Price Limit: {formatPrice(priceRange[1])}
               </span>
               <input
@@ -754,19 +758,19 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
             </div>
 
             {/* Mobile Styles */}
-            <div className="pt-4 border-t border-borderSage">
-              <span className="text-xs uppercase tracking-wider font-bold text-forest-deep block mb-3">
+            <div className="relative z-10 pt-4 border-t border-forest-deep/10">
+              <span className="text-xs uppercase tracking-wider font-extrabold text-forest-deep block mb-3">
                 Style
               </span>
-              <div className="flex flex-wrap gap-1.5">
+              <div className="flex flex-wrap gap-2">
                 {availableStyles.map((style) => (
                   <button
                     key={style}
                     onClick={() => setSelectedStyle(style)}
-                    className={`text-xs px-3 py-1.5 rounded-lg border ${
+                    className={`text-xs px-3.5 py-1.5 rounded-full border font-semibold transition-all active:scale-95 ${
                       selectedStyle === style
-                        ? "bg-forest-dark text-white border-forest-dark"
-                        : "bg-white text-forest-deep border-borderSage"
+                        ? "bg-gradient-to-r from-[#173C2B] to-[#1E4D36] text-white border-white/30 shadow-[0_4px_12px_rgba(23,60,43,0.25)]"
+                        : "bg-white/60 hover:bg-white/85 backdrop-blur-md text-forest-deep border-white/90 shadow-[0_2px_8px_rgba(23,60,43,0.04),inset_0_1px_1.5px_rgba(255,255,255,0.95)]"
                     }`}
                   >
                     {style}
@@ -775,16 +779,16 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
               </div>
             </div>
 
-            <div className="pt-6 border-t border-borderSage flex gap-3">
+            <div className="relative z-10 pt-6 border-t border-forest-deep/10 flex gap-3">
               <button
                 onClick={clearAllFilters}
-                className="flex-1 py-3 rounded-xl border border-borderSage bg-white text-forest-deep text-xs font-bold uppercase tracking-wider"
+                className="flex-1 py-3 rounded-full border border-white/90 bg-gradient-to-b from-white/85 to-white/60 backdrop-blur-xl text-forest-deep text-xs font-bold uppercase tracking-wider hover:bg-white shadow-[0_4px_14px_rgba(23,60,43,0.06),inset_0_1.5px_2px_rgba(255,255,255,0.95)] active:scale-95 transition-all cursor-pointer"
               >
                 Reset
               </button>
               <button
                 onClick={() => setMobileFilterOpen(false)}
-                className="flex-1 py-3 rounded-xl bg-forest-dark text-white text-xs font-bold uppercase tracking-wider"
+                className="flex-1 py-3 rounded-full bg-gradient-to-r from-[#173C2B] via-[#1E4D36] to-[#122A1E] text-white text-xs font-bold uppercase tracking-wider shadow-[0_10px_24px_rgba(23,60,43,0.35),inset_0_1.5px_2px_rgba(255,255,255,0.3)] active:scale-95 transition-all border border-white/20 cursor-pointer"
               >
                 Apply Filters
               </button>

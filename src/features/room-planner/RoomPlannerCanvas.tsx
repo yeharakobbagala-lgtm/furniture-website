@@ -1063,22 +1063,20 @@ export default function RoomPlannerCanvas({
         itemGroup.add(infoBadgeGroup);
       }
 
-      // Immediate selection handler on touch, tap, or pointerdown
+      // Immediate selection handler on touch, tap, mousedown, or pointerdown
       const selectThisItem = (e: any) => {
         lastSelectTimeRef.current = Date.now();
         if (e) {
           e.cancelBubble = true;
         }
         onSelectItem(item.id);
-        onSelectDoor(null);
-        onSelectWindow(null);
       };
 
-      itemGroup.on("pointerdown touchstart click tap", selectThisItem);
-      hitRect.on("pointerdown touchstart click tap", selectThisItem);
-      furnitureImage.on("pointerdown touchstart click tap", selectThisItem);
-      if (badgeBg) badgeBg.on("pointerdown touchstart click tap", selectThisItem);
-      if (badgeExclamation) badgeExclamation.on("pointerdown touchstart click tap", selectThisItem);
+      itemGroup.on("mousedown touchstart pointerdown click tap", selectThisItem);
+      hitRect.on("mousedown touchstart pointerdown click tap", selectThisItem);
+      furnitureImage.on("mousedown touchstart pointerdown click tap", selectThisItem);
+      if (badgeBg) badgeBg.on("mousedown touchstart pointerdown click tap", selectThisItem);
+      if (badgeExclamation) badgeExclamation.on("mousedown touchstart pointerdown click tap", selectThisItem);
 
       itemGroup.on("dragstart", (e) => {
         isDraggingRef.current = true;
@@ -1087,8 +1085,6 @@ export default function RoomPlannerCanvas({
           e.cancelBubble = true;
         }
         onSelectItem(item.id);
-        onSelectDoor(null);
-        onSelectWindow(null);
         itemGroup.moveToTop();
       });
 
