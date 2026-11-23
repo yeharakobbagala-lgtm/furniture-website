@@ -113,12 +113,30 @@ const slideHotspots: Record<string, HotspotData[]> = {
 
 interface HeroFurnitureShowcaseProps {
   sets?: HeroFurnitureSet[];
+  currentIndex?: number;
+  onIndexChange?: (index: number) => void;
 }
 
 export default function HeroFurnitureShowcase({
   sets = defaultHeroFurnitureSets,
+  currentIndex: externalIndex,
+  onIndexChange,
 }: HeroFurnitureShowcaseProps) {
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const [internalIndex, setInternalIndex] = useState(0);
+  const currentIndex = externalIndex !== undefined ? externalIndex : internalIndex;
+
+  const setCurrentIndex = useCallback(
+    (updater: number | ((prev: number) => number)) => {
+      const nextVal = typeof updater === "function" ? updater(currentIndex) : updater;
+      if (onIndexChange) {
+        onIndexChange(nextVal);
+      } else {
+        setInternalIndex(nextVal);
+      }
+    },
+    [currentIndex, onIndexChange]
+  );
+
   const [direction, setDirection] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const [isFullscreen, setIsFullscreen] = useState(false);

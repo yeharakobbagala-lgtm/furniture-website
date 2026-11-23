@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import Konva from "konva";
 import { RoomItem, RoomDoor, RoomWindow, CollisionWarning } from "@/types";
 import { FloorFinishType } from "@/stores/roomDesignerStore";
@@ -60,6 +60,12 @@ export default function RoomPlannerCanvas({
   const stageRef = useRef<Konva.Stage | null>(null);
   const imageCacheRef = useRef<Map<string, HTMLImageElement>>(new Map());
   const isDraggingRef = useRef<boolean>(false);
+  const lastSelectTimeRef = useRef<number>(0);
+
+  const [containerSize, setContainerSize] = useState<{ width: number; height: number }>({
+    width: 360,
+    height: 380,
+  });
 
   // Architectural scale: 100 pixels per meter (1cm = 1px)
   const ppm = PIXELS_PER_METER;
@@ -67,14 +73,34 @@ export default function RoomPlannerCanvas({
   const canvasRoomH = roomLength * ppm;
   const wallThickness = 16; // 16px thick architectural wall
 
+  // Measure and track exact container dimensions dynamically
+  useEffect(() => {
+    if (!containerRef.current) return;
+    const updateSize = () => {
+      if (containerRef.current) {
+        const rect = containerRef.current.getBoundingClientRect();
+        const w = Math.round(rect.width) || containerRef.current.clientWidth || 360;
+        const h = Math.round(rect.height) || containerRef.current.clientHeight || 380;
+        setContainerSize((prev) => (prev.width !== w || prev.height !== h ? { width: w, height: h } : prev));
+      }
+    };
+    updateSize();
+
+    const observer = new ResizeObserver(() => {
+      updateSize();
+    });
+    observer.observe(containerRef.current);
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     if (!containerRef.current) return;
 
-    const width = containerRef.current.clientWidth || 800;
-    const height = Math.max(containerRef.current.clientHeight || 580, 540);
+    const width = containerSize.width;
+    const height = containerSize.height;
 
     let stage = stageRef.current;
-    Konva.dragDistance = 4;
+    Konva.dragDistance = 10;
     if (!stage) {
       stage = new Konva.Stage({
         container: containerRef.current,
@@ -92,15 +118,28 @@ export default function RoomPlannerCanvas({
     const layer = new Konva.Layer();
     stage.add(layer);
 
-    // Center the room inside the viewport
-    const roomOffsetX = Math.max(65, (width - canvasRoomW * zoom) / 2);
-    const roomOffsetY = Math.max(65, (height - canvasRoomH * zoom) / 2);
+    // Fit room inside available width and height (especially on mobile devices)
+    // Margins account for exterior dimension arrows (top/left) and door swing radius (bottom)
+    const marginHorizontal = 85;
+    const marginVertical = 100;
+    const fitScaleX = (width - marginHorizontal) / canvasRoomW;
+    const fitScaleY = (height - marginVertical) / canvasRoomH;
+    const autoFit = Math.min(1.0, fitScaleX, fitScaleY);
+    const effectiveZoom = zoom * (autoFit > 0 ? autoFit : 1.0);
+
+    const scaledRoomW = canvasRoomW * effectiveZoom;
+    const scaledRoomH = canvasRoomH * effectiveZoom;
+
+    // Center room horizontally with clearance for the left dimension line
+    const roomOffsetX = Math.max(48, Math.round((width - scaledRoomW) / 2 + 16));
+    // Move room up ("land up") so top arrows and bottom door swing are both fully visible
+    const roomOffsetY = Math.max(38, Math.round((height - scaledRoomH) / 2 - 14));
 
     const roomGroup = new Konva.Group({
       x: roomOffsetX,
       y: roomOffsetY,
-      scaleX: zoom,
-      scaleY: zoom,
+      scaleX: effectiveZoom,
+      scaleY: effectiveZoom,
     });
     layer.add(roomGroup);
 
@@ -117,6 +156,7 @@ export default function RoomPlannerCanvas({
       shadowColor: "rgba(0, 0, 0, 0.28)",
       shadowBlur: 28,
       shadowOffset: { x: 0, y: 14 },
+      listening: false,
     });
     roomGroup.add(wallOuter);
 
@@ -143,11 +183,22 @@ export default function RoomPlannerCanvas({
       strokeWidth: 1,
       listening: true,
     });
-    floorRect.on("click tap", () => {
+    const handleFloorDeselect = (e: any) => {
+      // Prevent ghost click from deselecting if an item was touched/clicked recently (within 450ms)
+      if (Date.now() - lastSelectTimeRef.current < 450) {
+        return;
+      }
+      if (isDraggingRef.current) {
+        return;
+      }
+      if (e && e.target && e.target !== floorRect) {
+        return;
+      }
       onSelectItem(null);
       onSelectDoor(null);
       onSelectWindow(null);
-    });
+    };
+    floorRect.on("click tap", handleFloorDeselect);
     roomGroup.add(floorRect);
 
     // Realistic Wood Planks with Staggered Seams
@@ -529,67 +580,72 @@ export default function RoomPlannerCanvas({
     });
 
     // 6. Exterior Wall Dimension Labels with Architectural Arrows
-    const dimOffsetY = -34;
+    const dimOffsetY = -28;
+    // Horizontal Double-Headed Arrow: ← 5.20 m →
     roomGroup.add(
-      new Konva.Line({
-        points: [0, dimOffsetY, canvasRoomW, dimOffsetY],
+      new Konva.Arrow({
+        points: [canvasRoomW / 2 + 32, dimOffsetY, canvasRoomW, dimOffsetY],
+        pointerLength: 8,
+        pointerWidth: 6,
+        fill: "#242B28",
         stroke: "#242B28",
         strokeWidth: 1.5,
+        listening: false,
       })
     );
     roomGroup.add(
-      new Konva.Line({
-        points: [-6, dimOffsetY - 6, 6, dimOffsetY + 6],
+      new Konva.Arrow({
+        points: [canvasRoomW / 2 - 32, dimOffsetY, 0, dimOffsetY],
+        pointerLength: 8,
+        pointerWidth: 6,
+        fill: "#242B28",
         stroke: "#242B28",
-        strokeWidth: 2,
-      })
-    );
-    roomGroup.add(
-      new Konva.Line({
-        points: [canvasRoomW - 6, dimOffsetY - 6, canvasRoomW + 6, dimOffsetY + 6],
-        stroke: "#242B28",
-        strokeWidth: 2,
+        strokeWidth: 1.5,
+        listening: false,
       })
     );
     roomGroup.add(
       new Konva.Text({
-        x: canvasRoomW / 2 - 45,
-        y: dimOffsetY - 18,
+        x: canvasRoomW / 2 - 38,
+        y: dimOffsetY - 16,
         text: `${roomWidth.toFixed(2)} m`,
         fontSize: 12,
         fontFamily: "Inter, sans-serif",
         fontStyle: "bold",
         fill: "#242B28",
         align: "center",
-        width: 90,
+        width: 76,
+        listening: false,
       })
     );
 
-    const dimOffsetX = -34;
+    const dimOffsetX = -28;
+    // Vertical Double-Headed Arrow: ↕ 4.50 m
     roomGroup.add(
-      new Konva.Line({
-        points: [dimOffsetX, 0, dimOffsetX, canvasRoomH],
+      new Konva.Arrow({
+        points: [dimOffsetX, canvasRoomH / 2 - 16, dimOffsetX, 0],
+        pointerLength: 8,
+        pointerWidth: 6,
+        fill: "#242B28",
         stroke: "#242B28",
         strokeWidth: 1.5,
+        listening: false,
       })
     );
     roomGroup.add(
-      new Konva.Line({
-        points: [dimOffsetX - 6, -6, dimOffsetX + 6, 6],
+      new Konva.Arrow({
+        points: [dimOffsetX, canvasRoomH / 2 + 16, dimOffsetX, canvasRoomH],
+        pointerLength: 8,
+        pointerWidth: 6,
+        fill: "#242B28",
         stroke: "#242B28",
-        strokeWidth: 2,
-      })
-    );
-    roomGroup.add(
-      new Konva.Line({
-        points: [dimOffsetX - 6, canvasRoomH - 6, dimOffsetX + 6, canvasRoomH + 6],
-        stroke: "#242B28",
-        strokeWidth: 2,
+        strokeWidth: 1.5,
+        listening: false,
       })
     );
     roomGroup.add(
       new Konva.Text({
-        x: dimOffsetX - 65,
+        x: dimOffsetX - 62,
         y: canvasRoomH / 2 - 7,
         text: `${roomLength.toFixed(2)} m`,
         fontSize: 12,
@@ -597,7 +653,8 @@ export default function RoomPlannerCanvas({
         fontStyle: "bold",
         fill: "#242B28",
         align: "center",
-        width: 60,
+        width: 58,
+        listening: false,
       })
     );
 
@@ -697,6 +754,7 @@ export default function RoomPlannerCanvas({
           strokeWidth: 2,
           dash: [6, 4],
           cornerRadius: 6,
+          listening: false,
         });
         itemGroup.add(selectBox);
 
@@ -716,6 +774,7 @@ export default function RoomPlannerCanvas({
               fill: tealColor,
               stroke: "#FFFFFF",
               strokeWidth: 1.5,
+              listening: false,
             })
           );
         });
@@ -736,6 +795,7 @@ export default function RoomPlannerCanvas({
               fill: tealColor,
               stroke: "#FFFFFF",
               strokeWidth: 1.2,
+              listening: false,
             })
           );
         });
@@ -1003,32 +1063,32 @@ export default function RoomPlannerCanvas({
         itemGroup.add(infoBadgeGroup);
       }
 
-      // Unified selection handler for click, tap, and touch gestures
+      // Immediate selection handler on touch, tap, or pointerdown
       const selectThisItem = (e: any) => {
-        if (isDraggingRef.current) return;
+        lastSelectTimeRef.current = Date.now();
         if (e) {
           e.cancelBubble = true;
-          if (e.evt) {
-            e.evt.cancelBubble = true;
-            if (e.evt.stopPropagation) e.evt.stopPropagation();
-          }
         }
         onSelectItem(item.id);
         onSelectDoor(null);
         onSelectWindow(null);
       };
 
-      itemGroup.on("click tap pointerdown", selectThisItem);
-      hitRect.on("click tap pointerdown", selectThisItem);
-      furnitureImage.on("click tap pointerdown", selectThisItem);
-      if (badgeBg) badgeBg.on("click tap pointerdown", selectThisItem);
-      if (badgeExclamation) badgeExclamation.on("click tap pointerdown", selectThisItem);
+      itemGroup.on("pointerdown touchstart click tap", selectThisItem);
+      hitRect.on("pointerdown touchstart click tap", selectThisItem);
+      furnitureImage.on("pointerdown touchstart click tap", selectThisItem);
+      if (badgeBg) badgeBg.on("pointerdown touchstart click tap", selectThisItem);
+      if (badgeExclamation) badgeExclamation.on("pointerdown touchstart click tap", selectThisItem);
 
       itemGroup.on("dragstart", (e) => {
         isDraggingRef.current = true;
+        lastSelectTimeRef.current = Date.now();
         if (e) {
           e.cancelBubble = true;
         }
+        onSelectItem(item.id);
+        onSelectDoor(null);
+        onSelectWindow(null);
         itemGroup.moveToTop();
       });
 
@@ -1043,6 +1103,7 @@ export default function RoomPlannerCanvas({
       });
 
       itemGroup.on("dragend", (e) => {
+        lastSelectTimeRef.current = Date.now();
         if (e) {
           e.cancelBubble = true;
         }
@@ -1059,9 +1120,14 @@ export default function RoomPlannerCanvas({
         e.target.position({ x: clampedX, y: clampedY });
         layer.batchDraw();
 
-        // When drag finishes, select the moved item and update its coordinates
+        // When drag finishes, select the moved item
         onSelectItem(item.id);
-        onUpdatePosition(item.id, clampedX, clampedY);
+
+        // Only update position in store if it actually moved by > 3px (prevents store re-render loop on click/tap)
+        const hasMoved = Math.hypot(finalX - item.x, finalY - item.y) > 3;
+        if (hasMoved) {
+          onUpdatePosition(item.id, clampedX, clampedY);
+        }
 
         setTimeout(() => {
           isDraggingRef.current = false;
@@ -1080,6 +1146,13 @@ export default function RoomPlannerCanvas({
     });
 
     stage.on("click tap", (e) => {
+      // Prevent ghost click from deselecting if an item was touched/clicked recently (within 450ms)
+      if (Date.now() - lastSelectTimeRef.current < 450) {
+        return;
+      }
+      if (isDraggingRef.current) {
+        return;
+      }
       if (e.target === stage) {
         onSelectItem(null);
         onSelectDoor(null);
@@ -1091,8 +1164,8 @@ export default function RoomPlannerCanvas({
 
     const handleResize = () => {
       if (!containerRef.current || !stageRef.current) return;
-      const w = containerRef.current.clientWidth || 800;
-      const h = Math.max(containerRef.current.clientHeight || 580, 540);
+      const w = containerRef.current.clientWidth || 360;
+      const h = containerRef.current.clientHeight || 360;
       stageRef.current.width(w);
       stageRef.current.height(h);
       stageRef.current.draw();
@@ -1127,6 +1200,7 @@ export default function RoomPlannerCanvas({
     onDuplicateItem,
     canvasRoomW,
     canvasRoomH,
+    containerSize,
   ]);
 
   useEffect(() => {
@@ -1141,7 +1215,7 @@ export default function RoomPlannerCanvas({
   return (
     <div
       ref={containerRef}
-      className="w-full h-full min-h-[580px] bg-[#EFEFEA] relative overflow-hidden select-none flex items-center justify-center shadow-inner touch-none"
+      className="w-full h-full bg-[#E6ECE4] relative overflow-hidden select-none flex items-center justify-center shadow-inner touch-none"
     />
   );
 }

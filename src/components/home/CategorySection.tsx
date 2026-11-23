@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import SplitText from "@/components/ui/SplitText";
+import MobileCategoryView from "@/components/category/MobileCategoryView";
 import {
   Home,
   LayoutGrid,
@@ -233,12 +234,19 @@ export default function CategorySection() {
   const originY = 300;
 
   return (
-    <section
-      className="relative w-full py-12 sm:py-16 lg:py-20 bg-[#DFEADA] overflow-hidden select-none border-b border-borderSage/70"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-      aria-label="Square Furniture Curved Category Showcase"
-    >
+    <>
+      {/* MOBILE CATEGORY VIEW (< lg) */}
+      <div className="block lg:hidden w-full">
+        <MobileCategoryView showHeader={false} />
+      </div>
+
+      {/* DESKTOP CATEGORY VIEW (>= lg) */}
+      <section
+        className="hidden lg:block relative w-full py-12 sm:py-16 lg:py-20 bg-[#DFEADA] overflow-hidden select-none border-b border-borderSage/70"
+        onMouseEnter={() => setIsHovered(true)}
+        onMouseLeave={() => setIsHovered(false)}
+        aria-label="Square Furniture Curved Category Showcase"
+      >
       {/* ========================================================== */}
       {/* 1. ORGANIC CORNER CURVES (EXACT TO REFERENCE IMAGE)        */}
       {/* ========================================================== */}
@@ -349,17 +357,15 @@ export default function CategorySection() {
                         transform: `translate(-50%, -50%) rotate(${angle}deg)`,
                         transformOrigin: "center center",
                       }}
-                      className={`pointer-events-auto cursor-pointer transition-transform duration-300 ${
-                        isActive ? "z-30 scale-108" : "z-10 scale-95 opacity-85 hover:opacity-100"
-                      }`}
+                      className={`pointer-events-auto cursor-pointer transition-transform duration-300 ${isActive ? "z-30 scale-108" : "z-10 scale-95 opacity-85 hover:opacity-100"
+                        }`}
                     >
                       {/* The Curved Image Card matching the reference */}
                       <div
-                        className={`relative w-[130px] sm:w-[155px] lg:w-[165px] h-[95px] sm:h-[110px] lg:h-[118px] rounded-[20px] overflow-hidden transition-all duration-300 ${
-                          isActive
-                            ? "border-[3.5px] border-[#68D391] shadow-[0_0_28px_rgba(104,211,145,0.75),0_12px_26px_rgba(0,0,0,0.28)]"
-                            : "border-2 border-white/60 shadow-md hover:border-white"
-                        }`}
+                        className={`relative w-[130px] sm:w-[155px] lg:w-[165px] h-[95px] sm:h-[110px] lg:h-[118px] rounded-[20px] overflow-hidden transition-all duration-300 ${isActive
+                          ? "border-[3.5px] border-[#68D391] shadow-[0_0_28px_rgba(104,211,145,0.75),0_12px_26px_rgba(0,0,0,0.28)]"
+                          : "border-2 border-white/60 shadow-md hover:border-white"
+                          }`}
                       >
                         <Image
                           src={cat.image}
@@ -380,7 +386,7 @@ export default function CategorySection() {
 
             {/* C. THE CENTER DETAILS DISPLAY */}
             <div className="relative flex flex-col justify-center max-w-[340px] lg:max-w-[370px] pl-2 sm:pl-4 lg:pl-6 z-20 space-y-4 sm:space-y-5">
-              
+
               {/* Explore Categories Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-white/70 backdrop-blur-md border border-white/80 shadow-sm w-fit">
                 <LayoutGrid className="w-4 h-4 text-[#22442F]" />
@@ -391,11 +397,13 @@ export default function CategorySection() {
 
               {/* Headline */}
               <h2
-                className="font-orangeAvenue font-normal text-3xl sm:text-4xl lg:text-[46px] text-[#102D25] leading-[1.08] tracking-tight"
+                className="font-orangeAvenue font-medium text-3xl sm:text-4xl lg:text-[46px] text-[#102D25] leading-[1.08] tracking-tight"
                 style={{
                   fontFamily: "var(--font-orange-avenue), 'OrangeAvenue', serif",
                   fontFeatureSettings: '"liga" 1, "dlig" 1, "calt" 1, "swsh" 1, "ss01" 0',
                   fontVariantLigatures: "common-ligatures discretionary-ligatures contextual",
+                  WebkitTextStroke: "0.45px currentColor",
+                  paintOrder: "stroke fill",
                 }}
               >
                 <SplitText
@@ -462,11 +470,10 @@ export default function CategorySection() {
                     {/* Heart */}
                     <button
                       onClick={() => setLiked(!liked)}
-                      className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
-                        liked
-                          ? "bg-red-500 border-red-500 text-white shadow-soft"
-                          : "bg-white/70 hover:bg-white border-white/80 text-[#1F432C] shadow-sm"
-                      }`}
+                      className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${liked
+                        ? "bg-red-500 border-red-500 text-white shadow-soft"
+                        : "bg-white/70 hover:bg-white border-white/80 text-[#1F432C] shadow-sm"
+                        }`}
                       title="Favorite Category"
                       aria-label="Favorite Category"
                     >
@@ -476,11 +483,10 @@ export default function CategorySection() {
                     {/* Bookmark */}
                     <button
                       onClick={() => setSaved(!saved)}
-                      className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${
-                        saved
-                          ? "bg-[#1F432C] border-[#1F432C] text-white shadow-soft"
-                          : "bg-white/70 hover:bg-white border-white/80 text-[#1F432C] shadow-sm"
-                      }`}
+                      className={`w-9 h-9 rounded-full border flex items-center justify-center transition-all ${saved
+                        ? "bg-[#1F432C] border-[#1F432C] text-white shadow-soft"
+                        : "bg-white/70 hover:bg-white border-white/80 text-[#1F432C] shadow-sm"
+                        }`}
                       title="Save Collection"
                       aria-label="Save Collection"
                     >
@@ -583,5 +589,6 @@ export default function CategorySection() {
         </div>
       </div>
     </section>
+    </>
   );
 }

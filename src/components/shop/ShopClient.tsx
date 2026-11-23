@@ -16,6 +16,7 @@ import {
   Check,
 } from "lucide-react";
 import ProductCard from "@/components/products/ProductCard";
+import MobileCategoryView from "@/components/category/MobileCategoryView";
 import { products } from "@/data/products";
 import { categories } from "@/data/categories";
 import { FurnitureStyle, Product } from "@/types";
@@ -179,30 +180,39 @@ export default function ShopClient({ initialCategory, categoryBanner }: ShopClie
     <div className="w-full bg-sage-light min-h-screen pb-20">
       {/* Category Banner if provided */}
       {categoryBanner ? (
-        <div className="relative w-full h-64 sm:h-80 overflow-hidden bg-forest-dark mb-10">
-          <Image
-            src={categoryBanner.bannerImage}
-            alt={categoryBanner.name}
-            fill
-            priority
-            sizes="100vw"
-            className="object-cover opacity-60"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/40 to-transparent" />
-          <div className="absolute inset-0 w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 flex flex-col justify-end pb-10 text-white">
-            <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-sage-300 mb-2">
-              <Link href="/shop" className="hover:text-white">Shop</Link>
-              <span>/</span>
-              <span className="text-terracotta">{categoryBanner.name}</span>
-            </div>
-            <h1 className="text-3xl sm:text-5xl font-heading font-extrabold text-white mb-2">
-              {categoryBanner.name}
-            </h1>
-            <p className="text-sm sm:text-base text-sage-200 max-w-2xl">
-              {categoryBanner.description}
-            </p>
+        <>
+          <div className="block lg:hidden w-full mb-6">
+            <MobileCategoryView
+              showHeader={false}
+              initialSlug={selectedCategory}
+              onExplore={(slug) => setSelectedCategory(slug)}
+            />
           </div>
-        </div>
+          <div className="hidden lg:block relative w-full h-64 sm:h-80 overflow-hidden bg-forest-dark mb-10">
+            <Image
+              src={categoryBanner.bannerImage}
+              alt={categoryBanner.name}
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover opacity-60"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-forest-deep via-forest-deep/40 to-transparent" />
+            <div className="absolute inset-0 w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 flex flex-col justify-end pb-10 text-white">
+              <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-sage-300 mb-2">
+                <Link href="/shop" className="hover:text-white">Shop</Link>
+                <span>/</span>
+                <span className="text-terracotta">{categoryBanner.name}</span>
+              </div>
+              <h1 className="text-3xl sm:text-5xl font-heading font-extrabold text-white mb-2">
+                {categoryBanner.name}
+              </h1>
+              <p className="text-sm sm:text-base text-sage-200 max-w-2xl">
+                {categoryBanner.description}
+              </p>
+            </div>
+          </div>
+        </>
       ) : (
         <div className="w-full max-w-[1850px] mx-auto px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20 pt-8 pb-6">
           <div className="flex items-center gap-2 text-xs uppercase tracking-widest text-forest-muted mb-2">

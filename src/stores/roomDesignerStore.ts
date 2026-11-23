@@ -109,14 +109,14 @@ interface RoomDesignerState {
 export const useRoomDesignerStore = create<RoomDesignerState>()(
   persist(
     (set, get) => ({
-      roomName: "Architectural Living Suite",
-      roomWidth: 6.0,
-      roomLength: 4.8,
+      roomName: "Square Studio Suite",
+      roomWidth: 5.2,
+      roomLength: 4.5,
       wallHeight: 2.8,
       wallThickness: 0.15,
       wallColor: "#F4F7F2",
       wallFinish: "warm-linen",
-      floorType: "herringbone",
+      floorType: "light-oak",
       gridVisible: true,
       gridSnap: true,
       gridSnapSize: 0.1, // 10 cm snapping
@@ -130,8 +130,8 @@ export const useRoomDesignerStore = create<RoomDesignerState>()(
           productId: "prod-1",
           name: "Arcadia Curved Bouclé Sofa",
           category: "sofas",
-          x: 180,
-          y: 110,
+          x: 140,
+          y: 173,
           width: 240, // 240 cm = 240 px
           height: 105, // 105 cm = 105 px
           realWidthCm: 240,
@@ -141,47 +141,15 @@ export const useRoomDesignerStore = create<RoomDesignerState>()(
           colorHex: "#F8F7F0",
           zIndex: 1,
         },
-        {
-          id: "item-default-2",
-          productId: "prod-7",
-          name: "Torus Sculptural Asymmetrical Coffee Table",
-          category: "coffee-tables",
-          x: 235,
-          y: 250,
-          width: 130, // 130 cm
-          height: 75, // 75 cm
-          realWidthCm: 130,
-          realDepthCm: 75,
-          realHeightCm: 38,
-          rotation: 0,
-          colorHex: "#DFD7CD",
-          zIndex: 2,
-        },
-        {
-          id: "item-default-3",
-          productId: "prod-3",
-          name: "Väster Lounge Armchair in Saddle Leather",
-          category: "lounge-chairs",
-          x: 90,
-          y: 240,
-          width: 78, // 78 cm
-          height: 84, // 84 cm
-          realWidthCm: 78,
-          realDepthCm: 84,
-          realHeightCm: 76,
-          rotation: 35,
-          colorHex: "#B85232",
-          zIndex: 3,
-        },
       ],
 
       doors: [
         {
           id: "door-default-1",
-          name: "Main Entrance Door",
+          name: "Interior Passage Door",
           type: "single",
           wall: "bottom",
-          offset: 0.8,
+          offset: 0.6,
           width: 0.9,
           swing: "inside",
         },
@@ -190,7 +158,7 @@ export const useRoomDesignerStore = create<RoomDesignerState>()(
       windows: [
         {
           id: "win-default-1",
-          name: "Garden Panoramic Window",
+          name: "Panoramic Picture Window",
           type: "large",
           wall: "top",
           offset: 1.5,

@@ -23,9 +23,12 @@ import { sampleVisualizerRooms } from "@/data/roomPresets";
 import { products } from "@/data/products";
 import { VisualizerPlacedItem, Product } from "@/types";
 import { formatPrice } from "@/lib/utils";
+import { useCartStore } from "@/stores/cartStore";
+import RoomVisualizerMobileView from "@/features/room-visualizer/RoomVisualizerMobileView";
 
 export default function RoomVisualizerPage() {
   const [mounted, setMounted] = useState(false);
+  const cartItemCount = useCartStore((s) => s.getItemCount());
   const [roomImage, setRoomImage] = useState<string | null>(null);
   const [placedItems, setPlacedItems] = useState<VisualizerPlacedItem[]>([
     {
@@ -33,8 +36,8 @@ export default function RoomVisualizerPage() {
       productId: "prod-1",
       name: "Arcadia Curved Bouclé Sofa",
       price: 3450,
-      x: 180,
-      y: 220,
+      x: 100,
+      y: 130,
       scale: 1,
       rotation: 0,
       flipX: false,
@@ -242,7 +245,37 @@ export default function RoomVisualizerPage() {
   });
 
   return (
-    <div className="w-full bg-sage-light min-h-screen flex flex-col pt-[78px] sm:pt-[84px] lg:pt-[88px]">
+    <>
+      {/* ============================================================ */}
+      {/* MOBILE ROOM PHOTO VISUALIZER (< lg)                          */}
+      {/* ============================================================ */}
+      <div className="block lg:hidden w-full">
+        <RoomVisualizerMobileView
+          roomImage={roomImage}
+          placedItems={placedItems}
+          selectedItemId={selectedItemId}
+          selectedItem={selectedItem}
+          products={products}
+          cartItemCount={cartItemCount}
+          fileInputRef={fileInputRef}
+          handleFileUpload={handleFileUpload}
+          handleDownloadPreview={handleDownloadPreview}
+          handleAddFurniture={handleAddFurniture}
+          handleUpdateItem={handleUpdateItem}
+          handleRemoveItem={handleRemoveItem}
+          handleBringForward={handleBringForward}
+          handleSendBackward={handleSendBackward}
+          setSelectedItemId={setSelectedItemId}
+          activeDraggingId={activeDraggingId}
+          handlePointerDown={handlePointerDown}
+          setRoomImage={setRoomImage}
+        />
+      </div>
+
+      {/* ============================================================ */}
+      {/* DESKTOP ROOM PHOTO VISUALIZER (>= lg)                        */}
+      {/* ============================================================ */}
+      <div className="hidden lg:flex w-full bg-sage-light min-h-screen flex-col pt-[78px] sm:pt-[84px] lg:pt-[88px]">
       {/* Top Header */}
       <div className="bg-ivory-warm border-b border-borderSage px-4 sm:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4 shadow-soft">
         <div className="flex items-center gap-3">
@@ -613,5 +646,6 @@ export default function RoomVisualizerPage() {
         </aside>
       </div>
     </div>
+    </>
   );
 }

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Compass, CheckCircle, Sparkles } from "lucide-react";
 import SplitText from "@/components/ui/SplitText";
+import StyleQuizMobileView from "./StyleQuizMobileView";
 
 export default function StyleQuizBanner() {
   const quizHighlights = [
@@ -16,11 +17,16 @@ export default function StyleQuizBanner() {
   ];
 
   return (
-    <section className="py-16 sm:py-20 lg:py-24 bg-[#E5EDE1] border-b border-borderSage/70 relative overflow-hidden w-full select-none">
+    <section className="py-10 sm:py-16 lg:py-24 bg-[#E5EDE1] border-b border-borderSage/70 relative overflow-hidden w-full select-none">
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
-        {/* Apple Liquid Glass Floating Capsule Card */}
+        {/* Mobile View (< lg) */}
+        <div className="block lg:hidden">
+          <StyleQuizMobileView quizHighlights={quizHighlights} />
+        </div>
+
+        {/* Desktop View (>= lg): Apple Liquid Glass Floating Capsule Card */}
         <div
-          className="relative rounded-[32px] sm:rounded-[40px] lg:rounded-[48px] overflow-hidden text-white p-7 sm:p-10 lg:p-14 xl:p-16 border-[1.5px] border-white/35 shadow-[0_30px_70px_rgba(10,32,22,0.22),inset_0_2px_3px_rgba(255,255,255,0.65),inset_0_-2px_4px_rgba(0,0,0,0.2)]"
+          className="hidden lg:block relative rounded-[32px] sm:rounded-[40px] lg:rounded-[48px] overflow-hidden text-white p-7 sm:p-10 lg:p-14 xl:p-16 border-[1.5px] border-white/35 shadow-[0_30px_70px_rgba(10,32,22,0.22),inset_0_2px_3px_rgba(255,255,255,0.65),inset_0_-2px_4px_rgba(0,0,0,0.2)]"
           style={{
             background:
               "linear-gradient(135deg, rgba(22, 54, 40, 0.72) 0%, rgba(14, 38, 28, 0.84) 50%, rgba(19, 48, 35, 0.76) 100%)",

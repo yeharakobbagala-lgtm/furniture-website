@@ -7,6 +7,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { ArrowRight, BookOpen, Clock, ChevronLeft, ChevronRight, Sparkles } from "lucide-react";
 import { articles } from "@/data/articles";
 import SplitText from "@/components/ui/SplitText";
+import EditorialMobileView from "./EditorialMobileView";
 
 export default function EditorialSection() {
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -34,11 +35,22 @@ export default function EditorialSection() {
   };
 
   return (
-    <section
-      className="relative w-full py-12 lg:py-0 lg:h-screen lg:max-h-[900px] lg:min-h-[700px] flex items-center bg-[#E5EDE1] border-b border-borderSage/70 overflow-hidden select-none"
-      onMouseEnter={() => setIsAutoPlaying(false)}
-      onMouseLeave={() => setIsAutoPlaying(true)}
-    >
+    <>
+      {/* ============================================================ */}
+      {/* MOBILE EDITORIAL SECTION (< lg)                              */}
+      {/* ============================================================ */}
+      <div className="block lg:hidden w-full">
+        <EditorialMobileView />
+      </div>
+
+      {/* ============================================================ */}
+      {/* DESKTOP EDITORIAL SECTION (>= lg)                            */}
+      {/* ============================================================ */}
+      <section
+        className="hidden lg:flex relative w-full py-12 lg:py-0 lg:h-screen lg:max-h-[900px] lg:min-h-[700px] items-center bg-[#E5EDE1] border-b border-borderSage/70 overflow-hidden select-none"
+        onMouseEnter={() => setIsAutoPlaying(false)}
+        onMouseLeave={() => setIsAutoPlaying(true)}
+      >
       {/* Background Organic Shapes & Ambient Liquid Lighting */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         {/* Deep Forest Organic Background Curves */}
@@ -324,5 +336,6 @@ export default function EditorialSection() {
         </div>
       </div>
     </section>
+    </>
   );
 }

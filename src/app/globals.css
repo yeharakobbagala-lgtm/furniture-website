@@ -7,7 +7,7 @@
   src: url('/fonts/OrangeAvenueDEMO-Regular.otf') format('opentype'),
        url('/font%20hero/orange-avenue/OrangeAvenueDEMO-Regular.otf') format('opentype'),
        url('/font hero/orange-avenue/OrangeAvenueDEMO-Regular.otf') format('opentype');
-  font-weight: 400;
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
 }
@@ -165,6 +165,24 @@
 /* APPLE LIQUID GLASS & GLASSMORPHISM CORE TOKENS                            */
 /* ========================================================================= */
 
+.header-liquid-glass {
+  background: linear-gradient(
+    135deg,
+    rgba(255, 255, 255, 0.16) 0%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  backdrop-filter: blur(10px) saturate(180%) brightness(1.02);
+  -webkit-backdrop-filter: blur(10px) saturate(180%) brightness(1.02);
+  border: 1px solid rgba(255, 255, 255, 0.38);
+  border-top: 1.5px solid rgba(255, 255, 255, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 16px 40px -8px rgba(16, 45, 37, 0.06),
+    0 4px 12px rgba(16, 45, 37, 0.02),
+    inset 0 1.5px 2px 0 rgba(255, 255, 255, 0.65),
+    inset 0 -1px 2px 0 rgba(0, 0, 0, 0.02);
+}
+
 .glass-surface {
   background: rgba(255, 255, 255, 0.88);
   backdrop-filter: blur(28px) saturate(160%);
@@ -275,3 +293,43 @@
 .konvajs-content {
   margin: 0 auto;
 }
+
+/* Glass Specular Shine Sweep Animation */
+@keyframes glass-shine-sweep {
+  0% {
+    transform: translateX(-160%) skewX(-22deg);
+    opacity: 0;
+  }
+  15% {
+    opacity: 0.9;
+  }
+  40% {
+    transform: translateX(260%) skewX(-22deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(260%) skewX(-22deg);
+    opacity: 0;
+  }
+}
+
+.animate-glass-shine {
+  animation: glass-shine-sweep 4.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Slide Up for Mobile Bottom Sheets */
+@keyframes slideUp {
+  from {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slideUp {
+  animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+

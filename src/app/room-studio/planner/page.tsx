@@ -49,6 +49,7 @@ import {
   calculateRoomMetrics,
   PIXELS_PER_METER,
 } from "@/features/room-planner/smartMeasurementEngine";
+import RoomPlannerMobileView from "@/features/room-planner/RoomPlannerMobileView";
 
 // Dynamically import Konva Canvas to prevent SSR issues
 const RoomPlannerCanvas = dynamic(
@@ -148,6 +149,7 @@ export default function RoomPlannerPage() {
 
   const saveRoomDesign = useUserStore((s) => s.saveRoomDesign);
   const addItemToCart = useCartStore((s) => s.addItem);
+  const cartItemCount = useCartStore((s) => s.getItemCount());
   const sidebarRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -187,7 +189,31 @@ export default function RoomPlannerPage() {
 
   // Selected item's original product
   const selectedProduct = selectedItem
-    ? products.find((p) => p.id === selectedItem.productId)
+    ? products.find((p) => p.id === selectedItem.productId || p.name.toLowerCase() === selectedItem.name.toLowerCase()) || {
+        id: selectedItem.productId || selectedItem.id,
+        name: selectedItem.name,
+        slug: selectedItem.name.toLowerCase().replace(/\s+/g, "-"),
+        description: selectedItem.name,
+        shortDescription: selectedItem.name,
+        category: selectedItem.category,
+        categoryName: selectedItem.category,
+        price: 3450,
+        originalPrice: 3890,
+        images: [selectedItem.image || "/furniture-cutouts/prod-1.webp"],
+        colours: [
+          { name: "Oatmeal Bouclé", hex: "#F8F7F0" },
+          { name: "Forest Velvet", hex: "#2E5339" },
+          { name: "Terracotta", hex: "#B85232" },
+          { name: "Smoked Noir", hex: "#1C2421" },
+        ],
+        dimensions: {
+          width: Math.round(selectedItem.width),
+          depth: Math.round(selectedItem.height),
+          height: 78,
+          unit: "cm",
+        },
+        rating: 4.9,
+      } as Product
     : null;
 
   // Filtered library products
@@ -285,8 +311,127 @@ export default function RoomPlannerPage() {
     setBomModalOpen(false);
   };
 
+  const renderCanvas = () => (
+    viewMode === "2d" ? (
+      <RoomPlannerCanvas
+        items={items}
+        doors={doors}
+        windows={windows}
+        roomWidth={roomWidth}
+        roomLength={roomLength}
+        wallColor={wallColor}
+        floorType={floorType}
+        gridVisible={gridVisible}
+        gridSnap={gridSnap}
+        gridSnapSize={gridSnapSize}
+        zoom={zoom}
+        selectedItemId={selectedItemId}
+        selectedDoorId={selectedDoorId}
+        selectedWindowId={selectedWindowId}
+        warnings={warnings}
+        onSelectItem={(id) => {
+          selectItem(id);
+          if (id) {
+            selectDoor(null);
+            selectWindow(null);
+          }
+        }}
+        onSelectDoor={(id) => {
+          selectDoor(id);
+          if (id) {
+            selectItem(null);
+            selectWindow(null);
+          }
+        }}
+        onSelectWindow={(id) => {
+          selectWindow(id);
+          if (id) {
+            selectItem(null);
+            selectDoor(null);
+          }
+        }}
+        onUpdatePosition={updateItemPosition}
+        onUpdateRotation={updateItemRotation}
+        onDeleteItem={removeItem}
+        onDuplicateItem={duplicateItem}
+      />
+    ) : (
+      <RoomPlanner3D
+        items={items}
+        doors={doors}
+        windows={windows}
+        roomWidth={roomWidth}
+        roomLength={roomLength}
+        wallHeight={wallHeight}
+        wallThickness={wallThickness}
+        wallColor={wallColor}
+        floorType={floorType}
+        selectedItemId={selectedItemId}
+        onSelectItem={selectItem}
+      />
+    )
+  );
+
   return (
-    <div className="w-full bg-sage-light min-h-screen flex flex-col font-sans pt-[78px] sm:pt-[84px] lg:pt-[88px]">
+    <>
+      {/* ============================================================ */}
+      {/* MOBILE STUDIO PLANNER (< lg)                                 */}
+      {/* ============================================================ */}
+      <div className="block lg:hidden w-full">
+        <RoomPlannerMobileView
+          cartItemCount={cartItemCount}
+          roomWidth={roomWidth}
+          roomLength={roomLength}
+          roomMetrics={roomMetrics}
+          items={items}
+          doors={doors}
+          windows={windows}
+          warnings={warnings}
+          viewMode={viewMode}
+          setViewMode={setViewMode}
+          undo={undo}
+          redo={redo}
+          canUndo={past.length > 0}
+          canRedo={future.length > 0}
+          gridSnap={gridSnap}
+          setGridSnap={setGridSnap}
+          zoom={zoom}
+          setZoom={setZoom}
+          handleExportPlan={handleExportPlan}
+          setSaveModalOpen={setSaveModalOpen}
+          setBomModalOpen={setBomModalOpen}
+          renderCanvas={renderCanvas}
+          selectedItemId={selectedItemId}
+          selectedItem={selectedItem}
+          selectedProduct={selectedProduct}
+          selectItem={selectItem}
+          addItem={handleAddProductToRoom}
+          updateItemRotation={updateItemRotation}
+          updateItemColor={updateItemColor}
+          duplicateItem={duplicateItem}
+          removeItem={removeItem}
+          addItemToCart={addItemToCart}
+          products={products}
+          onAddDoorWall={handleAddDoorToWall}
+          removeDoor={removeDoor}
+          onAddWindowWall={handleAddWindowToWall}
+          removeWindow={removeWindow}
+          setRoomDimensions={setRoomDimensions}
+          roomPresets={roomPresets}
+          loadPreset={loadPreset}
+          floorType={floorType}
+          setFloorType={setFloorType}
+          wallFinish={wallFinish}
+          setWallFinish={setWallFinish}
+          wallColor={wallColor}
+          setWallColor={setWallColor}
+        />
+      </div>
+
+      {/* ============================================================ */}
+      {/* DESKTOP STUDIO PLANNER (>= lg)                               */}
+      {/* ============================================================ */}
+      <div className="hidden lg:flex w-full bg-sage-light min-h-screen flex-col font-sans pt-[78px] sm:pt-[84px] lg:pt-[88px]">
       {/* Top Architectural Studio Bar */}
       <header className="bg-ivory-warm border-b border-borderSage px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 shadow-soft sticky top-[78px] sm:top-[84px] lg:top-[88px] z-30">
         <div className="flex items-center gap-3">
@@ -1542,5 +1687,6 @@ export default function RoomPlannerPage() {
         </div>
       )}
     </div>
+    </>
   );
 }

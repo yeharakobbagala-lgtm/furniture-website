@@ -43,13 +43,15 @@ export default function HeroContent({ config }: HeroContentProps) {
 
           {/* Main Headline with Orange Avenue Ligatures and Generous Line Gaps */}
           <h1
-            className="font-orangeAvenue text-[#0F2B20] text-[clamp(2.9rem,5.1vw,5.8rem)] leading-[1.06] tracking-[-0.015em] pointer-events-auto cursor-default font-normal"
+            className="font-orangeAvenue text-[#0F2B20] text-[clamp(2.9rem,5.1vw,5.8rem)] leading-[1.06] tracking-[-0.015em] pointer-events-auto cursor-default font-medium"
             style={{
               fontFamily: "var(--font-orange-avenue), 'OrangeAvenue', serif",
               fontFeatureSettings: '"liga" 1, "dlig" 1, "calt" 1, "swsh" 1, "ss01" 0',
               fontVariantLigatures: "common-ligatures discretionary-ligatures contextual",
               WebkitFontSmoothing: "antialiased",
               MozOsxFontSmoothing: "grayscale",
+              WebkitTextStroke: "0.55px currentColor",
+              paintOrder: "stroke fill",
             }}
           >
             <div className="block">
@@ -62,7 +64,7 @@ export default function HeroContent({ config }: HeroContentProps) {
                 duration={1.1}
                 trigger="load"
                 hoverEffect="lift"
-                className="font-orangeAvenue font-normal"
+                className="font-orangeAvenue font-medium"
               />
             </div>
             <div className="block mt-2.5 sm:mt-3.5 lg:mt-4">
@@ -75,7 +77,7 @@ export default function HeroContent({ config }: HeroContentProps) {
                 duration={1.1}
                 trigger="load"
                 hoverEffect="lift"
-                className="font-orangeAvenue font-normal"
+                className="font-orangeAvenue font-medium"
               />
             </div>
             <div className="block mt-2.5 sm:mt-3.5 lg:mt-4 whitespace-nowrap">
@@ -88,7 +90,7 @@ export default function HeroContent({ config }: HeroContentProps) {
                 duration={1.2}
                 trigger="load"
                 hoverEffect="lift"
-                className="font-orangeAvenue font-normal"
+                className="font-orangeAvenue font-medium"
               />
             </div>
           </h1>

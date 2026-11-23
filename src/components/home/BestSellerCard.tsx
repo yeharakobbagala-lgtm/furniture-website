@@ -73,6 +73,26 @@ export default function BestSellerCard({ item }: BestSellerCardProps) {
         onMouseMove={handleMouseMove}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
+        onTouchStart={(e) => {
+          setIsHovered(true);
+          const t = e.touches[0];
+          if (!cardRef.current || !t) return;
+          const rect = cardRef.current.getBoundingClientRect();
+          setMousePos({
+            x: ((t.clientX - rect.left) / rect.width) * 100,
+            y: ((t.clientY - rect.top) / rect.height) * 100,
+          });
+        }}
+        onTouchMove={(e) => {
+          const t = e.touches[0];
+          if (!cardRef.current || !t) return;
+          const rect = cardRef.current.getBoundingClientRect();
+          setMousePos({
+            x: ((t.clientX - rect.left) / rect.width) * 100,
+            y: ((t.clientY - rect.top) / rect.height) * 100,
+          });
+        }}
+        onTouchEnd={() => setIsHovered(false)}
         className="relative w-full rounded-[28px] sm:rounded-[34px] liquid-glass-dark p-6 sm:p-7 pt-20 sm:pt-24 flex flex-col justify-between min-h-[320px] sm:min-h-[340px] shadow-floating border border-white/15 transition-all duration-500 group-hover:-translate-y-2 group-hover:border-white/30"
       >
         {/* Ambient Warm Backlight Glow inside card */}

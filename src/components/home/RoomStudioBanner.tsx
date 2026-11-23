@@ -6,10 +6,22 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { ArrowRight, Layers, Sparkles, Wand2 } from "lucide-react";
 import SplitText from "@/components/ui/SplitText";
+import RoomStudioMobileView from "./RoomStudioMobileView";
 
 export default function RoomStudioBanner() {
   return (
-    <section className="py-6 sm:py-8 lg:py-0 lg:min-h-screen lg:max-h-[960px] flex items-center bg-[#DFEADA] border-b border-borderSage/70 select-none w-full overflow-hidden">
+    <>
+      {/* ============================================================ */}
+      {/* MOBILE INTERACTIVE DESIGN STUDIO (< lg)                      */}
+      {/* ============================================================ */}
+      <div className="block lg:hidden w-full">
+        <RoomStudioMobileView />
+      </div>
+
+      {/* ============================================================ */}
+      {/* DESKTOP INTERACTIVE DESIGN STUDIO (>= lg)                    */}
+      {/* ============================================================ */}
+      <section className="hidden lg:flex py-6 sm:py-8 lg:py-0 lg:min-h-screen lg:max-h-[960px] items-center bg-[#DFEADA] border-b border-borderSage/70 select-none w-full overflow-hidden">
       <div className="w-full px-4 sm:px-6 md:px-8 lg:px-10 xl:px-14 2xl:px-16 py-4 lg:py-6">
         {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto mb-5 sm:mb-6 lg:mb-8 space-y-1.5 sm:space-y-2">
@@ -161,5 +173,6 @@ export default function RoomStudioBanner() {
         </div>
       </div>
     </section>
+    </>
   );
 }

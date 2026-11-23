@@ -7,10 +7,22 @@ import { motion } from "framer-motion";
 import { ArrowRight, MapPin } from "lucide-react";
 import { designers } from "@/data/designers";
 import SplitText from "@/components/ui/SplitText";
+import DesignerSpotlightMobileView from "./DesignerSpotlightMobileView";
 
 export default function DesignerSpotlight() {
   return (
-    <section className="py-20 bg-sage-light border-b border-borderSage/70 w-full select-none">
+    <>
+      {/* ============================================================ */}
+      {/* MOBILE DESIGNER SPOTLIGHT (< lg)                             */}
+      {/* ============================================================ */}
+      <div className="block lg:hidden w-full">
+        <DesignerSpotlightMobileView />
+      </div>
+
+      {/* ============================================================ */}
+      {/* DESKTOP DESIGNER SPOTLIGHT (>= lg)                           */}
+      {/* ============================================================ */}
+      <section className="hidden lg:block py-20 bg-sage-light border-b border-borderSage/70 w-full select-none">
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
         {/* Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
@@ -95,5 +107,6 @@ export default function DesignerSpotlight() {
         </div>
       </div>
     </section>
+    </>
   );
 }

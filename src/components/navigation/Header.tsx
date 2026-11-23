@@ -32,6 +32,11 @@ export default function Header() {
   const [roomStudioDropdownOpen, setRoomStudioDropdownOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
+  const furnitureRef = React.useRef<HTMLDivElement>(null);
+  const roomStudioRef = React.useRef<HTMLDivElement>(null);
+  const furnitureTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+  const roomStudioTimerRef = React.useRef<NodeJS.Timeout | null>(null);
+
   const cartItemCount = useCartStore((s) => s.getItemCount());
   const wishlistItems = useWishlistStore((s) => s.items);
   const comparisonItems = useComparisonStore((s) => s.items);
@@ -46,12 +51,82 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Clear timers on unmount
+  useEffect(() => {
+    return () => {
+      if (furnitureTimerRef.current) clearTimeout(furnitureTimerRef.current);
+      if (roomStudioTimerRef.current) clearTimeout(roomStudioTimerRef.current);
+    };
+  }, []);
+
+  // Close menus on outside click or tap
+  useEffect(() => {
+    const handleOutsideInteraction = (e: MouseEvent | TouchEvent) => {
+      const target = e.target as Node;
+      if (furnitureRef.current && !furnitureRef.current.contains(target)) {
+        setFurnitureDropdownOpen(false);
+      }
+      if (roomStudioRef.current && !roomStudioRef.current.contains(target)) {
+        setRoomStudioDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleOutsideInteraction);
+    document.addEventListener("touchstart", handleOutsideInteraction);
+    return () => {
+      document.removeEventListener("mousedown", handleOutsideInteraction);
+      document.removeEventListener("touchstart", handleOutsideInteraction);
+    };
+  }, []);
+
   // Close menus on page route change
   useEffect(() => {
     setMobileMenuOpen(false);
     setFurnitureDropdownOpen(false);
     setRoomStudioDropdownOpen(false);
   }, [pathname]);
+
+  const handleFurnitureMouseEnter = () => {
+    if (furnitureTimerRef.current) clearTimeout(furnitureTimerRef.current);
+    setFurnitureDropdownOpen(true);
+    setRoomStudioDropdownOpen(false);
+  };
+
+  const handleFurnitureMouseLeave = () => {
+    if (furnitureTimerRef.current) clearTimeout(furnitureTimerRef.current);
+    furnitureTimerRef.current = setTimeout(() => {
+      setFurnitureDropdownOpen(false);
+    }, 280);
+  };
+
+  const handleFurnitureToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (furnitureTimerRef.current) clearTimeout(furnitureTimerRef.current);
+    setFurnitureDropdownOpen((prev) => !prev);
+    setRoomStudioDropdownOpen(false);
+  };
+
+  const handleRoomStudioMouseEnter = () => {
+    if (roomStudioTimerRef.current) clearTimeout(roomStudioTimerRef.current);
+    setRoomStudioDropdownOpen(true);
+    setFurnitureDropdownOpen(false);
+  };
+
+  const handleRoomStudioMouseLeave = () => {
+    if (roomStudioTimerRef.current) clearTimeout(roomStudioTimerRef.current);
+    roomStudioTimerRef.current = setTimeout(() => {
+      setRoomStudioDropdownOpen(false);
+    }, 280);
+  };
+
+  const handleRoomStudioToggle = (e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    if (roomStudioTimerRef.current) clearTimeout(roomStudioTimerRef.current);
+    setRoomStudioDropdownOpen((prev) => !prev);
+    setFurnitureDropdownOpen(false);
+  };
 
   const navLinks = [
     { label: "Designers", href: "/designers" },
@@ -61,19 +136,20 @@ export default function Header() {
   ];
 
   const isHome = pathname === "/";
+  const isStudioRoute = pathname?.startsWith("/room-studio");
 
   return (
     <>
-      <header className="fixed top-3 left-0 right-0 z-40 px-2 sm:px-4 md:px-6 lg:px-8 xl:px-10 pointer-events-none transition-all duration-500">
-        <div className="w-full max-w-[1920px] mx-auto pointer-events-auto">
-          <div className="glass-surface rounded-full py-3 sm:py-3.5 px-5 sm:px-8 xl:px-12 shadow-[0_12px_35px_rgba(20,55,35,0.08),inset_0_1px_1.5px_rgba(255,255,255,0.85)] border border-white/65 flex items-center justify-between">
+      <header className={`fixed top-3 sm:top-3.5 left-0 right-0 z-40 px-3 sm:px-6 md:px-8 lg:px-10 pointer-events-none transition-all duration-500 ${isStudioRoute ? "hidden lg:block" : ""}`}>
+        <div className="w-full max-w-[1260px] xl:max-w-[1320px] mx-auto pointer-events-auto">
+          <div className="header-liquid-glass rounded-full py-2.5 sm:py-3 px-4 sm:px-6 xl:px-8 flex items-center justify-between transition-all duration-300">
             {/* Left: Square Brand Logo with House Icon */}
-            <div className="flex items-center gap-6 sm:gap-8 shrink-0">
+            <div className="flex items-center gap-4 sm:gap-6 shrink-0">
               <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group">
-                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-forest-dark flex items-center justify-center text-ivory shadow-soft group-hover:bg-forest-deep transition-colors shrink-0">
+                <div className="w-8.5 h-8.5 sm:w-9.5 sm:h-9.5 rounded-xl bg-forest-dark flex items-center justify-center text-ivory shadow-soft group-hover:bg-forest-deep transition-colors shrink-0">
                   <svg
-                    width="20"
-                    height="20"
+                    width="19"
+                    height="19"
                     viewBox="0 0 24 24"
                     fill="none"
                     stroke="currentColor"
@@ -87,31 +163,34 @@ export default function Header() {
                   </svg>
                 </div>
                 <div className="flex flex-col">
-                  <span className="font-heading font-extrabold text-xl sm:text-2xl tracking-wider text-forest-deep leading-none">
+                  <span className="font-heading font-extrabold text-lg sm:text-xl tracking-wider text-forest-deep leading-none">
                     SQUARE
                   </span>
-                  <span className="text-[10px] sm:text-[11px] uppercase tracking-[0.22em] text-forest-muted font-medium leading-tight mt-0.5">
+                  <span className="text-[9.5px] sm:text-[10px] uppercase tracking-[0.22em] text-forest-muted font-medium leading-tight mt-0.5">
                     Furniture & Living
                   </span>
                 </div>
               </Link>
             </div>
 
-            {/* Centre: Desktop Navigation (Expanded & Spread Out) */}
-            <nav className="hidden lg:flex items-center gap-3.5 lg:gap-4.5 xl:gap-8 2xl:gap-11 mx-2 xl:mx-4">
+            {/* Centre: Desktop Navigation (Refined Spacing for Compact Island) */}
+            <nav className="hidden lg:flex items-center gap-3 xl:gap-5 2xl:gap-7 mx-2 xl:mx-3">
               {/* Furniture with Rich Mega Dropdown */}
               <div
+                ref={furnitureRef}
                 className="relative shrink-0"
-                onMouseEnter={() => setFurnitureDropdownOpen(true)}
-                onMouseLeave={() => setFurnitureDropdownOpen(false)}
+                onMouseEnter={handleFurnitureMouseEnter}
+                onMouseLeave={handleFurnitureMouseLeave}
               >
-                <Link
-                  href="/shop"
-                  className={`relative flex items-center gap-1.5 text-sm xl:text-[15px] font-semibold tracking-wide whitespace-nowrap transition-colors py-1 px-1.5 ${
-                    pathname.startsWith("/shop")
+                <button
+                  type="button"
+                  onClick={handleFurnitureToggle}
+                  className={`relative flex items-center gap-1.5 text-sm xl:text-[15px] font-semibold tracking-wide whitespace-nowrap transition-colors py-1 px-1.5 rounded-lg select-none ${
+                    pathname.startsWith("/shop") || furnitureDropdownOpen
                       ? "text-terracotta"
                       : "text-forest-deep hover:text-terracotta"
                   }`}
+                  aria-expanded={furnitureDropdownOpen}
                 >
                   <span>Furniture</span>
                   <ChevronDown
@@ -122,61 +201,69 @@ export default function Header() {
                   {pathname.startsWith("/shop") && (
                     <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-terracotta rounded-full" />
                   )}
-                </Link>
+                </button>
 
-                {/* Dropdown panel */}
+                {/* Dropdown panel with continuous hit target */}
                 {furnitureDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-[520px] rounded-3xl bg-white/85 backdrop-blur-3xl shadow-[0_20px_50px_rgba(20,55,35,0.15)] border border-white/80 p-5 mt-3 grid grid-cols-2 gap-3 animate-fadeIn z-50">
-                    <div className="col-span-2 pb-2 mb-1 border-b border-borderSage/60 flex items-center justify-between">
-                      <span className="text-xs uppercase tracking-wider font-semibold text-forest-muted">
-                        All Furniture Collections
-                      </span>
-                      <Link
-                        href="/shop"
-                        className="text-xs text-terracotta font-medium hover:underline"
-                      >
-                        Browse all {categories.length} categories →
-                      </Link>
-                    </div>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-50">
+                    <div className="w-[520px] rounded-3xl bg-white/95 backdrop-blur-3xl shadow-[0_20px_50px_rgba(20,55,35,0.18)] border border-white/80 p-5 grid grid-cols-2 gap-3 animate-fadeIn">
+                      <div className="col-span-2 pb-2 mb-1 border-b border-borderSage/60 flex items-center justify-between">
+                        <span className="text-xs uppercase tracking-wider font-semibold text-forest-muted">
+                          All Furniture Collections
+                        </span>
+                        <Link
+                          href="/shop"
+                          onClick={() => setFurnitureDropdownOpen(false)}
+                          className="text-xs text-terracotta font-medium hover:underline"
+                        >
+                          Browse all {categories.length} categories →
+                        </Link>
+                      </div>
 
-                    {categories.slice(0, 8).map((cat) => (
-                      <Link
-                        key={cat.id}
-                        href={`/shop/${cat.slug}`}
-                        className="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-white/60 border border-transparent hover:border-white/50 transition-all group"
-                      >
-                        <div className="w-10 h-10 rounded-xl bg-sage-200/60 overflow-hidden relative shrink-0">
-                          {/* eslint-disable-next-line @next/next/no-img-element */}
-                          <img
-                            src={cat.image}
-                            alt={cat.name}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                          />
-                        </div>
-                        <div>
-                          <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
-                            {cat.name}
-                          </p>
-                          <p className="text-xs text-forest-muted">{cat.productCount} models</p>
-                        </div>
-                      </Link>
-                    ))}
+                      {categories.slice(0, 8).map((cat) => (
+                        <Link
+                          key={cat.id}
+                          href={`/shop/${cat.slug}`}
+                          onClick={() => setFurnitureDropdownOpen(false)}
+                          className="flex items-center gap-3 p-2.5 rounded-2xl hover:bg-white/80 border border-transparent hover:border-white/50 transition-all group"
+                        >
+                          <div className="w-10 h-10 rounded-xl bg-sage-200/60 overflow-hidden relative shrink-0">
+                            {/* eslint-disable-next-line @next/next/no-img-element */}
+                            <img
+                              src={cat.image}
+                              alt={cat.name}
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform"
+                            />
+                          </div>
+                          <div>
+                            <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
+                              {cat.name}
+                            </p>
+                            <p className="text-xs text-forest-muted">{cat.productCount} models</p>
+                          </div>
+                        </Link>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
 
               {/* Room Studio Dropdown */}
               <div
+                ref={roomStudioRef}
                 className="relative shrink-0"
-                onMouseEnter={() => setRoomStudioDropdownOpen(true)}
-                onMouseLeave={() => setRoomStudioDropdownOpen(false)}
+                onMouseEnter={handleRoomStudioMouseEnter}
+                onMouseLeave={handleRoomStudioMouseLeave}
               >
-                <span
-                  className={`flex items-center gap-1.5 text-sm xl:text-[15px] font-semibold tracking-wide whitespace-nowrap cursor-pointer transition-colors py-1 px-1.5 ${
-                    pathname.startsWith("/room-studio")
+                <button
+                  type="button"
+                  onClick={handleRoomStudioToggle}
+                  className={`flex items-center gap-1.5 text-sm xl:text-[15px] font-semibold tracking-wide whitespace-nowrap cursor-pointer transition-colors py-1 px-1.5 rounded-lg select-none ${
+                    pathname.startsWith("/room-studio") || roomStudioDropdownOpen
                       ? "text-terracotta"
                       : "text-forest-deep hover:text-terracotta"
                   }`}
+                  aria-expanded={roomStudioDropdownOpen}
                 >
                   <span>Room Studio</span>
                   <ChevronDown
@@ -184,60 +271,65 @@ export default function Header() {
                       roomStudioDropdownOpen ? "rotate-180 text-terracotta" : "text-forest-muted"
                     }`}
                   />
-                </span>
+                </button>
 
                 {roomStudioDropdownOpen && (
-                  <div className="absolute top-full left-1/2 -translate-x-1/2 w-80 rounded-3xl bg-white/85 backdrop-blur-3xl shadow-[0_20px_50px_rgba(20,55,35,0.15)] border border-white/80 p-3 mt-3 space-y-1 animate-fadeIn z-50">
-                    <Link
-                      href="/room-studio/planner"
-                      className="flex items-start gap-3 p-3 rounded-2xl hover:bg-white/60 border border-transparent hover:border-white/50 transition-all group"
-                    >
-                      <div className="w-9 h-9 rounded-xl bg-forest-dark text-white flex items-center justify-center shrink-0 shadow-soft">
-                        <Layers className="w-4 h-4 text-terracotta" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
-                          2D Room Planner
-                        </p>
-                        <p className="text-xs text-forest-muted">
-                          Interactive layout tool to configure room dimensions and arrange furniture.
-                        </p>
-                      </div>
-                    </Link>
+                  <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2.5 z-50">
+                    <div className="w-80 rounded-3xl bg-white/95 backdrop-blur-3xl shadow-[0_20px_50px_rgba(20,55,35,0.18)] border border-white/80 p-3 space-y-1 animate-fadeIn">
+                      <Link
+                        href="/room-studio/planner"
+                        onClick={() => setRoomStudioDropdownOpen(false)}
+                        className="flex items-start gap-3 p-3 rounded-2xl hover:bg-white/80 border border-transparent hover:border-white/50 transition-all group"
+                      >
+                        <div className="w-9 h-9 rounded-xl bg-forest-dark text-white flex items-center justify-center shrink-0 shadow-soft">
+                          <Layers className="w-4 h-4 text-terracotta" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
+                            2D Room Planner
+                          </p>
+                          <p className="text-xs text-forest-muted leading-relaxed">
+                            Interactive layout tool to configure room dimensions and arrange furniture.
+                          </p>
+                        </div>
+                      </Link>
 
-                    <Link
-                      href="/room-studio/visualizer"
-                      className="flex items-start gap-3 p-3 rounded-2xl hover:bg-white/60 border border-transparent hover:border-white/50 transition-all group"
-                    >
-                      <div className="w-9 h-9 rounded-xl bg-forest-dark text-white flex items-center justify-center shrink-0 shadow-soft">
-                        <Sparkles className="w-4 h-4 text-terracotta" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
-                          Photo Room Visualizer
-                        </p>
-                        <p className="text-xs text-forest-muted">
-                          Upload your room photo and composite furniture in place.
-                        </p>
-                      </div>
-                    </Link>
+                      <Link
+                        href="/room-studio/visualizer"
+                        onClick={() => setRoomStudioDropdownOpen(false)}
+                        className="flex items-start gap-3 p-3 rounded-2xl hover:bg-white/80 border border-transparent hover:border-white/50 transition-all group"
+                      >
+                        <div className="w-9 h-9 rounded-xl bg-forest-dark text-white flex items-center justify-center shrink-0 shadow-soft">
+                          <Sparkles className="w-4 h-4 text-terracotta" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
+                            Photo Room Visualizer
+                          </p>
+                          <p className="text-xs text-forest-muted leading-relaxed">
+                            Upload your room photo and composite furniture in place.
+                          </p>
+                        </div>
+                      </Link>
 
-                    <Link
-                      href="/style-quiz"
-                      className="flex items-start gap-3 p-3 rounded-2xl hover:bg-white/60 border border-transparent hover:border-white/50 transition-all group"
-                    >
-                      <div className="w-9 h-9 rounded-xl bg-forest-dark text-white flex items-center justify-center shrink-0 shadow-soft">
-                        <Compass className="w-4 h-4 text-terracotta" />
-                      </div>
-                      <div>
-                        <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
-                          Interior Style Quiz
-                        </p>
-                        <p className="text-xs text-forest-muted">
-                          Discover tailored palettes and matching furniture in 2 mins.
-                        </p>
-                      </div>
-                    </Link>
+                      <Link
+                        href="/style-quiz"
+                        onClick={() => setRoomStudioDropdownOpen(false)}
+                        className="flex items-start gap-3 p-3 rounded-2xl hover:bg-white/80 border border-transparent hover:border-white/50 transition-all group"
+                      >
+                        <div className="w-9 h-9 rounded-xl bg-forest-dark text-white flex items-center justify-center shrink-0 shadow-soft">
+                          <Compass className="w-4 h-4 text-terracotta" />
+                        </div>
+                        <div>
+                          <p className="text-sm font-semibold text-forest-deep group-hover:text-terracotta transition-colors">
+                            Interior Style Quiz
+                          </p>
+                          <p className="text-xs text-forest-muted leading-relaxed">
+                            Discover tailored palettes and matching furniture in 2 mins.
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
                   </div>
                 )}
               </div>
@@ -262,14 +354,14 @@ export default function Header() {
             </nav>
 
             {/* Right: Search, Comparison, Wishlist, Cart, Account with Liquid Glass Droplet buttons */}
-            <div className="flex items-center gap-2 sm:gap-2.5 xl:gap-3 shrink-0">
+            <div className="flex items-center gap-1.5 sm:gap-2 xl:gap-2.5 shrink-0">
               {/* Search Button */}
               <button
                 onClick={() => setSearchOpen(true)}
                 aria-label="Search furniture"
-                className="w-10 h-10 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/60 hover:bg-white/80 shadow-[0_2px_8px_rgba(20,55,35,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:scale-105 border border-white/70"
+                className="w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/15 hover:bg-white/30 backdrop-blur-md shadow-[0_2px_8px_rgba(20,55,35,0.03),inset_0_1px_1.5px_rgba(255,255,255,0.6)] hover:scale-105 border border-white/40 hover:border-white/60"
               >
-                <Search className="w-4.5 h-4.5" />
+                <Search className="w-4 h-4" />
               </button>
 
               {/* Compare Button */}
@@ -277,10 +369,10 @@ export default function Header() {
                 <Link
                   href="/compare"
                   aria-label="Product comparison"
-                  className="relative w-10 h-10 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/60 hover:bg-white/80 shadow-[0_2px_8px_rgba(20,55,35,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:scale-105 border border-white/70 hidden sm:flex"
+                  className="relative w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/15 hover:bg-white/30 backdrop-blur-md shadow-[0_2px_8px_rgba(20,55,35,0.03),inset_0_1px_1.5px_rgba(255,255,255,0.6)] hover:scale-105 border border-white/40 hover:border-white/60 hidden sm:flex"
                 >
-                  <Scale className="w-4.5 h-4.5" />
-                  <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-forest-dark text-white text-[10px] font-bold flex items-center justify-center">
+                  <Scale className="w-4 h-4" />
+                  <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 rounded-full bg-forest-dark text-white text-[9px] font-bold flex items-center justify-center">
                     {comparisonItems.length}
                   </span>
                 </Link>
@@ -290,11 +382,11 @@ export default function Header() {
               <Link
                 href="/wishlist"
                 aria-label="Saved products"
-                className="relative w-10 h-10 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/60 hover:bg-white/80 shadow-[0_2px_8px_rgba(20,55,35,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:scale-105 border border-white/70"
+                className="relative w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/15 hover:bg-white/30 backdrop-blur-md shadow-[0_2px_8px_rgba(20,55,35,0.03),inset_0_1px_1.5px_rgba(255,255,255,0.6)] hover:scale-105 border border-white/40 hover:border-white/60 hidden sm:flex"
               >
-                <Heart className="w-4.5 h-4.5" />
+                <Heart className="w-4 h-4" />
                 {mounted && wishlistItems.length > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-terracotta text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
+                  <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 rounded-full bg-terracotta text-white text-[9px] font-bold flex items-center justify-center shadow-sm">
                     {wishlistItems.length}
                   </span>
                 )}
@@ -304,11 +396,11 @@ export default function Header() {
               <Link
                 href="/cart"
                 aria-label="Shopping bag"
-                className="relative w-10 h-10 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/60 hover:bg-white/80 shadow-[0_2px_8px_rgba(20,55,35,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:scale-105 border border-white/70"
+                className="relative w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/15 hover:bg-white/30 backdrop-blur-md shadow-[0_2px_8px_rgba(20,55,35,0.03),inset_0_1px_1.5px_rgba(255,255,255,0.6)] hover:scale-105 border border-white/40 hover:border-white/60"
               >
-                <ShoppingBag className="w-4.5 h-4.5" />
+                <ShoppingBag className="w-4 h-4" />
                 {mounted && cartItemCount > 0 && (
-                  <span className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#183323] text-white text-[10px] font-bold flex items-center justify-center shadow-sm">
+                  <span className="absolute top-0.5 right-0.5 w-3.5 h-3.5 rounded-full bg-[#183323] text-white text-[9px] font-bold flex items-center justify-center shadow-sm">
                     {cartItemCount}
                   </span>
                 )}
@@ -318,16 +410,16 @@ export default function Header() {
               <Link
                 href={isLoggedIn ? "/account" : "/account/login"}
                 aria-label="Customer account"
-                className="w-10 h-10 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/60 hover:bg-white/80 shadow-[0_2px_8px_rgba(20,55,35,0.06),inset_0_1px_1px_rgba(255,255,255,0.9)] hover:scale-105 border border-white/70 hidden sm:flex"
+                className="w-9 h-9 sm:w-9.5 sm:h-9.5 rounded-full flex items-center justify-center text-forest-deep transition-all duration-300 bg-white/15 hover:bg-white/30 backdrop-blur-md shadow-[0_2px_8px_rgba(20,55,35,0.03),inset_0_1px_1.5px_rgba(255,255,255,0.6)] hover:scale-105 border border-white/40 hover:border-white/60 hidden sm:flex"
               >
-                <User className="w-4.5 h-4.5" />
+                <User className="w-4 h-4" />
               </Link>
 
               {/* Mobile Menu Toggle */}
               <button
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
                 aria-label="Toggle mobile menu"
-                className="p-2 rounded-full hover:bg-white/60 text-forest-deep transition-colors lg:hidden border border-white/40"
+                className="p-2 rounded-full hover:bg-white/30 text-forest-deep transition-colors lg:hidden border border-white/40 bg-white/15 backdrop-blur-md"
               >
                 {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
               </button>

@@ -6,14 +6,26 @@ import { ArrowRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { bestSellersData } from "@/data/best-sellers";
 import BestSellerCard from "./BestSellerCard";
+import BestSellersMobileView from "./BestSellersMobileView";
 import SplitText from "@/components/ui/SplitText";
 
 export default function BestSellersSection() {
   return (
-    <section
-      className="py-16 sm:py-20 lg:py-24 bg-[#E5EDE1] border-b border-borderSage/70 relative overflow-hidden w-full select-none"
-      aria-label="Square Best Sellers Showcase"
-    >
+    <>
+      {/* ============================================================ */}
+      {/* MOBILE BEST SELLERS HORIZONTAL CAROUSEL (< lg)               */}
+      {/* ============================================================ */}
+      <div className="block lg:hidden w-full border-b border-borderSage/70">
+        <BestSellersMobileView showHeader={false} />
+      </div>
+
+      {/* ============================================================ */}
+      {/* DESKTOP BEST SELLERS FOUR-COLUMN GRID (>= lg)                */}
+      {/* ============================================================ */}
+      <section
+        className="hidden lg:block py-16 sm:py-20 lg:py-24 bg-[#E5EDE1] border-b border-borderSage/70 relative overflow-hidden w-full select-none"
+        aria-label="Square Best Sellers Showcase"
+      >
       <div className="w-full px-4 sm:px-6 md:px-10 lg:px-14 xl:px-16 2xl:px-20">
         {/* Section Header */}
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-8 sm:mb-10 gap-6">
@@ -71,5 +83,6 @@ export default function BestSellersSection() {
         </div>
       </div>
     </section>
+    </>
   );
 }
