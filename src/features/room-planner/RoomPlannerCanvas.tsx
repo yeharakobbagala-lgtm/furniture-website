@@ -62,6 +62,26 @@ export default function RoomPlannerCanvas({
   const isDraggingRef = useRef<boolean>(false);
   const lastSelectTimeRef = useRef<number>(0);
 
+  // Keep latest callbacks in a ref so inline arrow props never trigger stage.destroyChildren() mid-drag
+  const callbacksRef = useRef({
+    onSelectItem,
+    onSelectDoor,
+    onSelectWindow,
+    onUpdatePosition,
+    onUpdateRotation,
+    onDeleteItem,
+    onDuplicateItem,
+  });
+  callbacksRef.current = {
+    onSelectItem,
+    onSelectDoor,
+    onSelectWindow,
+    onUpdatePosition,
+    onUpdateRotation,
+    onDeleteItem,
+    onDuplicateItem,
+  };
+
   const [containerSize, setContainerSize] = useState<{ width: number; height: number }>({
     width: 360,
     height: 380,
@@ -94,13 +114,13 @@ export default function RoomPlannerCanvas({
   }, []);
 
   useEffect(() => {
-    if (!containerRef.current) return;
+    if (!containerRef.current || isDraggingRef.current) return;
 
     const width = containerSize.width;
     const height = containerSize.height;
 
     let stage = stageRef.current;
-    Konva.dragDistance = 10;
+    Konva.dragDistance = 4;
     if (!stage) {
       stage = new Konva.Stage({
         container: containerRef.current,
@@ -194,9 +214,9 @@ export default function RoomPlannerCanvas({
       if (e && e.target && e.target !== floorRect) {
         return;
       }
-      onSelectItem(null);
-      onSelectDoor(null);
-      onSelectWindow(null);
+      callbacksRef.current.onSelectItem(null);
+      callbacksRef.current.onSelectDoor(null);
+      callbacksRef.current.onSelectWindow(null);
     };
     floorRect.on("click tap", handleFloorDeselect);
     roomGroup.add(floorRect);
@@ -828,7 +848,7 @@ export default function RoomPlannerCanvas({
 
         const rotateTrigger = (e: any) => {
           e.cancelBubble = true;
-          onUpdateRotation(item.id, (item.rotation + 45) % 360);
+          callbacksRef.current.onUpdateRotation(item.id, (item.rotation + 45) % 360);
         };
         rotateBg.on("click tap", rotateTrigger);
         rotateIcon.on("click tap", rotateTrigger);
@@ -882,7 +902,7 @@ export default function RoomPlannerCanvas({
         );
         btnRot.on("click tap", (e) => {
           e.cancelBubble = true;
-          onUpdateRotation(item.id, (item.rotation + 45) % 360);
+          callbacksRef.current.onUpdateRotation(item.id, (item.rotation + 45) % 360);
         });
         actionToolbar.add(btnRot);
 
@@ -907,7 +927,7 @@ export default function RoomPlannerCanvas({
         );
         btnDup.on("click tap", (e) => {
           e.cancelBubble = true;
-          if (onDuplicateItem) onDuplicateItem(item.id);
+          callbacksRef.current.onDuplicateItem?.(item.id);
         });
         actionToolbar.add(btnDup);
 
@@ -932,7 +952,7 @@ export default function RoomPlannerCanvas({
         );
         btnDel.on("click tap", (e) => {
           e.cancelBubble = true;
-          if (onDeleteItem) onDeleteItem(item.id);
+          callbacksRef.current.onDeleteItem?.(item.id);
         });
         actionToolbar.add(btnDel);
 
@@ -1063,20 +1083,21 @@ export default function RoomPlannerCanvas({
         itemGroup.add(infoBadgeGroup);
       }
 
-      // Immediate selection handler on touch, tap, mousedown, or pointerdown
+      // Select ONLY on click/tap (release without drag) so pressing down to drag never tears down the Konva node
       const selectThisItem = (e: any) => {
+        if (isDraggingRef.current) return;
         lastSelectTimeRef.current = Date.now();
         if (e) {
           e.cancelBubble = true;
         }
-        onSelectItem(item.id);
+        callbacksRef.current.onSelectItem(item.id);
       };
 
-      itemGroup.on("mousedown touchstart pointerdown click tap", selectThisItem);
-      hitRect.on("mousedown touchstart pointerdown click tap", selectThisItem);
-      furnitureImage.on("mousedown touchstart pointerdown click tap", selectThisItem);
-      if (badgeBg) badgeBg.on("mousedown touchstart pointerdown click tap", selectThisItem);
-      if (badgeExclamation) badgeExclamation.on("mousedown touchstart pointerdown click tap", selectThisItem);
+      itemGroup.on("click tap", selectThisItem);
+      hitRect.on("click tap", selectThisItem);
+      furnitureImage.on("click tap", selectThisItem);
+      if (badgeBg) badgeBg.on("click tap", selectThisItem);
+      if (badgeExclamation) badgeExclamation.on("click tap", selectThisItem);
 
       itemGroup.on("dragstart", (e) => {
         isDraggingRef.current = true;
@@ -1084,18 +1105,21 @@ export default function RoomPlannerCanvas({
         if (e) {
           e.cancelBubble = true;
         }
-        onSelectItem(item.id);
         itemGroup.moveToTop();
       });
 
-      // Drag handler with grid snapping
+      // Drag handler with grid snapping & room boundary clamping
       itemGroup.on("dragmove", (e) => {
+        let nextX = e.target.x();
+        let nextY = e.target.y();
         if (gridSnap) {
-          const snappedX = Math.round(e.target.x() / snapPx) * snapPx;
-          const snappedY = Math.round(e.target.y() / snapPx) * snapPx;
-          e.target.x(snappedX);
-          e.target.y(snappedY);
+          nextX = Math.round(nextX / snapPx) * snapPx;
+          nextY = Math.round(nextY / snapPx) * snapPx;
         }
+        nextX = Math.max(0, Math.min(canvasRoomW - item.width, nextX));
+        nextY = Math.max(0, Math.min(canvasRoomH - item.height, nextY));
+        e.target.x(nextX);
+        e.target.y(nextY);
       });
 
       itemGroup.on("dragend", (e) => {
@@ -1116,18 +1140,15 @@ export default function RoomPlannerCanvas({
         e.target.position({ x: clampedX, y: clampedY });
         layer.batchDraw();
 
-        // When drag finishes, select the moved item
-        onSelectItem(item.id);
+        const hasMoved = Math.hypot(clampedX - item.x, clampedY - item.y) > 2;
 
-        // Only update position in store if it actually moved by > 3px (prevents store re-render loop on click/tap)
-        const hasMoved = Math.hypot(finalX - item.x, finalY - item.y) > 3;
+        // Clear dragging flag before committing store updates so React can safely re-render
+        isDraggingRef.current = false;
+
         if (hasMoved) {
-          onUpdatePosition(item.id, clampedX, clampedY);
+          callbacksRef.current.onUpdatePosition(item.id, clampedX, clampedY);
         }
-
-        setTimeout(() => {
-          isDraggingRef.current = false;
-        }, 120);
+        callbacksRef.current.onSelectItem(item.id);
       });
 
       // Hover feedback
@@ -1150,9 +1171,9 @@ export default function RoomPlannerCanvas({
         return;
       }
       if (e.target === stage) {
-        onSelectItem(null);
-        onSelectDoor(null);
-        onSelectWindow(null);
+        callbacksRef.current.onSelectItem(null);
+        callbacksRef.current.onSelectDoor(null);
+        callbacksRef.current.onSelectWindow(null);
       }
     });
 
@@ -1187,13 +1208,6 @@ export default function RoomPlannerCanvas({
     selectedDoorId,
     selectedWindowId,
     warnings,
-    onSelectItem,
-    onSelectDoor,
-    onSelectWindow,
-    onUpdatePosition,
-    onUpdateRotation,
-    onDeleteItem,
-    onDuplicateItem,
     canvasRoomW,
     canvasRoomH,
     containerSize,
